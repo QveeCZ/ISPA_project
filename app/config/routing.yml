@@ -1,0 +1,4 @@
+
+AppBundle:
+    resource: "@AppBundle/Resources/config/routing.php"
+    prefix:   /
