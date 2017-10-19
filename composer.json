@@ -35,7 +35,6 @@
         "sonata-project/core-bundle": "3.x-dev",
         "sonata-project/doctrine-orm-admin-bundle": "4.x-dev",
         "sonata-project/exporter": "1.x-dev",
-        "sonata-project/jquery-bundle": "1.*",
         "sonata-project/user-bundle": "4.x-dev"
     },
     "require-dev": {

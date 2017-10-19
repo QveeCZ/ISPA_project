@@ -70,3 +70,8 @@ swiftmailer:
     username: '%mailer_user%'
     password: '%mailer_password%'
     spool: { type: memory }
+
+
+# Sonata configuration
+sonata_block:
+    default_contexts: [sonata_page_bundle]
