@@ -7,6 +7,9 @@ imports:
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: cs
+    sonata.user.admin.user.class: UserBundle\Admin\UserAdmin
+    sonata.user.admin.user.entity: UserBundle\Entity\User
+
 
 framework:
     #esi: ~
@@ -75,12 +78,33 @@ swiftmailer:
 # Sonata configuration
 sonata_block:
     default_contexts: [sonata_page_bundle]
+    blocks:
+        sonata.user.block.menu:
+        sonata.user.block.account:
+        sonata.block.service.text:
+        sonata.admin.block.admin_list:
+            contexts:   [admin]
+
+sonata_admin:
+    assets:
+            stylesheets:
+
+                # Defaults:
+                - bundles/sonatacore/vendor/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css
+                - bundles/sonatacore/vendor/select2/select2.css
+                - bundles/sonataadmin/vendor/bootstrap/dist/css/bootstrap.min.css
+                - bundles/sonataadmin/vendor/admin-lte/dist/css/AdminLTE.css
+                - bundles/sonataadmin/vendor/admin-lte/dist/css/skins/skin-black.css
+                - bundles/sonataadmin/vendor/jqueryui/themes/base/jquery-ui.css
+                - bundles/sonataadmin/vendor/x-editable/dist/bootstrap3-editable/css/bootstrap-editable.css
+                - bundles/sonataadmin/css/styles.css
+                - bundles/sonataadmin/css/layout.css
 
 # FOS user-bundle
 fos_user:
     db_driver: orm
     firewall_name: main
-    user_class: Application\Sonata\UserBundle\Entity\User
+    user_class: UserBundle\Entity\User
     group:
         group_class:   FOS\UserBundle\Entity\Group
         group_manager: sonata.user.orm.group_manager
