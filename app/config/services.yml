@@ -29,7 +29,21 @@ services:
         public: true
         tags: ['controller.service_arguments']
 
+    # makes classes in src/AppBundle available to be used as services
+    # this creates a service per class whose id is the fully-qualified class name
+    UserBundle\:
+        resource: '../../src/UserBundle/*'
+        # you can exclude directories or files
+        # but if a service is unused, it's removed anyway
+        exclude: '../../src/UserBundle/{Entity,Repository,Tests,Resources}'
+
     # add more services, or override services that need manual wiring
     # AppBundle\Service\ExampleService:
     #     arguments:
     #         $someArgument: 'some_value'
+    sonata.user.admin.group:
+        abstract: true
+        public: false
+
+    security.acl.permission.map:
+      class: Sonata\AdminBundle\Security\Acl\Permission\AdminPermissionMap
