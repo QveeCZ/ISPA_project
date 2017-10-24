@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="cs" datatype="plaintext" original="">
+        <body>
+            <trans-unit id="General">
+                <source>General</source>
+                <target>Obecné</target>
+            </trans-unit>
+            <trans-unit id="Management">
+                <source>Management</source>
+                <target>Správa</target>
+            </trans-unit>
+            <trans-unit id="field.label_roles_editable">
+                <source>field.label_roles_editable</source>
+                <target>Uživatelské role</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>
