@@ -112,3 +112,6 @@ fos_user:
     from_email:
         address:        '%mailer_user%'
         sender_name:    ISPA
+    service:
+        user_manager: sonata.user.orm.user_manager
+
