@@ -14,7 +14,6 @@
             {%- set display = is_granted(role) %}
         {%- endfor %}
     {%- endif %}
-    {{ item.root.name }}
     {%- if item.displayed and display|default and (is_granted('ROLE_' ~ item.parent.name|upper ~ '_ACCESS' ) or is_granted('ROLE_' ~ item.name|upper ~ '_ACCESS' )) %}
         {% set options = options|merge({branch_class: 'treeview', currentClass: "active"}) %}
         {%- do item.setChildrenAttribute('class', (item.childrenAttribute('class')~' active')|trim) %}

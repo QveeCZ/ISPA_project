@@ -29,13 +29,21 @@ services:
         public: true
         tags: ['controller.service_arguments']
 
-    # makes classes in src/AppBundle available to be used as services
+    # makes classes in src/UserBundle available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
     UserBundle\:
         resource: '../../src/UserBundle/*'
         # you can exclude directories or files
         # but if a service is unused, it's removed anyway
         exclude: '../../src/UserBundle/{Entity,Repository,Tests,Resources}'
+
+    # makes classes in src/SchoolBundle available to be used as services
+    # this creates a service per class whose id is the fully-qualified class name
+    SchoolBundle\:
+        resource: '../../src/SchoolBundle/*'
+        # you can exclude directories or files
+        # but if a service is unused, it's removed anyway
+        exclude: '../../src/SchoolBundle/{Entity,Repository,Tests,Resources}'
 
     # add more services, or override services that need manual wiring
     # AppBundle\Service\ExampleService:
@@ -46,4 +54,13 @@ services:
         public: false
 
     security.acl.permission.map:
-      class: Sonata\AdminBundle\Security\Acl\Permission\AdminPermissionMap
+        class: Sonata\AdminBundle\Security\Acl\Permission\AdminPermissionMap
+
+
+    #Custom sonata services
+    school.admin.school:
+        class: SchoolBundle\Admin\SchoolAdmin
+        tags:
+          - { name: sonata.admin, manager_type: orm, group: School, label: School, on_top: true }
+        arguments: [~, SchoolBundle\Entity\School, ~]
+        public: true
