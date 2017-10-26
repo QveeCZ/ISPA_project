@@ -10,9 +10,13 @@
                 <source>title_show</source>
                 <target>Zobrazit</target>
             </trans-unit>
-            <trans-unit id="School">
-                <source>School</source>
+            <trans-unit id="school">
+                <source>school</source>
                 <target>Školy</target>
+            </trans-unit>
+            <trans-unit id="course">
+                <source>course</source>
+                <target>Kurzy</target>
             </trans-unit>
         </body>
     </file>

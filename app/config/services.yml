@@ -61,6 +61,14 @@ services:
     school.admin.school:
         class: SchoolBundle\Admin\SchoolAdmin
         tags:
-          - { name: sonata.admin, manager_type: orm, group: School, label: School, on_top: true }
+          - { name: sonata.admin, manager_type: orm, group: school, label: school, on_top: true }
         arguments: [~, SchoolBundle\Entity\School, ~]
+        public: true
+
+    #Custom sonata services
+    course.admin.course:
+        class: CourseBundle\Admin\CourseAdmin
+        tags:
+          - { name: sonata.admin, manager_type: orm, group: course, label: course, on_top: true }
+        arguments: [~, CourseBundle\Entity\Course, ~]
         public: true

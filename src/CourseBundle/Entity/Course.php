@@ -1,17 +1,17 @@
 <?php
-namespace SchoolBundle\Entity;
+namespace CourseBundle\Entity;
 
-use CourseBundle\Entity\Course;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use SchoolBundle\Entity\School;
 
 /**
  * SchoolBundle\Entity\School
  *
  * @ORM\Entity
- * @ORM\Table(name="schools")
+ * @ORM\Table(name="courses")
  */
-class School
+class Course
 {
     /**
      * @var integer
@@ -30,13 +30,12 @@ class School
      */
     protected $name;
 
-
     /**
-     * @var Collection $schoolCourses
-     *
-     * @ORM\OneToMany(targetEntity="CourseBundle\Entity\Course", mappedBy="school", cascade={ "persist", "remove"}, orphanRemoval=true)
+     * @var School $school
+     * @ORM\ManyToOne(targetEntity="SchoolBundle\Entity\School", inversedBy="schoolCourses")
+     * @ORM\JoinColumn(name="school_id", referencedColumnName="id")
      */
-    protected $schoolCourses;
+    protected $school;
 
     /**
      * @return int
@@ -71,34 +70,22 @@ class School
     }
 
     /**
-     * @return Collection
+     * @return School
      */
-    public function getSchoolCourses()
+    public function getSchool()
     {
-        return $this->schoolCourses;
+        return $this->school;
     }
 
     /**
-     * @param Collection $schoolCourses
+     * @param School $school
      */
-    public function setSchoolCourses($schoolCourses)
+    public function setSchool($school)
     {
-        $this->schoolCourses = $schoolCourses;
+        $this->school = $school;
     }
 
-    /**
-     *
-     * @param Course $productVariant
-     */
-    public function addSchoolCourses(Course $schoolCourses)
-    {
-        $this->schoolCourses[] = $schoolCourses;
-    }
 
-    public function __toString()
-    {
-       return $this->getName();
-    }
 
 
 }
