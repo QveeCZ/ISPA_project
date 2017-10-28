@@ -85,7 +85,10 @@ class Course
         $this->school = $school;
     }
 
-
+    public function __toString()
+    {
+        return ($this->name) ? $this->name : "";
+    }
 
 
 }
