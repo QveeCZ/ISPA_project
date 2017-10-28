@@ -2,6 +2,7 @@
 namespace SchoolBundle\Entity;
 
 use CourseBundle\Entity\Course;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -32,11 +33,16 @@ class School
 
 
     /**
-     * @var Collection $schoolCourses
+     * @var ArrayCollection $schoolCourses
      *
      * @ORM\OneToMany(targetEntity="CourseBundle\Entity\Course", mappedBy="school", cascade={ "persist", "remove"}, orphanRemoval=true)
      */
     protected $schoolCourses;
+
+    public function __construct()
+    {
+        $this->schoolCourses = new ArrayCollection();
+    }
 
     /**
      * @return int
@@ -71,7 +77,7 @@ class School
     }
 
     /**
-     * @return Collection
+     * @return ArrayCollection
      */
     public function getSchoolCourses()
     {
@@ -79,7 +85,7 @@ class School
     }
 
     /**
-     * @param Collection $schoolCourses
+     * @param ArrayCollection $schoolCourses
      */
     public function setSchoolCourses($schoolCourses)
     {
@@ -88,16 +94,28 @@ class School
 
     /**
      *
-     * @param Course $productVariant
+     * @param Course $schoolCourse
      */
-    public function addSchoolCourses(Course $schoolCourses)
+    public function addSchoolCourses(Course $schoolCourse)
     {
-        $this->schoolCourses[] = $schoolCourses;
+        $schoolCourse->setSchool($this);
+        $this->schoolCourses->add($schoolCourse);
+    }
+
+
+    /**
+     * Remove translations
+     *
+     * @param Course $translations
+     */
+    public function removeSchoolCourses(Course $schoolCourses)
+    {
+        $this->schoolCourses->removeElement($schoolCourses);
     }
 
     public function __toString()
     {
-       return $this->getName();
+        return ($this->name) ? $this->name : "";
     }
 
 
