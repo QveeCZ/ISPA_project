@@ -12,6 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Entity
  * @ORM\Table(name="cars")
+ * TODO dodelat type
  */
 class Car
 {
@@ -55,7 +56,7 @@ class Car
      * @var String $condition
      *
      *
-     * @ORM\Column(name="condition", type="string", nullable=false)
+     * @ORM\Column(name="car_condition", type="string", nullable=false)
      */
     protected $condition;
 
