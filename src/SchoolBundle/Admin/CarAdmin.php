@@ -42,10 +42,11 @@ class CarAdmin extends BaseUserAdmin
 
         $formMapper
             ->with('General')
-            ->add('spz')
-            ->add('dateSTK', 'sonata_date_picker')
-            ->add('school')
-            ->add('color')
+            ->add('spz', null, array('required' => TRUE))
+            ->add('dateSTK', 'sonata_type_date_picker', array('format' => 'dd.MM.yyyy', 'required' => TRUE))
+            ->add('school', null, array('required' => TRUE))
+            ->add('color', null, array('required' => TRUE))
+            ->add('condition', null, array('required' => TRUE))
             ->end();
     }
 

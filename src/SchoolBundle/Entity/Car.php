@@ -43,10 +43,10 @@ class Car
 
 
     /**
-     * @var \DateTime $dateSTK
+     * @var String $dateSTK
      *
      *
-     * @ORM\Column(name="date", type="date", nullable=false)
+     * @ORM\Column(name="date_stk", type="date", nullable=false)
      */
     protected $dateSTK;
 
@@ -55,7 +55,7 @@ class Car
      * @var String $condition
      *
      *
-     * @ORM\Column(name="condition", type="string", nullable=false)
+     * @ORM\Column(name="car_condition", type="string", nullable=false)
      */
     protected $condition;
 
@@ -115,7 +115,7 @@ class Car
     }
 
     /**
-     * @return \DateTime
+     * @return String
      */
     public function getDateSTK()
     {
@@ -123,7 +123,7 @@ class Car
     }
 
     /**
-     * @param \DateTime $dateSTK
+     * @param String $dateSTK
      */
     public function setDateSTK($dateSTK)
     {
@@ -164,7 +164,7 @@ class Car
 
     function __toString()
     {
-        return $this->getSpz();
+        return ($this->getSpz()) ? $this->getSpz() : "";
     }
 
 
