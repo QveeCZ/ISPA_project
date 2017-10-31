@@ -72,3 +72,11 @@ services:
           - { name: sonata.admin, manager_type: orm, group: course, label: course, on_top: true }
         arguments: [~, CourseBundle\Entity\Course, ~]
         public: true
+
+    #Custom sonata services
+    school.admin.car:
+        class: SchoolBundle\Admin\CarAdmin
+        tags:
+          - { name: sonata.admin, manager_type: orm, group: car, label: car, on_top: true }
+        arguments: [~, SchoolBundle\Entity\Car, ~]
+        public: true

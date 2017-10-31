@@ -39,8 +39,16 @@ class School
      */
     protected $schoolCourses;
 
+    /**
+     * @var ArrayCollection $schoolCars
+     *
+     * @ORM\OneToMany(targetEntity="SchoolBundle\Entity\Car", mappedBy="school", cascade={ "persist", "remove"}, orphanRemoval=true)
+     */
+    protected $schoolCars;
+
     public function __construct()
     {
+        $this->schoolCars = new ArrayCollection();
         $this->schoolCourses = new ArrayCollection();
     }
 
@@ -111,6 +119,44 @@ class School
     public function removeSchoolCourses(Course $schoolCourses)
     {
         $this->schoolCourses->removeElement($schoolCourses);
+    }
+
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getSchoolCars()
+    {
+        return $this->schoolCars;
+    }
+
+    /**
+     * @param ArrayCollection $schoolCars
+     */
+    public function setSchoolCars($schoolCars)
+    {
+        $this->schoolCourses = $schoolCars;
+    }
+
+    /**
+     *
+     * @param Car $schoolCars
+     */
+    public function addSchoolCars(Course $schoolCars)
+    {
+        $schoolCars->setSchool($this);
+        $this->schoolCourses->add($schoolCars);
+    }
+
+
+    /**
+     * Remove translations
+     *
+     * @param Car $translations
+     */
+    public function removeSchoolCars(Course $schoolCars)
+    {
+        $this->schoolCourses->removeElement($schoolCars);
     }
 
     public function __toString()
