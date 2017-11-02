@@ -22,6 +22,10 @@
                 <source>car</source>
                 <target>Auta</target>
             </trans-unit>
+            <trans-unit id="lector">
+                <source>lector</source>
+                <target>Lektoři</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

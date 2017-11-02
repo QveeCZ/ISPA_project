@@ -80,3 +80,11 @@ services:
           - { name: sonata.admin, manager_type: orm, group: car, label: car, on_top: true }
         arguments: [~, SchoolBundle\Entity\Car, ~]
         public: true
+
+    #Custom sonata services
+    school.admin.lector:
+        class: SchoolBundle\Admin\LectorAdmin
+        tags:
+          - { name: sonata.admin, manager_type: orm, group: lector, label: lector, on_top: true }
+        arguments: [~, SchoolBundle\Entity\Lector, ~]
+        public: true

@@ -1,4 +1,5 @@
 <?php
+
 namespace SchoolBundle\Entity;
 
 use CourseBundle\Entity\Course;
@@ -46,10 +47,18 @@ class School
      */
     protected $schoolCars;
 
+    /**
+     * @var ArrayCollection $schoolLectors
+     *
+     * @ORM\OneToMany(targetEntity="SchoolBundle\Entity\Lector", mappedBy="school", cascade={ "persist", "remove"}, orphanRemoval=true)
+     */
+    protected $schoolLectors;
+
     public function __construct()
     {
         $this->schoolCars = new ArrayCollection();
         $this->schoolCourses = new ArrayCollection();
+        $this->schoolLectors = new ArrayCollection();
     }
 
     /**
@@ -158,6 +167,44 @@ class School
     {
         $this->schoolCourses->removeElement($schoolCars);
     }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getSchoolLectors()
+    {
+        return $this->schoolLectors;
+    }
+
+    /**
+     * @param ArrayCollection $schoolLectors
+     */
+    public function setSchoolLectors($schoolLectors)
+    {
+        $this->schoolLectors = $schoolLectors;
+    }
+
+    /**
+     *
+     * @param Lector $schoolLectors
+     */
+    public function addSchoolLectors(Lector $schoolLectors)
+    {
+        $schoolLectors->setSchool($this);
+        $this->schoolLectors->add($schoolLectors);
+    }
+
+
+    /**
+     * Remove translations
+     *
+     * @param Lector $translations
+     */
+    public function removeSchoolLectors(Lector $schoolLectors)
+    {
+        $this->schoolLectors->removeElement($schoolLectors);
+    }
+
 
     public function __toString()
     {
