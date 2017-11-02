@@ -61,7 +61,7 @@ class Lector
 
 
     /**
-     * @var String $phone
+     * @var integer $phone
      *
      *
      * @ORM\Column(name="phone", type="integer", nullable=false)

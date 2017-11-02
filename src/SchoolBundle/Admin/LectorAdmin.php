@@ -30,6 +30,7 @@ class LectorAdmin extends BaseUserAdmin
             ->add('name')
             ->add('surname')
             ->add('email')
+            ->add('phone')
             ->add('dateMedical')
             ->add('school')
             ->end();
@@ -46,8 +47,8 @@ class LectorAdmin extends BaseUserAdmin
             ->add('name', null, array('required' => TRUE))
             ->add('surname', null, array('required' => TRUE))
             ->add('email', null, array('required' => TRUE))
-            ->add('dateMedical', 'sonata_type_date_picker', array('format' => 'dd.MM.yyyy', 'required' => TRUE))
             ->add('phone', null, array('required' => TRUE))
+            ->add('dateMedical', 'sonata_type_date_picker', array('format' => 'dd.MM.yyyy', 'required' => TRUE))
             ->add('school', null, array('required' => TRUE))
             ->end();
     }
