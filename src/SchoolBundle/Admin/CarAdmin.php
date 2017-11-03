@@ -4,7 +4,7 @@ namespace SchoolBundle\Admin;
 
 use Doctrine\ORM\EntityNotFoundException;
 use SchoolBundle\Entity\Car;
-use Sonata\UserBundle\Admin\Model\UserAdmin as BaseUserAdmin;
+use Sonata\AdminBundle\Admin\AbstractAdmin;
 
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
@@ -18,14 +18,51 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
 use UserBundle\Entity\User;
 
 
-class CarAdmin extends BaseUserAdmin
+class CarAdmin extends AbstractAdmin
 {
+    public function createQuery($context = 'list')
+    {
+
+        /**
+         * @var AuthorizationChecker $securityContext
+         * @var User $currentUser
+         */
+        $securityContext = $this->getConfigurationPool()->getContainer()->get('security.authorization_checker');
+        $currentUser = $this->getConfigurationPool()->getContainer()->get('security.token_storage')->getToken()->getUser();
+
+        $query = parent::createQuery($context);
+
+        if($securityContext->isGranted('ROLE_STAFF')){
+            return $query;
+        }
+
+        $query->andWhere(
+            $query->expr()->eq($query->getRootAlias().'.school', ':school')
+        );
+        $query->setParameter('school', $currentUser->getSchool());
+        return $query;
+    }
+
+
     /**
      * {@inheritdoc}
      */
     protected function configureShowFields(ShowMapper $showMapper)
     {
+        /**
+         * @var AuthorizationChecker $securityContext
+         * @var User $currentUser
+         */
+        $securityContext = $this->getConfigurationPool()->getContainer()->get('security.authorization_checker');
+        $currentUser = $this->getConfigurationPool()->getContainer()->get('security.token_storage')->getToken()->getUser();
 
+        /**
+         * @var Car $subject
+         */
+        $subject = $this->getSubject();
+        if (!$securityContext->isGranted('ROLE_STAFF') && $subject->getSchool()->getId() != $currentUser->getSchool()->getId()) {
+            throw new AccessDeniedException();
+        }
 
         $showMapper
             ->with('General')
@@ -41,6 +78,20 @@ class CarAdmin extends BaseUserAdmin
      */
     protected function configureFormFields(FormMapper $formMapper)
     {
+        /**
+         * @var AuthorizationChecker $securityContext
+         * @var User $currentUser
+         */
+        $securityContext = $this->getConfigurationPool()->getContainer()->get('security.authorization_checker');
+        $currentUser = $this->getConfigurationPool()->getContainer()->get('security.token_storage')->getToken()->getUser();
+
+        /**
+         * @var Car $subject
+         */
+        $subject = $this->getSubject();
+        if (!$securityContext->isGranted('ROLE_STAFF') && $this->id($this->getSubject()) && $subject->getSchool()->getId() != $currentUser->getSchool()->getId()) {
+            throw new AccessDeniedException();
+        }
         /**
          * @var AuthorizationChecker $securityContext
          * @var User $currentUser
@@ -68,11 +119,21 @@ class CarAdmin extends BaseUserAdmin
      */
     protected function configureDatagridFilters(DatagridMapper $filterMapper)
     {
+        /**
+         * @var AuthorizationChecker $securityContext
+         */
+        $securityContext = $this->getConfigurationPool()->getContainer()->get('security.authorization_checker');
+
         $filterMapper
             ->add('spz')
             ->add('dateSTK')
-            ->add('school')
-            ->add('color');
+            ->add('school');
+
+
+        if ($securityContext->isGranted('ROLE_STAFF')) {
+            $filterMapper
+                ->add('school');
+        }
     }
 
     /**
@@ -89,10 +150,10 @@ class CarAdmin extends BaseUserAdmin
     }
 
     /**
-     * @param Car $car
+     * @param Car $course
      * @throws EntityNotFoundException
      */
-    public function preUpdate($car)
+    public function prePersist($course)
     {
         /**
          * @var AuthorizationChecker $securityContext
@@ -102,7 +163,7 @@ class CarAdmin extends BaseUserAdmin
         $currentUser = $this->getConfigurationPool()->getContainer()->get('security.token_storage')->getToken()->getUser();
 
         if($securityContext->isGranted('ROLE_STAFF')){
-            parent::preUpdate($car);
+            parent::preUpdate($course);
             return;
         }
 
@@ -110,8 +171,8 @@ class CarAdmin extends BaseUserAdmin
             throw new EntityNotFoundException("User " . $currentUser->getId() . " doesnt have ROLE_STAFF and is not associated with any school");
         }
 
-        $car->setSchool($currentUser->getSchool());
-        parent::preUpdate($car);
+        $course->setSchool($currentUser->getSchool());
+        parent::prePersist($course);
 
 
     }

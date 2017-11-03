@@ -2,7 +2,7 @@
 
 namespace SchoolBundle\Admin;
 
-use Sonata\UserBundle\Admin\Model\UserAdmin as BaseUserAdmin;
+use Sonata\AdminBundle\Admin\AbstractAdmin;
 
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
@@ -16,7 +16,7 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
 use UserBundle\Entity\User;
 
 
-class SchoolAdmin extends BaseUserAdmin
+class SchoolAdmin extends AbstractAdmin
 {
     /**
      * {@inheritdoc}

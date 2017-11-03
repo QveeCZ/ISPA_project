@@ -36,14 +36,14 @@ class School
     /**
      * @var ArrayCollection $schoolCourses
      *
-     * @ORM\OneToMany(targetEntity="CourseBundle\Entity\Course", mappedBy="school", cascade={ "persist", "remove"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="CourseBundle\Entity\Course", mappedBy="school", cascade={ "remove"}, orphanRemoval=true)
      */
     protected $schoolCourses;
 
     /**
      * @var ArrayCollection $schoolCars
      *
-     * @ORM\OneToMany(targetEntity="SchoolBundle\Entity\Car", mappedBy="school", cascade={ "persist", "remove"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="SchoolBundle\Entity\Car", mappedBy="school", cascade={ "remove"}, orphanRemoval=true)
      */
     protected $schoolCars;
 
@@ -51,14 +51,14 @@ class School
     /**
      * @var ArrayCollection $schoolCourses
      *
-     * @ORM\OneToMany(targetEntity="UserBundle\Entity\User", mappedBy="school", cascade={ "persist", "remove"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="UserBundle\Entity\User", mappedBy="school", cascade={ "remove"}, orphanRemoval=true)
      */
     protected $schoolUsers;
 
     /**
      * @var ArrayCollection $schoolLectors
      *
-     * @ORM\OneToMany(targetEntity="SchoolBundle\Entity\Lector", mappedBy="school", cascade={ "persist", "remove"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="SchoolBundle\Entity\Lector", mappedBy="school", cascade={ "remove"}, orphanRemoval=true)
      */
     protected $schoolLectors;
 
