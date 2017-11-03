@@ -16,27 +16,13 @@ class DefaultController extends Controller
     public function indexAction(Request $request)
     {
 
-//        $om      = $this->container->get('doctrine.orm.entity_manager');
-//        $manager = $this->container->get('fos_user.user_manager');
-//
-//        $user = $manager->createUser();
-//
-//        /**
-//         * @var User $user
-//         */
-//
-//        $user
-//            ->setUsername('admin')
-//            ->setEmail('inrpo.ispa@gmail.com')
-//            ->setPlainPassword('admin')
-//            ->setEnabled(true)
-//            ->setRoles(array("ROLE_ADMIN"));
-//        ;
-//
-//        $om->persist($user);
-//        $om->flush();
 
-        // replace this example code with whatever you need
-        return $this->render('AppBundle:Default:index.html.twig', array());
+        $em = $this->getDoctrine()->getManager();
+
+        $repoCourse = $em->getRepository('CourseBundle:Course');
+
+        $courses = $repoCourse->findAll();
+
+        return $this->render('AppBundle:Default:index.html.twig', array('courses' => $courses));
     }
 }

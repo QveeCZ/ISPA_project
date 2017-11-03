@@ -10,7 +10,19 @@
     {#{% render (controller("EshopPackageContentBundle:Default:menu", {'activePageId': content.id, 'isHomePage': true})) %}#}
 {#{% endblock %} #}
 {% block body %}
-    <h1>TEEEST</h1>
-ccc
-    GITHUB
+    <h1>Kurzy</h1>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Název</th>
+            <th>Škola</th>
+        </tr>
+        {% for course in courses %}
+            <tr>
+                <td>{{ course.id }}</td>
+                <td>{{ course.name }}</td>
+                <td>{{ course.school.name }}</td>
+            </tr>
+        {% endfor %}
+    </table>
 {% endblock %}    
