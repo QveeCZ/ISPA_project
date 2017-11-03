@@ -71,6 +71,7 @@ class UserAdmin extends BaseUserAdmin
         if (!$this->getSubject()->hasRole('ROLE_ADMIN') && $securityContext->isGranted('ROLE_ADMIN')) {
             $formMapper
                 ->with('Management')
+                ->add('school')
                 ->add('roles', 'sonata_security_roles', array(
                     'expanded' => true,
                     'multiple' => true,
