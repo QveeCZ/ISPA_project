@@ -189,7 +189,7 @@ class Lector
 
     public function __toString()
     {
-        return ($this->name +" "+ $this->surname) ? $this->surname : "";
+        return $this->getSurname() . " " . $this->getName();
     }
 
 
