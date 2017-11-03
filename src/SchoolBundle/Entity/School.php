@@ -47,6 +47,14 @@ class School
      */
     protected $schoolCars;
 
+
+    /**
+     * @var ArrayCollection $schoolCourses
+     *
+     * @ORM\OneToMany(targetEntity="UserBundle\Entity\User", mappedBy="school", cascade={ "persist", "remove"}, orphanRemoval=true)
+     */
+    protected $schoolUsers;
+
     /**
      * @var ArrayCollection $schoolLectors
      *
@@ -59,6 +67,7 @@ class School
         $this->schoolCars = new ArrayCollection();
         $this->schoolCourses = new ArrayCollection();
         $this->schoolLectors = new ArrayCollection();
+        $this->schoolUsers = new ArrayCollection();
     }
 
     /**
@@ -203,6 +212,43 @@ class School
     public function removeSchoolLectors(Lector $schoolLectors)
     {
         $this->schoolLectors->removeElement($schoolLectors);
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getSchoolUsers()
+    {
+        return $this->schoolLectors;
+    }
+
+    /**
+     * @param ArrayCollection $schoolUsers
+     */
+    public function setSchoolUsers($schoolUsers)
+    {
+        $this->schoolLectors = $schoolUsers;
+    }
+
+    /**
+     *
+     * @param Lector $schoolUsers
+     */
+    public function addSchoolUsers(Lector $schoolUsers)
+    {
+        $schoolUsers->setSchool($this);
+        $this->schoolLectors->add($schoolUsers);
+    }
+
+
+    /**
+     * Remove translations
+     *
+     * @param Lector $translations
+     */
+    public function removeSchoolUsers(Lector $schoolUsers)
+    {
+        $this->schoolLectors->removeElement($schoolUsers);
     }
 
 
