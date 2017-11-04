@@ -1,6 +1,7 @@
 <?php
 namespace CourseBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use SchoolBundle\Entity\School;
@@ -36,6 +37,20 @@ class Course
      * @ORM\JoinColumn(name="school_id", referencedColumnName="id")
      */
     protected $school;
+
+
+    /**
+     * @var ArrayCollection $courseRegistrations
+     *
+     * @ORM\OneToMany(targetEntity="CourseBundle\Entity\Registration", mappedBy="course", cascade={ "remove"}, orphanRemoval=true)
+     */
+    protected $courseRegistrations;
+
+
+    public function __construct()
+    {
+        $this->courseRegistrations = new ArrayCollection();
+    }
 
     /**
      * @return int
@@ -83,6 +98,43 @@ class Course
     public function setSchool($school)
     {
         $this->school = $school;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getCourseRegistrations()
+    {
+        return $this->courseRegistrations;
+    }
+
+    /**
+     * @param ArrayCollection $courseRegistrations
+     */
+    public function setCourseRegistrations($courseRegistrations)
+    {
+        $this->courseRegistrations = $courseRegistrations;
+    }
+
+    /**
+     *
+     * @param Registration $courseRegistrations
+     */
+    public function addCourseRegistrations(Registration $courseRegistrations)
+    {
+        $courseRegistrations->setCourse($this);
+        $this->courseRegistrations->add($courseRegistrations);
+    }
+
+
+    /**
+     * Remove translations
+     *
+     * @param Registration $courseRegistrations
+     */
+    public function removeCourseRegistrations(Registration $courseRegistrations)
+    {
+        $this->courseRegistrations->removeElement($courseRegistrations);
     }
 
     public function __toString()

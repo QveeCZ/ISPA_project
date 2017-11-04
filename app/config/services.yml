@@ -74,6 +74,14 @@ services:
         public: true
 
     #Custom sonata services
+    course.admin.registration:
+        class: CourseBundle\Admin\RegistrationAdmin
+        tags:
+          - { name: sonata.admin, manager_type: orm, group: registration, label: registration, on_top: true }
+        arguments: [~, CourseBundle\Entity\Registration, ~]
+        public: true
+
+    #Custom sonata services
     school.admin.car:
         class: SchoolBundle\Admin\CarAdmin
         tags:
