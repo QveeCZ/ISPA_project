@@ -1,4 +1,5 @@
 <?php
+
 namespace CourseBundle\Controller;
 
 use CourseBundle\Entity\Registration;
@@ -10,7 +11,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class RegistrationController extends Controller
 {
 
-    public function registerAction($courseId){
+    public function registerAction($courseId)
+    {
 
         $em = $this->getDoctrine()->getManager();
 
@@ -18,25 +20,41 @@ class RegistrationController extends Controller
 
         $course = $repoCourse->find($courseId);
 
-        if(!$course){
+        if (!$course) {
             throw new EntityNotFoundException('Course with id ' . $course . ' not found.');
         }
 
 
         $courseRegistrationModel = new CourseRegistration();
-        $courseRegistrationType = new RegistrationType();
 
-        $form = $this->createForm($courseRegistrationType, $courseRegistrationModel);
+        $form = $this->createForm('CourseBundle\Form\Type\RegistrationType', $courseRegistrationModel);
 
-        $request = $this->container->get('request');
-        if ($request->getMethod() == 'POST' && isset($_POST["courseRegistrationForm"])) {
-            $form->bindRequest($request);
+        $request = $this->container->get('request_stack')->getCurrentRequest();
 
+
+        if ($request->isMethod('POST')) {
+            $form->submit($request->request->get($form->getName()));
+            if ($form->isSubmitted() && $form->isValid()) {
+                /**
+                 * @var CourseRegistration $object
+                 */
+                $object = $form->getData();
+
+                $registration = new Registration();
+
+                $registration->setName($object->getName());
+                $registration->setSurname($object->getSurname());
+                $registration->setCourse($course);
+
+                $em->persist($registration);
+                $em->flush();
+
+
+            }
         }
 
 
-
-        $template = 'CourseBundle:Form:CourseRegistration.html.twig';
+        $template = 'CourseBundle:form:CourseRegistration.html.twig';
         return $this->render($template, array(
             'form' => $form->createView(),
             'course' => $course,

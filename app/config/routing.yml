@@ -1,6 +1,10 @@
 
 AppBundle:
     resource: "@AppBundle/Resources/config/routing.php"
+    prefix: /
+
+CourseBundle:
+    resource: "@CourseBundle/Resources/config/routing.php"
     prefix:   /
 
 fos_user_security:
