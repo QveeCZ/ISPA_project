@@ -1,0 +1,6 @@
+{% extends '::base.html.twig' %}
+{% block body %}
+    <h1>Registrace na kurz {{ course.name }}</h1>
+    <p>{{ form_label(form.name) }} {{ form_widget(form.name) }} {{ form_errors(form.name) }}</p>
+    <p>{{ form_label(form.surname) }} {{ form_widget(form.surname) }} {{ form_errors(form.surname) }}</p>
+{% endblock %}    
