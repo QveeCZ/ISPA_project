@@ -1,14 +1,26 @@
 {% extends '::base.html.twig' %}
-{#{% block meta %}#}
-    {#{% if content %}#}
-        {#<meta name="description" content="{{ content.metaDesc }}"/>#}
-        {#<meta name="keywords" content="{{ content.metaKeywords }}"/>#}
-    {#{% endif %}#}
-{#{% endblock %}#}
-{#{% block title %}{% if content %}{{ content.htmlTitle }}{% endif %}{% endblock %}#}
-{#{% block menu %}#}
-    {#{% render (controller("EshopPackageContentBundle:Default:menu", {'activePageId': content.id, 'isHomePage': true})) %}#}
-{#{% endblock %} #}
+{% block stylesheets %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+{% endblock %}
+{% block javascripts %}
+    <script
+            src="https://code.jquery.com/jquery-3.2.1.min.js"
+            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#registerModal").on("show.bs.modal", function (e) {
+                var link = $(e.relatedTarget);
+                $(this).find(".modal-body").load(link.attr("href"));
+            });
+        });
+    </script>
+{% endblock %}
 {% block body %}
     <h1>Kurzy</h1>
     <table>
@@ -23,8 +35,34 @@
                 <td>{{ course.id }}</td>
                 <td>{{ course.name }}</td>
                 <td>{{ course.school.name }}</td>
-                <td><a href="/course/register/{{ course.id }}">Zaregistrovat se</a> </td>
+                <td><a href="/course/register/{{ course.id }}" data-remote="false" data-toggle="modal"
+                       data-target="#registerModal" class="btn btn-default">
+                        Příhlásit se
+                    </a></td>
             </tr>
         {% endfor %}
     </table>
+
+
+
+    <!-- Default bootstrap modal example -->
+    <div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                </div>
+                <div class="modal-body">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}    
