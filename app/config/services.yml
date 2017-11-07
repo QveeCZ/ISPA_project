@@ -58,41 +58,40 @@ services:
 
 
     #Custom sonata services
-    school.admin.school:
-        class: SchoolBundle\Admin\SchoolAdmin
-        tags:
-          - { name: sonata.admin, manager_type: orm, group: school, label: school, on_top: true }
-        arguments: [~, SchoolBundle\Entity\School, ~]
-        public: true
 
-    #Custom sonata services
+    #Course bundle
     course.admin.course:
         class: CourseBundle\Admin\CourseAdmin
         tags:
-          - { name: sonata.admin, manager_type: orm, group: course, label: course, on_top: true }
+          - { name: sonata.admin, manager_type: orm, group: course, label: course }
         arguments: [~, CourseBundle\Entity\Course, ~]
         public: true
 
-    #Custom sonata services
     course.admin.registration:
         class: CourseBundle\Admin\RegistrationAdmin
         tags:
-          - { name: sonata.admin, manager_type: orm, group: registration, label: registration, on_top: true }
+          - { name: sonata.admin, manager_type: orm, group: course, label: registration }
         arguments: [~, CourseBundle\Entity\Registration, ~]
         public: true
 
-    #Custom sonata services
     school.admin.car:
         class: SchoolBundle\Admin\CarAdmin
         tags:
-          - { name: sonata.admin, manager_type: orm, group: car, label: car, on_top: true }
+          - { name: sonata.admin, manager_type: orm, group: school, label: car }
         arguments: [~, SchoolBundle\Entity\Car, ~]
         public: true
 
-    #Custom sonata services
+    #School bundle
     school.admin.lector:
         class: SchoolBundle\Admin\LectorAdmin
         tags:
-          - { name: sonata.admin, manager_type: orm, group: lector, label: lector, on_top: true }
+          - { name: sonata.admin, manager_type: orm, group: school, label: lector }
         arguments: [~, SchoolBundle\Entity\Lector, ~]
+        public: true
+
+    school.admin.school:
+        class: SchoolBundle\Admin\SchoolAdmin
+        tags:
+          - { name: sonata.admin, manager_type: orm, group: school, label: school }
+        arguments: [~, SchoolBundle\Entity\School, ~]
         public: true
