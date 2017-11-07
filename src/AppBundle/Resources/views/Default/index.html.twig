@@ -28,6 +28,7 @@
             <th>ID</th>
             <th>Název</th>
             <th>Škola</th>
+            <th>Počet registrací</th>
             <th></th>
         </tr>
         {% for course in courses %}
@@ -35,6 +36,7 @@
                 <td>{{ course.id }}</td>
                 <td>{{ course.name }}</td>
                 <td>{{ course.school.name }}</td>
+                <td>{{ course.courseRegistrations|length }}</td>
                 <td><a href="/course/register/{{ course.id }}" data-remote="false" data-toggle="modal"
                        data-target="#registerModal" class="btn btn-default">
                         Příhlásit se
