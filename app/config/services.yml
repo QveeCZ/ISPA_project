@@ -95,3 +95,11 @@ services:
           - { name: sonata.admin, manager_type: orm, group: school, label: school }
         arguments: [~, SchoolBundle\Entity\School, ~]
         public: true
+
+    #IO bundle
+    iobundle.admin.import:
+        class: IOBundle\Admin\ImportAdmin
+        tags:
+         - { name: sonata.admin, manager_type: orm, group: import, label: import, on_top: true  }
+        arguments: [~, ~, IOBundle:ImportAdmin]
+        public: true

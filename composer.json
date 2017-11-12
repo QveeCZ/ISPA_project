@@ -7,7 +7,8 @@
             "AppBundle\\": "src/AppBundle",
             "UserBundle\\": "src/UserBundle",
             "SchoolBundle\\": "src/SchoolBundle",
-            "CourseBundle\\": "src/CourseBundle"
+            "CourseBundle\\": "src/CourseBundle",
+            "IOBundle\\": "src/IOBundle"
         },
         "classmap": [
             "app/AppKernel.php",
