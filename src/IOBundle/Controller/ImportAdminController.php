@@ -2,6 +2,7 @@
 
 namespace IOBundle\Controller;
 
+use IOBundle\Util\SystemImport;
 use Sonata\AdminBundle\Controller\CRUDController;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
@@ -25,6 +26,12 @@ class ImportAdminController extends CRUDController
 
         if ($request->getMethod() == 'POST') {
 
+            /**
+             * @var SystemImport $importClass
+             */
+            $importClass = $this->get('system_import');
+
+            $importClass->getImportClass($request->request->get('import_document_type'));
 
             return $this->redirect($request->headers->get('referer'));
         }
