@@ -19,7 +19,7 @@ class ImportAdminController extends CRUDController
         $em = $this->getDoctrine()->getManager();
         $schools = array();
 
-        if ( $this->get('security.authorization_checker')->isGranted('ROLE_STAFF')) {
+        if ($this->get('security.authorization_checker')->isGranted('ROLE_STAFF')) {
             $repoSchool = $em->getRepository('SchoolBundle:School');
             $schools = $repoSchool->findAll();
         }
@@ -27,11 +27,29 @@ class ImportAdminController extends CRUDController
         if ($request->getMethod() == 'POST') {
 
             /**
-             * @var SystemImport $importClass
+             * @var SystemImport $systemImport
              */
-            $importClass = $this->get('system_import');
+            $systemImport = $this->get('system_import');
+            $importClass = $systemImport->getImportClass($request->request->get('import_document_type'));
 
-            $importClass->getImportClass($request->request->get('import_document_type'));
+            if (!$importClass) {
+                $this->addFlash('sonata_flash_error', 'import_unknown_type');
+                return $this->redirect($request->headers->get('referer'));
+            }
+
+            $importFile = $request->files->get('import_document');
+
+            if (!$importFile) {
+                $this->addFlash('sonata_flash_error', 'import_no_file');
+                return $this->redirect($request->headers->get('referer'));
+            }
+
+            try {
+                $importClass->doImport($importFile);
+                $this->addFlash('sonata_flash_success', 'import_successful');
+            } catch (\Exception $e) {
+                $this->addFlash('sonata_flash_error', $e->getMessage());
+            }
 
             return $this->redirect($request->headers->get('referer'));
         }

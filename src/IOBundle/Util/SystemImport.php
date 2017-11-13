@@ -23,10 +23,18 @@ class SystemImport
 
     /**
      * @param string $type
+     * @return BaseImport
      */
     public function getImportClass($type){
 
-        echo $type;
+        switch ($type){
+            case "xml":
+                return new XMLImport();
+                break;
+        }
+
+
+        return null;
     }
 
 }
