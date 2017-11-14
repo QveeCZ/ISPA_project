@@ -1,0 +1,109 @@
+<?xml version = "1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+    <xs:element name='import'>
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:restriction base="xs:anyType">
+                    <xs:sequence>
+                        <xs:element name="cars" minOccurs='0'>
+                            <xs:complexType>
+                                <xs:complexContent>
+                                    <xs:restriction base="xs:anyType">
+                                        <xs:sequence>
+                                            <xs:element name='car' type='CarType' minOccurs='0' maxOccurs='unbounded'/>
+                                        </xs:sequence>
+                                    </xs:restriction>
+                                </xs:complexContent>
+                            </xs:complexType>
+                        </xs:element>
+                        <xs:element name="lectors" minOccurs='0'>
+                            <xs:complexType>
+                                <xs:complexContent>
+                                    <xs:restriction base="xs:anyType">
+                                        <xs:sequence>
+                                            <xs:element name='lector' type='LectorType' minOccurs='0'
+                                                        maxOccurs='unbounded'/>
+                                        </xs:sequence>
+                                    </xs:restriction>
+                                </xs:complexContent>
+                            </xs:complexType>
+                        </xs:element>
+                    </xs:sequence>
+                </xs:restriction>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+    <!--Shared-->
+    <xs:simpleType name="StandardString">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="255"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <!--/Shared-->
+    <!--CarType-->
+    <xs:complexType name="CarType">
+        <xs:sequence>
+            <xs:element name="color" type="CarColorString"/>
+            <xs:element name="SPZ" type="SPZString"/>
+            <xs:element name="date_stk" type="xs:date"/>
+            <xs:element name="car_condition" type="CarConditionString"/>
+        </xs:sequence>
+        <xs:attribute name='rollno' type='xs:positiveInteger'/>
+    </xs:complexType>
+    <xs:simpleType name="SPZString">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="10"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="CarColorString">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="32"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="CarConditionString">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="250"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <!--/CarType-->
+    <!--LectorType-->
+    <xs:complexType name="LectorType">
+        <xs:sequence>
+            <xs:element name="email" type="EmailString"/>
+            <xs:element name="name" type="NameString"/>
+            <xs:element name="surname" type="NameString"/>
+            <xs:element name="phone" type="xs:integer"/>
+            <xs:element name="date_medical" type="xs:date"/>
+            <xs:element name="courses" minOccurs='0'>
+                <xs:complexType>
+                    <xs:complexContent>
+                        <xs:restriction base="xs:anyType">
+                            <xs:sequence>
+                                <xs:element name='course' type='CourseType' minOccurs='0'
+                                            maxOccurs='unbounded'/>
+                            </xs:sequence>
+                        </xs:restriction>
+                    </xs:complexContent>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:simpleType name="EmailString">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="100"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="NameString">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="30"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <!--/LectorType-->
+    <!--CourseType-->
+    <xs:complexType name="CourseType">
+        <xs:sequence>
+            <xs:element name="name" type="StandardString"/>
+        </xs:sequence>
+    </xs:complexType>
+    <!--/CourseType-->
+</xs:schema>

@@ -33,9 +33,8 @@ class XMLImport extends BaseImport
         $doc = new DOMDocument('1.0', 'utf-8');
 
         $doc->loadXML( $xml );
-
         $errors = libxml_get_errors();
 
-        return empty( $errors );
+        return empty( $errors ) && $doc->schemaValidate(__DIR__ . "/../Resources/doc/import.xsd");
     }
 }

@@ -7,6 +7,10 @@ CourseBundle:
     resource: "@CourseBundle/Resources/config/routing.php"
     prefix:   /
 
+IOBundle:
+    resource: "@IOBundle/Resources/config/routing.php"
+    prefix:   /
+
 fos_user_security:
     resource: "@FOSUserBundle/Resources/config/routing/security.xml"
 
