@@ -3,6 +3,7 @@
 namespace IOBundle\Util;
 
 
+use SchoolBundle\Entity\School;
 use Symfony\Component\HttpFoundation\File\File;
 
 abstract class BaseImport
@@ -10,8 +11,10 @@ abstract class BaseImport
 
     /**
      * @param File $file
-     * @return mixed
+     * @param School $school
+     * @throws \Exception
+     * @return void
      */
-    public abstract function doImport($file);
+    public abstract function doImport($file, $school);
 
 }

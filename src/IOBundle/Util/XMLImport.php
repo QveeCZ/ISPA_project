@@ -4,15 +4,21 @@ namespace IOBundle\Util;
 
 
 use DOMDocument;
+use SchoolBundle\Entity\School;
 use Symfony\Component\HttpFoundation\File\File;
 
 class XMLImport extends BaseImport
 {
 
+
+
     /**
      * @param File $file
+     * @param School $school
+     * @throws \Exception
+     * @return void
      */
-    public function doImport($file)
+    public function doImport($file, $school)
     {
 
         $xml = simplexml_load_file($file->getRealPath(), 'SimpleXmlElement', LIBXML_NOERROR+LIBXML_ERR_FATAL+LIBXML_ERR_NONE);
@@ -20,7 +26,6 @@ class XMLImport extends BaseImport
         if(!$this->is_valid_xml(file_get_contents($file->getRealPath()))){
             throw new \Exception("xml_file_invalid");
         }
-
     }
 
 
