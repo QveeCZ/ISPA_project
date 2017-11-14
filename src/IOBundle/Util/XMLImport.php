@@ -5,14 +5,12 @@ namespace IOBundle\Util;
 
 use DOMDocument;
 use Symfony\Component\HttpFoundation\File\File;
-use XMLReader;
 
 class XMLImport extends BaseImport
 {
 
     /**
      * @param File $file
-     * @return mixed
      */
     public function doImport($file)
     {
