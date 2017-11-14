@@ -24,7 +24,10 @@ class XMLImport extends BaseImport
     }
 
 
-
+    /**
+     * @param string $xml
+     * @return bool
+     */
     private function is_valid_xml ( $xml ) {
         libxml_use_internal_errors( true );
 
