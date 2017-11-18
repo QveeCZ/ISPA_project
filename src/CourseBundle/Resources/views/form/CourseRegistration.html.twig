@@ -1,6 +1,7 @@
 {% block body %}
     <h1>Registrace na kurz {{ course.name }}</h1>
 
+
     <form action="/course/register/{{ course.id }}" method="post" id="courseRegistrationForm">
         {{ form_errors(form) }}
         <p>{{ form_label(form.name) }} {{ form_widget(form.name) }} {{ form_errors(form.name) }}</p>
