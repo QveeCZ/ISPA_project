@@ -126,8 +126,7 @@ class CarAdmin extends AbstractAdmin
 
         $filterMapper
             ->add('spz')
-            ->add('dateSTK')
-            ->add('school');
+            ->add('dateSTK');
 
 
         if ($securityContext->isGranted('ROLE_STAFF')) {

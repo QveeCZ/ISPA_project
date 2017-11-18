@@ -11,9 +11,6 @@ use Symfony\Component\HttpFoundation\File\File;
 
 class JSONImport extends BaseImport
 {
-
-
-
     /**
      * @param File $file
      * @param School $school
@@ -22,11 +19,6 @@ class JSONImport extends BaseImport
      */
     public function doImport($file, $school)
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $repoLector = $em->getRepository('SchoolBundle:Lector');
-        $repoCar = $em->getRepository('SchoolBundle:Car');
-
         $json = file_get_contents($file->getRealPath());
         $data = json_decode($json,true);
 
@@ -45,8 +37,7 @@ class JSONImport extends BaseImport
                 $lector->setPhone($row['phone']);
                 $lector->setSchool($school);
 
-                $em->persist($lector);
-                $em->flush();
+                $school->addSchoolLectors($lector);
             }else if($row['spz']!=null) {
                 $car = new Car();
                 $car->setSchool($school);
@@ -55,8 +46,7 @@ class JSONImport extends BaseImport
                 $car->setCondition($row['condition']);
                 $car->setDateSTK($row['dateSTK']);
 
-                $em->persist($car);
-                $em->flush();
+                $school->addSchoolCars($car);
             }
 
 
