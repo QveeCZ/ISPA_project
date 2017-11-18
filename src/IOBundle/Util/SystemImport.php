@@ -31,6 +31,9 @@ class SystemImport
             case "xml":
                 return new XMLImport();
                 break;
+            case "json":
+                return new JSONImport();
+                break;
         }
 
 
