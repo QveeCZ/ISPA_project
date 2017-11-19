@@ -24,7 +24,7 @@ class User extends \FOS\UserBundle\Model\User
 
     /**
      * @var School $school
-     * @ORM\ManyToOne(targetEntity="SchoolBundle\Entity\School", inversedBy="schoolCourses")
+     * @ORM\ManyToOne(targetEntity="SchoolBundle\Entity\School", inversedBy="schoolUsers")
      * @ORM\JoinColumn(name="school_id", referencedColumnName="id", nullable=true)
      */
     protected $school;

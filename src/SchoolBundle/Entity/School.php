@@ -129,7 +129,7 @@ class School
 
 
     /**
-     * @var ArrayCollection $schoolCourses
+     * @var ArrayCollection $schoolUsers
      *
      * @ORM\OneToMany(targetEntity="UserBundle\Entity\User", mappedBy="school", cascade={ "remove"}, orphanRemoval=true)
      */

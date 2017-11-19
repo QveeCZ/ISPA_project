@@ -32,7 +32,7 @@ class SystemImport
                 return new XMLImport();
                 break;
             case "json":
-                return new JSONImport();
+                return new JSONImport($this->em);
                 break;
         }
 

@@ -8,12 +8,24 @@ use SchoolBundle\Entity\Car;
 use SchoolBundle\Entity\Lector;
 use SchoolBundle\Entity\School;
 use Symfony\Component\HttpFoundation\File\File;
+use Doctrine\ORM\EntityManager;
 
 class JSONImport extends BaseImport
 {
 
+    /**
+     * @var EntityManager $em
+     */
+    protected $em;
 
-
+    /**
+     * SystemExport constructor.
+     * @param EntityManager $em
+     */
+    public function __construct($em)
+    {
+        $this->em = $em;
+    }
     /**
      * @param File $file
      * @param School $school
@@ -22,11 +34,6 @@ class JSONImport extends BaseImport
      */
     public function doImport($file, $school)
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $repoLector = $em->getRepository('SchoolBundle:Lector');
-        $repoCar = $em->getRepository('SchoolBundle:Car');
-
         $json = file_get_contents($file->getRealPath());
         $data = json_decode($json,true);
 
@@ -41,22 +48,25 @@ class JSONImport extends BaseImport
                 $lector->setName($row['name']);
                 $lector->setSurname($row['surname']);
                 $lector->setEmail($row['email']);
-                $lector->setDateMedical($row['dateMedical']);
+                //$lector->setDateMedical($row['dateMedical']);
+                $date = new \DateTime($row['dateMedical']);
+                $lector->setDateMedical($date);
                 $lector->setPhone($row['phone']);
                 $lector->setSchool($school);
 
-                $em->persist($lector);
-                $em->flush();
+                $this->em->persist($lector);
+                $this->em->flush();
             }else if($row['spz']!=null) {
                 $car = new Car();
                 $car->setSchool($school);
                 $car->setSpz($row['spz']);
                 $car->setColor($row['color']);
                 $car->setCondition($row['condition']);
-                $car->setDateSTK($row['dateSTK']);
+                $date = new \DateTime($row['dateSTK']);
+                $car->setDateSTK($date);
 
-                $em->persist($car);
-                $em->flush();
+                $this->em->persist($car);
+                $this->em->flush();
             }
 
 

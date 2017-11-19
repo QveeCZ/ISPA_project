@@ -1,5 +1,5 @@
 {
-    "name": "qvee/.checkout",
+    "name": "inpro/ispa",
     "license": "MIT",
     "type": "project",
     "autoload": {
@@ -73,7 +73,6 @@
         "symfony-assets-install": "relative",
         "incenteev-parameters": {
             "file": "app/config/parameters.yml"
-        },
-        "branch-alias": null
+        }
     }
 }
