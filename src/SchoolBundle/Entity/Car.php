@@ -67,6 +67,13 @@ class Car
     protected $school;
 
     /**
+     * @var School $school
+     * @ORM\ManyToOne(targetEntity="SchoolBundle\Entity\School", inversedBy="schoolCars")
+     * @ORM\JoinColumn(name="school_id", referencedColumnName="id")
+     */
+    protected $car_type;
+
+    /**
      * @return int
      */
     public function getId()
