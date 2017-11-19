@@ -6,6 +6,9 @@ use CourseBundle\Entity\Course;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
+
 
 /**
  * SchoolBundle\Entity\School
@@ -32,6 +35,83 @@ class School
      */
     protected $name;
 
+    /**
+     * @var String $name
+     * @Assert\Length(
+     *      min = 8,
+     *      max = 8,
+     * )
+     * @Assert\Type(
+     *     type="integer",
+     *     message="The value {{ value }} is not a valid {{ type }}."
+     * )
+     * @ORM\Column(name="ico", type="string", nullable=false)
+     */
+    protected $ico;
+
+    /**
+     * @return String
+     */
+    public function getIco()
+    {
+        return $this->ico;
+    }
+
+    /**
+     * @param String $ico
+     */
+    public function setIco($ico)
+    {
+        $this->ico = $ico;
+    }
+
+    /**
+     * @return String
+     */
+    public function getKontakt()
+    {
+        return $this->kontakt;
+    }
+
+    /**
+     * @param String $kontakt
+     */
+    public function setKontakt($kontakt)
+    {
+        $this->kontakt = $kontakt;
+    }
+
+    /**
+     * @return String
+     */
+    public function getWeb()
+    {
+        return $this->web;
+    }
+
+    /**
+     * @param String $web
+     */
+    public function setWeb($web)
+    {
+        $this->web = $web;
+    }
+
+    /**
+     * @var String $name
+     *
+     *
+     * @ORM\Column(name="kontakt", type="string", nullable=false)
+     */
+    protected $kontakt;
+
+    /**
+     * @var String $name
+     *
+     *
+     * @ORM\Column(name="web", type="string", nullable=false)
+     */
+    protected $web;
 
     /**
      * @var ArrayCollection $schoolCourses
