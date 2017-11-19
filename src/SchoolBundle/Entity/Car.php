@@ -61,7 +61,7 @@ class Car
 
     /**
      * @var School $school
-     * @ORM\ManyToOne(targetEntity="SchoolBundle\Entity\School", inversedBy="schoolCourses")
+     * @ORM\ManyToOne(targetEntity="SchoolBundle\Entity\School", inversedBy="schoolCars")
      * @ORM\JoinColumn(name="school_id", referencedColumnName="id")
      */
     protected $school;

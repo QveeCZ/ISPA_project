@@ -70,7 +70,7 @@ class Lector
 
     /**
      * @var School $school
-     * @ORM\ManyToOne(targetEntity="SchoolBundle\Entity\School", inversedBy="schoolCourses")
+     * @ORM\ManyToOne(targetEntity="SchoolBundle\Entity\School", inversedBy="schoolLectors")
      * @ORM\JoinColumn(name="school_id", referencedColumnName="id")
      */
     protected $school;
