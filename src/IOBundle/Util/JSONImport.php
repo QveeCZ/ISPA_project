@@ -26,6 +26,7 @@ class JSONImport extends BaseImport
     {
         $this->em = $em;
     }
+
     /**
      * @param File $file
      * @param School $school
@@ -35,45 +36,51 @@ class JSONImport extends BaseImport
     public function doImport($file, $school)
     {
         $json = file_get_contents($file->getRealPath());
-        $data = json_decode($json,true);
+        $data = json_decode($json, true);
 
-        if($data == null){
+        if ($data == null) {
             throw new \Exception("json_file_invalid");
-        }else
-        {
-            foreach ($data as $row)
-            {
-            if($row['name']!=null){
-                $lector = new Lector();
-                $lector->setName($row['name']);
-                $lector->setSurname($row['surname']);
-                $lector->setEmail($row['email']);
-                //$lector->setDateMedical($row['dateMedical']);
-                $date = new \DateTime($row['dateMedical']);
-                $lector->setDateMedical($date);
-                $lector->setPhone($row['phone']);
-                $lector->setSchool($school);
+        } else {
+            foreach ($data as $row) {
+                if (isset($row['email'])) {
+                    if (isset($row['name']) && isset($row['surname']) && isset($row['dateMedical']) && isset($row['phone'])) {
+                        $lector = new Lector();
+                        $lector->setName($row['name']);
+                        $lector->setSurname($row['surname']);
+                        $lector->setEmail($row['email']);
+                        $date = new \DateTime($row['dateMedical']);
+                        $lector->setDateMedical($date);
+                        $lector->setPhone($row['phone']);
+                        $lector->setSchool($school);
 
-                $this->em->persist($lector);
-                $this->em->flush();
-            }else if($row['spz']!=null) {
-                $car = new Car();
-                $car->setSchool($school);
-                $car->setSpz($row['spz']);
-                $car->setColor($row['color']);
-                $car->setCondition($row['condition']);
-                $date = new \DateTime($row['dateSTK']);
-                $car->setDateSTK($date);
+                        $this->em->persist($lector);
+                        $this->em->flush();
+                    } else {
+                        throw new \Exception("json_file_lector invalid");
+                    }
+                } else if (isset($row['spz'])) {
+                    if (isset($row['color']) && isset($row['dateSTK']) && isset($row['condition'])) {
+                        $car = new Car();
+                        $car->setSchool($school);
+                        $car->setSpz($row['spz']);
+                        $car->setColor($row['color']);
+                        $car->setCondition($row['condition']);
+                        $date = new \DateTime($row['dateSTK']);
+                        $car->setDateSTK($date);
 
-                $this->em->persist($car);
-                $this->em->flush();
-            }
+                        $this->em->persist($car);
+                        $this->em->flush();
+                    } else {
+                        throw new \Exception("json_file_car invalid");
+                    }
+                } else {
+                    throw new \Exception("invalide format of input json");
+                }
 
 
             }
         }
     }
-
 
 
 }
