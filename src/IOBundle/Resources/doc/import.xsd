@@ -60,7 +60,6 @@
             <xs:element name="date_stk" type="xs:date"/>
             <xs:element name="car_condition" type="CarConditionString"/>
         </xs:sequence>
-        <xs:attribute name='rollno' type='xs:positiveInteger'/>
     </xs:complexType>
     <xs:simpleType name="SPZString">
         <xs:restriction base="xs:string">
