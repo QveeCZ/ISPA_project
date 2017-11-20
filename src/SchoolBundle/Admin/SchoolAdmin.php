@@ -109,7 +109,6 @@ class SchoolAdmin extends AbstractAdmin
 
 
         $filterMapper
-            ->add('id')
             ->add('name',null,array('label' => 'Název'))
             ->add('kontakt',null)
             ->add('ico',null,array('label' => 'IČO'))
@@ -125,8 +124,7 @@ class SchoolAdmin extends AbstractAdmin
 
 
         $listMapper
-            ->addIdentifier('id')
-            ->add('name',null,array('label' => 'Název'))
+            ->addIdentifier('name',null,array('label' => 'Název'))
             ->add('kontakt',null)
             ->add('ico',null,array('label' => 'IČO'))
             ->add('web',null);
