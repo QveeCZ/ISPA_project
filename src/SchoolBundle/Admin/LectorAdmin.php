@@ -67,12 +67,12 @@ class LectorAdmin extends AbstractAdmin
 
         $showMapper
             ->with('General')
-            ->add('name')
-            ->add('surname')
-            ->add('email')
-            ->add('phone')
-            ->add('dateMedical')
-            ->add('school')
+            ->add('name', null, array('label' => 'Jméno:'))
+            ->add('surname', null, array('label' => 'Příjmení:'))
+            ->add('email', null, array('label' => 'Email:'))
+            ->add('phone', null, array('label' => 'Telefon:'))
+            ->add('dateMedical' ,null, array('format' => 'dd.MM.yyyy','label' => 'Lékařská prohlídka:'))
+            ->add('school', null, array('label' => 'Škola:'))
             ->end();
     }
 
@@ -98,18 +98,18 @@ class LectorAdmin extends AbstractAdmin
 
         $formMapper
             ->with('General')
-            ->add('name', null, array('required' => TRUE))
-            ->add('surname', null, array('required' => TRUE))
-            ->add('email', null, array('required' => TRUE))
-            ->add('phone', null, array('required' => TRUE))
-            ->add('dateMedical', 'sonata_type_date_picker', array('format' => 'dd.MM.yyyy', 'required' => TRUE))
+            ->add('name', null, array('required' => TRUE, 'label' => 'Jméno:'))
+            ->add('surname', null, array('required' => TRUE, 'label' => 'Příjmení:'))
+            ->add('email', null, array('required' => TRUE, 'label' => 'Email:'))
+            ->add('phone', null, array('required' => TRUE, 'label' => 'Telefon:'))
+            ->add('dateMedical', 'sonata_type_date_picker', array('format' => 'dd.MM.yyyy', 'required' => TRUE, 'label' => 'Datum lékařské prohlídky:'))
             ->end();
 
 
         if ($securityContext->isGranted('ROLE_STAFF')) {
             $formMapper
                 ->with('General')
-                ->add('school', null, array('required' => TRUE))
+                ->add('school', null, array('required' => TRUE, 'label' => 'Škola:'))
                 ->end();
         }
     }
@@ -125,14 +125,13 @@ class LectorAdmin extends AbstractAdmin
         $securityContext = $this->getConfigurationPool()->getContainer()->get('security.authorization_checker');
 
         $filterMapper
-            ->add('name')
-            ->add('surname')
-            ->add('email')
-            ->add('dateMedical');
+            ->add('name', null, array('label' => 'Jméno:'))
+            ->add('surname', null, array('label' => 'Příjmení:'))
+            ->add('email', null, array('label' => 'Email:'));
 
         if ($securityContext->isGranted('ROLE_STAFF')) {
             $filterMapper
-                ->add('school');
+                ->add('school', null, array('label' => 'Škola:'));
         }
 
     }
@@ -144,11 +143,11 @@ class LectorAdmin extends AbstractAdmin
     {
 
         $listMapper
-            ->add('name')
-            ->add('surname')
-            ->add('email')
-            ->add('dateMedical')
-            ->add('school');
+            ->add('name', null, array('label' => 'Jméno'))
+            ->add('surname', null, array('label' => 'Příjmení'))
+            ->add('email', null, array('label' => 'Email'))
+            ->add('dateMedical' ,null, array('format' => 'd.m.Y','label' => 'Lékařská prohlídka'))
+            ->add('school', null, array('label' => 'Škola'));
     }
     /**
      * @param Lector $lector
