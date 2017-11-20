@@ -5,6 +5,7 @@ namespace IOBundle\Util;
 
 use CourseBundle\Entity\Course;
 use CourseBundle\Entity\Registration;
+use DateTime;
 use Doctrine\ORM\EntityManager;
 use DOMDocument;
 use SchoolBundle\Entity\Car;
@@ -43,9 +44,15 @@ class XMLImport extends BaseImport
             throw new \Exception("xml_file_invalid");
         }
 
-        $this->importCars($xml->cars, $school);
-        $this->importLectors($xml->lectors, $school);
-        $this->importCourses($xml->courses, $school);
+        if($xml->cars){
+            $this->importCars($xml->cars->car, $school);
+        }
+        if($xml->lectors){
+            $this->importLectors($xml->lectors->lector, $school);
+        }
+        if($xml->courses){
+            $this->importCourses($xml->courses->course, $school);
+        }
 
 
     }
@@ -62,7 +69,8 @@ class XMLImport extends BaseImport
             $car = new Car();
             $car->setColor($carXml->color);
             $car->setSpz($carXml->SPZ);
-            $car->setDateSTK($carXml->date_stk);
+            $car->setDateSTK(DateTime::createFromFormat('Y-m-d', $carXml->date_stk));
+            $car->setCarType($carXml->car_type);
             $car->setCondition($carXml->car_condition);
             $car->setSchool($school);
             $this->em->persist($car);
@@ -84,6 +92,7 @@ class XMLImport extends BaseImport
             $lector->setName($lectorXml->name);
             $lector->setSurname($lectorXml->surname);
             $lector->setPhone($lectorXml->phone);
+            $lector->setDateMedical(DateTime::createFromFormat('Y-m-d', $lectorXml->date_medical));
             $lector->setSchool($school);
             $this->em->persist($lector);
         }
