@@ -95,9 +95,8 @@ class LectorAdmin extends AbstractAdmin
         if (!$securityContext->isGranted('ROLE_STAFF') && $this->id($this->getSubject()) && $subject->getSchool()->getId() != $currentUser->getSchool()->getId()) {
             throw new AccessDeniedException();
         }
-
         $formMapper
-            ->with('General')
+            ->with('Přidání lektora')
             ->add('name', null, array('required' => TRUE, 'label' => 'Jméno:'))
             ->add('surname', null, array('required' => TRUE, 'label' => 'Příjmení:'))
             ->add('email', null, array('required' => TRUE, 'label' => 'Email:'))
@@ -108,7 +107,7 @@ class LectorAdmin extends AbstractAdmin
 
         if ($securityContext->isGranted('ROLE_STAFF')) {
             $formMapper
-                ->with('General')
+                ->with('Přidání lektora')
                 ->add('school', null, array('required' => TRUE, 'label' => 'Škola:'))
                 ->end();
         }
