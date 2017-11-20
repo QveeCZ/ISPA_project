@@ -6,6 +6,8 @@
         {{ form_errors(form) }}
         <p class="name">{{ form_label(form.name) }} {{ form_widget(form.name) }} {{ form_errors(form.name) }}</p>
         <p class="surname">{{ form_label(form.surname) }} {{ form_widget(form.surname) }} {{ form_errors(form.surname) }}</p>
+        <p class="email">{{ form_label(form.email) }} {{ form_widget(form.email) }} {{ form_errors(form.email) }}</p>
+        <p class="birthDay">{{ form_label(form.birthDate) }} {{ form_widget(form.birthDay) }} {{ form_errors(form.birthDay) }}</p>
 
         {{ form_rest(form) }}
         <input class="submit-form form-btn" type="submit" value="Odeslat registraci"/>

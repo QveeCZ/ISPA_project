@@ -47,6 +47,22 @@ class Registration
     protected $surname;
 
     /**
+     * @var String $email
+     *
+     *
+     * @ORM\Column(name="email", type="string", nullable=false)
+     */
+    protected $email;
+
+    /**
+     * @var String $birthDate
+     *
+     *
+     * @ORM\Column(name="birthDate", type="string", nullable=false)
+     */
+    protected $birthDate;
+
+    /**
      * @return int
      */
     public function getId()
@@ -108,6 +124,38 @@ class Registration
     public function setSurname($surname)
     {
         $this->surname = $surname;
+    }
+
+    /**
+     * @return String
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * @param String email
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+    }
+
+    /**
+     * @return String
+     */
+    public function getBirthDate()
+    {
+        return $this->birthDate;
+    }
+
+    /**
+     * @param Date $birthDate
+     */
+    public function setBirthDate($birthDate)
+    {
+        $this->surname = $birthDate;
     }
 
     public function __toString()

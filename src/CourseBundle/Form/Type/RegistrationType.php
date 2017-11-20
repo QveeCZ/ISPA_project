@@ -10,6 +10,8 @@ class RegistrationType extends AbstractType
     {
         $builder->add('name', 'text', array('required' => true, 'label' => 'Jméno:'));
         $builder->add('surname', 'text', array('required' => true, 'label' => 'Příjmení:'));
+        $builder->add('email', 'text', array('required' => true, 'label' => 'Email:'));
+        $builder->add('birthDate', 'date', array('required' => true, 'label' => 'Datum narození:'));
 
         parent::buildForm($builder, $options);
     }

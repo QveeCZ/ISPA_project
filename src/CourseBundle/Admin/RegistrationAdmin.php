@@ -78,6 +78,8 @@ class RegistrationAdmin extends AbstractAdmin
             ->add('name')
             ->add('surname')
             ->add('course')
+            ->add('email')
+            ->add('birthDate')
             ->end();
     }
 
@@ -106,6 +108,8 @@ class RegistrationAdmin extends AbstractAdmin
             ->add('name', null, array('required' => true, 'label' => 'Název:'))
             ->add('surname', null, array('required' => true, 'label' => 'Příjmení:'))
             ->add('course', null, array('required' => true, 'label' => 'Kurz:'))
+            ->add('email', null, array('required' => true, 'label' => 'Email:'))
+            ->add('birthDate', null, array('required' => true, 'label' => 'Datum narození:'))
             ->end();
 
         if ($securityContext->isGranted('ROLE_STAFF')) {
@@ -140,7 +144,9 @@ class RegistrationAdmin extends AbstractAdmin
 
         $filterMapper
             ->add('name')
-            ->add('surname');
+            ->add('surname')
+            ->add('email')
+            ->add('birthDate');
 
 
         if ($securityContext->isGranted('ROLE_STAFF')) {
@@ -166,7 +172,9 @@ class RegistrationAdmin extends AbstractAdmin
         $listMapper
             ->addIdentifier('id')
             ->add('name')
-            ->add('course');
+            ->add('course')
+            ->add('email')
+            ->add('birthDate');
     }
 }
 

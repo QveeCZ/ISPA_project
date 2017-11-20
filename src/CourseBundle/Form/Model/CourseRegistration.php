@@ -22,6 +22,21 @@ class CourseRegistration
     protected $surname;
 
     /**
+     *
+     * @var string $email
+     * @Assert\NotBlank(message = "Zadejte prosím svůj email")
+     */
+    protected $email;
+
+
+    /**
+     *
+     * @var string $birthDate
+     * @Assert\NotBlank(message = "Zadejte datum svého narození")
+     */
+    protected $birthDate;
+
+    /**
      * @return mixed
      */
     public function getName()
@@ -35,6 +50,38 @@ class CourseRegistration
     public function setName($name)
     {
         $this->name = $name;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * @param mixed $email
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getBirthDate()
+    {
+        return $this->birthDate;
+    }
+
+    /**
+     * @param mixed $birthDate
+     */
+    public function setBirthDate($birthDate)
+    {
+        $this->birthDate = $birthDate;
     }
 
     /**
