@@ -28,6 +28,18 @@
                                 </xs:complexContent>
                             </xs:complexType>
                         </xs:element>
+                        <xs:element name="courses" minOccurs='0'>
+                            <xs:complexType>
+                                <xs:complexContent>
+                                    <xs:restriction base="xs:anyType">
+                                        <xs:sequence>
+                                            <xs:element name='course' type='CourseType' minOccurs='0'
+                                                        maxOccurs='unbounded'/>
+                                        </xs:sequence>
+                                    </xs:restriction>
+                                </xs:complexContent>
+                            </xs:complexType>
+                        </xs:element>
                     </xs:sequence>
                 </xs:restriction>
             </xs:complexContent>
@@ -74,18 +86,6 @@
             <xs:element name="surname" type="NameString"/>
             <xs:element name="phone" type="xs:integer"/>
             <xs:element name="date_medical" type="xs:date"/>
-            <xs:element name="courses" minOccurs='0'>
-                <xs:complexType>
-                    <xs:complexContent>
-                        <xs:restriction base="xs:anyType">
-                            <xs:sequence>
-                                <xs:element name='course' type='CourseType' minOccurs='0'
-                                            maxOccurs='unbounded'/>
-                            </xs:sequence>
-                        </xs:restriction>
-                    </xs:complexContent>
-                </xs:complexType>
-            </xs:element>
         </xs:sequence>
     </xs:complexType>
     <xs:simpleType name="EmailString">
@@ -103,7 +103,28 @@
     <xs:complexType name="CourseType">
         <xs:sequence>
             <xs:element name="name" type="StandardString"/>
+            <xs:element name="capacity" type="xs:integer"/>
+            <xs:element name="course_registrations" minOccurs='0'>
+                <xs:complexType>
+                    <xs:complexContent>
+                        <xs:restriction base="xs:anyType">
+                            <xs:sequence>
+                                <xs:element name='course_registration' type='CourseType' minOccurs='0'
+                                            maxOccurs='unbounded'/>
+                            </xs:sequence>
+                        </xs:restriction>
+                    </xs:complexContent>
+                </xs:complexType>
+            </xs:element>
         </xs:sequence>
     </xs:complexType>
     <!--/CourseType-->
+    <!--CourseRegistrationType-->
+    <xs:complexType name="CourseRegistrationType">
+        <xs:sequence>
+            <xs:element name="name" type="StandardString"/>
+            <xs:element name="surname" type="StandardString"/>
+        </xs:sequence>
+    </xs:complexType>
+    <!--/CourseRegistrationType-->
 </xs:schema>
