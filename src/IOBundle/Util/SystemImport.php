@@ -21,6 +21,7 @@ class SystemImport
         $this->em = $em;
     }
 
+
     /**
      * @param string $type
      * @return BaseImport
@@ -33,6 +34,9 @@ class SystemImport
                 break;
             case "json":
                 return new JSONImport($this->em);
+                break;
+            case "csv":
+                return new CSVImport($this->em);
                 break;
         }
 
