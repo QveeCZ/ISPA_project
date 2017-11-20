@@ -59,6 +59,7 @@
             <xs:element name="SPZ" type="SPZString"/>
             <xs:element name="date_stk" type="xs:date"/>
             <xs:element name="car_condition" type="CarConditionString"/>
+            <xs:element name="car_type" type="StandardString"/>
         </xs:sequence>
     </xs:complexType>
     <xs:simpleType name="SPZString">
