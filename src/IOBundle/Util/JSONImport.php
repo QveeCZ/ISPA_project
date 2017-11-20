@@ -3,6 +3,7 @@
 namespace IOBundle\Util;
 
 
+use CourseBundle\Entity\Course;
 use DOMDocument;
 use SchoolBundle\Entity\Car;
 use SchoolBundle\Entity\Lector;
@@ -73,6 +74,19 @@ class JSONImport extends BaseImport
                         $this->em->flush();
                     } else {
                         throw new \Exception("json_file_car invalid");
+                    }
+                } else if (isset($row['capacity'])) {
+                    if (isset($row['name'])) {
+                        $course = new Course();
+                        $course->setName($row['name']);
+                        $course->setCapacity($row['capacity']);
+                        $course->setSchool($school);
+
+
+                        $this->em->persist($course);
+                        $this->em->flush();
+                    } else {
+                        throw new \Exception("json_file_course invalid");
                     }
                 } else {
                     throw new \Exception("invalide format of input json");
