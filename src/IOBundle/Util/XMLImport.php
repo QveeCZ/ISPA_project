@@ -3,6 +3,7 @@
 namespace IOBundle\Util;
 
 
+use Doctrine\ORM\EntityManager;
 use DOMDocument;
 use SchoolBundle\Entity\School;
 use Symfony\Component\HttpFoundation\File\File;
@@ -10,6 +11,17 @@ use Symfony\Component\HttpFoundation\File\File;
 class XMLImport extends BaseImport
 {
 
+    /** @var  EntityManager */
+    private $em;
+
+    /**
+     * XMLImport constructor.
+     * @param EntityManager $em
+     */
+    public function __construct($em)
+    {
+        $this->em = $em;
+    }
 
 
     /**
