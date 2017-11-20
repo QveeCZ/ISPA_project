@@ -60,18 +60,19 @@ class Car
     protected $condition;
 
     /**
-     * @var School $school
-     * @ORM\ManyToOne(targetEntity="SchoolBundle\Entity\School", inversedBy="schoolCars")
-     * @ORM\JoinColumn(name="school_id", referencedColumnName="id")
+     * @var String $carType
+     *
+     *
+     * @ORM\Column(name="car_type", type="string", nullable=false)
      */
-    protected $school;
+    protected $carType;
 
     /**
      * @var School $school
      * @ORM\ManyToOne(targetEntity="SchoolBundle\Entity\School", inversedBy="schoolCars")
      * @ORM\JoinColumn(name="school_id", referencedColumnName="id")
      */
-    protected $car_type;
+    protected $school;
 
     /**
      * @return int
@@ -151,6 +152,22 @@ class Car
     public function setCondition($condition)
     {
         $this->condition = $condition;
+    }
+
+    /**
+     * @return String
+     */
+    public function getCarType()
+    {
+        return $this->carType;
+    }
+
+    /**
+     * @param String $carType
+     */
+    public function setCarType($carType)
+    {
+        $this->carType = $carType;
     }
 
     /**

@@ -71,6 +71,7 @@ class CarAdmin extends AbstractAdmin
             ->add('dateSTK')
             ->add('school')
             ->add('color')
+            ->add('carType')
             ->end();
     }
 
@@ -104,6 +105,7 @@ class CarAdmin extends AbstractAdmin
             ->add('spz', null, array('required' => TRUE))
             ->add('dateSTK', 'sonata_type_date_picker', array('format' => 'dd.MM.yyyy', 'required' => TRUE))
             ->add('color', null, array('required' => TRUE))
+            ->add('carType', null, array('required' => TRUE))
             ->add('condition', null, array('required' => TRUE))
             ->end();
 
@@ -146,7 +148,8 @@ class CarAdmin extends AbstractAdmin
             ->addIdentifier('spz')
             ->add('dateSTK')
             ->add('school')
-            ->add('color');
+            ->add('color')
+            ->add('carType');
     }
 
     /**
