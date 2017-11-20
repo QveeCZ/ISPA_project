@@ -142,7 +142,6 @@ class LectorAdmin extends AbstractAdmin
     {
 
         $listMapper
-            ->with('Výpis lektorů')
             ->add('name', null, array('label' => 'Jméno'))
             ->add('surname', null, array('label' => 'Příjmení'))
             ->add('email', null, array('label' => 'Email'))
