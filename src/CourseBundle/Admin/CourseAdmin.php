@@ -68,6 +68,7 @@ class CourseAdmin extends AbstractAdmin
         $showMapper
             ->with('General')
             ->add('name')
+            ->add('capacity')
             ->add('school')
             ->end();
     }
@@ -95,6 +96,7 @@ class CourseAdmin extends AbstractAdmin
         $formMapper
             ->with('General')
             ->add('name', null, array('required' => true, 'label' => 'Název:'))
+            ->add('capacity', null, array('required' => true, 'label' => 'Kapacita:'))
             ->end();
 
         if ($securityContext->isGranted('ROLE_STAFF')) {
@@ -117,7 +119,8 @@ class CourseAdmin extends AbstractAdmin
 
         $filterMapper
             ->add('id')
-            ->add('name');
+            ->add('name')
+            ->add('capacity');
 
 
         if ($securityContext->isGranted('ROLE_STAFF')) {
@@ -135,6 +138,7 @@ class CourseAdmin extends AbstractAdmin
         $listMapper
             ->addIdentifier('id')
             ->add('name')
+            ->add('capacity')
             ->add('school');
     }
 

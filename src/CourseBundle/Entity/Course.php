@@ -30,6 +30,13 @@ class Course
      * @ORM\Column(name="name", type="string", nullable=false)
      */
     protected $name;
+    /**
+     * @var Integer $capacity
+     *
+     *
+     * @ORM\Column(name="capacity", type="integer", nullable=false)
+     */
+    protected $capacity;
 
     /**
      * @var School $school
@@ -66,6 +73,22 @@ class Course
     public function setId($id)
     {
         $this->id = $id;
+    }
+
+    /**
+     * @return int
+     */
+    public function getCapacity()
+    {
+        return $this->capacity;
+    }
+
+    /**
+     * @param int $Capacity
+     */
+    public function setCapacity($capacity)
+    {
+        $this->capacity = $capacity;
     }
 
     /**

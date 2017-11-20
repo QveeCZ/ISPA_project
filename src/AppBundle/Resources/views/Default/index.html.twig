@@ -23,13 +23,44 @@
     </script>
 {% endblock %}
 {% block body %}
-    <h1>Kurzy</h1>
-    <table>
+    <section class="banner" role="banner">
+        <header id="header">
+            <!-- navigation section  -->
+            <div class="header-content clearfix">
+                <!--<a class="logo" href="#"><img src="/images/ISPA-logo.png" alt="Mafolio"></a>-->
+                <h1>ISPA</h1>
+                <nav class="navigation" role="navigation">
+                    <ul class="primary-nav">
+                        <li><a href="about.html">Informace</a></li>
+                        <li><a href="contact.html">Kontakt</a></li>
+                        <li><a href="/admin/dashboard">Přihlášení pro zaměstnance</a></li>
+                    </ul>
+                </nav>
+                <a href="#" class="nav-toggle">Menu<span></span></a> </div>
+            <!-- navigation section  -->
+        </header>
+
+        <!-- banner text -->
+        <div class="container">
+            <div class="col-md-10 col-md-offset-1">
+                <div class="banner-text text-center">
+                    <h1>ISPA</h1>
+                    <p>Integrovaný Systém pro Autoškoly</p>
+                    <!-- banner text -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="course-table">
+        <h1>Přehled kurzů</h1>
+    </div>
+    <table class="cart-list" cellpadding="0" cellspacing="0" borde="0">
         <tr>
             <th>ID</th>
             <th>Název</th>
             <th>Škola</th>
-            <th>Počet registrací</th>
+            <th>Obsazenost</th>
             <th></th>
         </tr>
         {% for course in courses %}
@@ -37,7 +68,7 @@
                 <td>{{ course.id }}</td>
                 <td>{{ course.name }}</td>
                 <td>{{ course.school.name }}</td>
-                <td>{{ course.courseRegistrations|length }}</td>
+                <td>{{ course.courseRegistrations|length }}/{{ course.capacity }}</td>
                 <td><a href="/course/register/{{ course.id }}" data-remote="false" data-toggle="modal"
                        data-target="#registerModal" class="btn btn-default">
                         Příhlásit se
