@@ -92,6 +92,7 @@ class XMLImport extends BaseImport
             $lector->setName($lectorXml->name);
             $lector->setSurname($lectorXml->surname);
             $lector->setPhone($lectorXml->phone);
+            $lector->setDateMedical(DateTime::createFromFormat('Y-m-d', $lectorXml->date_medical));
             $lector->setSchool($school);
             $this->em->persist($lector);
         }
