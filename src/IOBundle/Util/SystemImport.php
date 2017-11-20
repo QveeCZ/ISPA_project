@@ -29,7 +29,7 @@ class SystemImport
 
         switch ($type){
             case "xml":
-                return new XMLImport();
+                return new XMLImport($this->em);
                 break;
             case "json":
                 return new JSONImport($this->em);
