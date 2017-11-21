@@ -6,12 +6,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-    /**
-     * CourseBundle\Entity\Registration
-     *
-     * @ORM\Entity
-     * @ORM\Table(name="course_registrations")
-     */
+/**
+ * CourseBundle\Entity\Registration
+ *
+ * @ORM\Entity
+ * @ORM\Table(name="course_registrations")
+ */
 class Registration
 {
     /**
@@ -61,6 +61,23 @@ class Registration
      * @ORM\Column(name="birthDate", type="date", nullable=false)
      */
     protected $birthDate;
+
+    /**
+     * @var \DateTime $created
+     *
+     *
+     * @ORM\Column(name="created", type="datetime", nullable=true)
+     */
+    protected $created;
+
+
+    function __construct()
+    {
+        if (!$this->created) {
+            $this->created = new \DateTime();
+        }
+    }
+
 
     /**
      * @return int
@@ -157,6 +174,23 @@ class Registration
     {
         $this->birthDate = $birthDate;
     }
+
+    /**
+     * @return \DateTime
+     */
+    public function getCreated(): \DateTime
+    {
+        return $this->created;
+    }
+
+    /**
+     * @param \DateTime $created
+     */
+    public function setCreated(\DateTime $created)
+    {
+        $this->created = $created;
+    }
+
 
     public function __toString()
     {

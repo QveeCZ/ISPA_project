@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use CourseBundle\Entity\Course;
 use FOS\UserBundle\Command\CreateUserCommand;
 use FOS\UserBundle\Model\UserManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -19,6 +20,17 @@ class DefaultController extends Controller
         $em = $this->getDoctrine()->getManager();
         $repoCourse = $em->getRepository('CourseBundle:Course');
         $courses = $repoCourse->findAll();
+
+        $coursesTemp = $courses;
+        $courses = array();
+        /**
+         * @var Course $course
+         */
+        foreach ($coursesTemp as $course){
+            if($course->getCapacity() > count($course->getCourseRegistrations())){
+                $courses[] = $course;
+            }
+        }
 
         return $this->render('AppBundle:Default:index.html.twig', array('courses' => $courses));
     }

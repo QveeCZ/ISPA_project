@@ -36,7 +36,7 @@ class School
     protected $name;
 
     /**
-     * @var String $name
+     * @var int $ico
      * @Assert\Length(
      *      min = 8,
      *      max = 8,

@@ -1,7 +1,9 @@
 <?php
+
 namespace CourseBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 class RegistrationType extends AbstractType
@@ -11,7 +13,8 @@ class RegistrationType extends AbstractType
         $builder->add('name', 'text', array('required' => true, 'label' => 'Jméno:'));
         $builder->add('surname', 'text', array('required' => true, 'label' => 'Příjmení:'));
         $builder->add('email', 'text', array('required' => true, 'label' => 'Email:'));
-        $builder->add('birthDate', 'date', array('required' => true, 'label' => 'Datum narození:'));
+        $builder->add('birthDate', BirthdayType::class, array('required' => true, 'label' => 'Datum narození:',
+            'widget' => 'single_text'));
 
         parent::buildForm($builder, $options);
     }

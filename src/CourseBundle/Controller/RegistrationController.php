@@ -45,12 +45,19 @@ class RegistrationController extends Controller
                 $registration->setName($object->getName());
                 $registration->setSurname($object->getSurname());
                 $registration->setCourse($course);
+                $registration->setEmail($object->getEmail());
+                $registration->setBirthDate($object->getBirthDate());
 
                 $em->persist($registration);
                 $em->flush();
+                $em->refresh($registration);
+                $this->confirmationEmail($registration);
 
 
             }
+
+            $flashbag = $this->get('session')->getFlashBag();
+            $flashbag->add("success", "Registrace proběhla úspěšně.");
             $referer = $request->headers->get('referer');
             return $this->redirect($referer);
         }
@@ -62,6 +69,29 @@ class RegistrationController extends Controller
             'course' => $course,
         ));
 
+    }
+
+    /**
+     * @param Registration $registration
+     */
+    private function confirmationEmail($registration){
+
+        $confirmLink = md5($registration->getId() . $registration->getCreated()->format('Y-m-d H:i:s'));
+
+        $mailer = $this->get('mailer');
+        $message = (new \Swift_Message('Potvrzení registrace'))
+            ->setFrom('inpro.ispa@gmail.com')
+            ->setTo($registration->getEmail())
+            ->setBody(
+                $this->renderView(
+                    'CourseBundle:system:CourseRegistrationEmail.html.twig',
+                    array('registration' => $registration, 'confirmLink' => $confirmLink)
+                ),
+                'text/html'
+            )
+        ;
+
+        $mailer->send($message);
     }
 
 

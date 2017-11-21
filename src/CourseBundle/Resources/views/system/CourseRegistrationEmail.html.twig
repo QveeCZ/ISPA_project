@@ -1,0 +1,5 @@
+{% block body %}
+    <h1>Registrace na kurz {{ registration.course.name }}</h1>
+
+    <p>Pro potvrzení registrace klidněte prosím na tento odkaz <a href="{{ app.request.getBaseURL() }}/registration/confirmation/{{ confirmLink }}">{{ app.request.getBaseURL() }}/registration/confirmation/{{ confirmLink }}</a> </p>
+{% endblock %}    
