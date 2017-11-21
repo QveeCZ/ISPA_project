@@ -1,13 +1,36 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8" />
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
-        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
-    </body>
+<head>
+    <meta charset="UTF-8"/>
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    {% block stylesheets %}{% endblock %}
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
+</head>
+<body>
+{% block body %}{% endblock %}
+{% block javascripts %}{% endblock %}
+<script>
+    $('.navigation').addClass('original').clone().insertAfter('.navigation').addClass('cloned').css('position', 'fixed').css('top', '0').css('margin-top', '0').css('padding-top', '5px').css('z-index', '500').removeClass('original').hide();
+
+    scrollIntervalID = setInterval(stickIt, 10);
+
+
+    function stickIt() {
+
+        var orgElementPos = $('.original').offset();
+        orgElementTop = orgElementPos.top;
+
+        if ($(window).scrollTop() >= (orgElementTop)) {
+            orgElement = $('.original');
+            coordsOrgElement = orgElement.offset();
+            leftOrgElement = coordsOrgElement.left;
+            $('.cloned').css('left', leftOrgElement + 'px').css('top', 0).css('width', '100%').show();
+            $('.original').css('visibility', 'hidden');
+        } else {
+            $('.cloned').hide();
+            $('.original').css('visibility', 'visible');
+        }
+    }
+</script>
+</body>
 </html>

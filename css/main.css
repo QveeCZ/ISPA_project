@@ -94,7 +94,6 @@ ul li {
 	Header
 -------------------------------------------------------------------------------*/
 #header {
-    position: fixed;
     width: 100%;
     z-index: 999;
 }
@@ -145,6 +144,7 @@ ul li {
     transition: opacity 0.5s;
 }
 .navigation {
+    background: #65349c;
     float: right;
 }
 .navigation li {
