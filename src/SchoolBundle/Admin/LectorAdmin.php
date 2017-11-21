@@ -144,7 +144,7 @@ class LectorAdmin extends AbstractAdmin
         $listMapper
             ->add('name', null, array('label' => 'Jméno'))
             ->add('surname', null, array('label' => 'Příjmení'))
-            ->add('email', null, array('label' => 'Email'))
+            ->addIdentifier('email', null, array('label' => 'Email'))
             ->add('dateMedical' ,null, array('format' => 'd.m.Y','label' => 'Lékařská prohlídka'))
             ->add('school', null, array('label' => 'Škola'));
     }

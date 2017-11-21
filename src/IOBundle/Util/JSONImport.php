@@ -4,7 +4,8 @@ namespace IOBundle\Util;
 
 
 use CourseBundle\Entity\Course;
-use DOMDocument;
+use CourseBundle\Entity\Registration;
+use DateTime;
 use SchoolBundle\Entity\Car;
 use SchoolBundle\Entity\Lector;
 use SchoolBundle\Entity\School;
@@ -42,60 +43,91 @@ class JSONImport extends BaseImport
         if ($data == null) {
             throw new \Exception("json_file_invalid");
         } else {
-            foreach ($data as $row) {
-                if (isset($row['email'])) {
-                    if (isset($row['name']) && isset($row['surname']) && isset($row['dateMedical']) && isset($row['phone'])) {
-                        $lector = new Lector();
-                        $lector->setName($row['name']);
-                        $lector->setSurname($row['surname']);
-                        $lector->setEmail($row['email']);
-                        $date = new \DateTime($row['dateMedical']);
-                        $lector->setDateMedical($date);
-                        $lector->setPhone($row['phone']);
-                        $lector->setSchool($school);
-
-                        $this->em->persist($lector);
-                        $this->em->flush();
-                    } else {
-                        throw new \Exception("json_file_lector invalid");
+            foreach ($data as $row => $value) {
+                if ($row == "lectors") {
+                    foreach ($value as $lectorArray) {
+                        $this->importLectors($lectorArray, $school);
                     }
-                } else if (isset($row['spz'])) {
-                    if (isset($row['color']) && isset($row['dateSTK']) && isset($row['condition']) && isset($row['carType'])) {
-                        $car = new Car();
-                        $car->setSchool($school);
-                        $car->setSpz($row['spz']);
-                        $car->setColor($row['color']);
-                        $car->setCondition($row['condition']);
-                        $date = new \DateTime($row['dateSTK']);
-                        $car->setDateSTK($date);
-                        $car->setCarType($row['carType']);
 
-                        $this->em->persist($car);
-                        $this->em->flush();
-                    } else {
-                        throw new \Exception("json_file_car invalid");
+                } else if ($row == "cars") {
+                    foreach ($value as $carArray) {
+                        $this->importCars($carArray, $school);
                     }
-                } else if (isset($row['capacity'])) {
-                    if (isset($row['name'])) {
-                        $course = new Course();
-                        $course->setName($row['name']);
-                        $course->setCapacity($row['capacity']);
-                        $course->setSchool($school);
-
-
-                        $this->em->persist($course);
-                        $this->em->flush();
-                    } else {
-                        throw new \Exception("json_file_course invalid");
+                } else if ($row == "courses") {
+                    foreach ($value as $courseArray) {
+                        $this->importCourses($courseArray, $school);
                     }
+
                 } else {
                     throw new \Exception("invalide format of input json");
                 }
 
 
             }
+            $this->em->flush();
         }
     }
 
+    private function importLectors($lectorArray, $school)
+    {
+        if (isset($lectorArray['name']) && isset($lectorArray['email']) && isset($lectorArray['surname']) && isset($lectorArray['dateMedical']) && isset($lectorArray['phone'])) {
+            $lector = new Lector();
+            $lector->setName($lectorArray['name']);
+            $lector->setSurname($lectorArray['surname']);
+            $lector->setEmail($lectorArray['email']);
+            $lector->setDateMedical(DateTime::createFromFormat('Y-m-d', $lectorArray['dateMedical']));
+            $lector->setPhone($lectorArray['phone']);
+            $lector->setSchool($school);
 
+            $this->em->persist($lector);
+        } else {
+            throw new \Exception("json_file_lector invalid");
+        }
+    }
+    private function importCars($carArray, $school)
+    {
+        if (isset($carArray['color']) && isset($carArray['dateSTK']) && isset($carArray['spz']) && isset($carArray['condition']) && isset($carArray['carType'])) {
+            $car = new Car();
+            $car->setSchool($school);
+            $car->setSpz($carArray['spz']);
+            $car->setColor($carArray['color']);
+            $car->setCondition($carArray['condition']);
+            $car->setDateSTK(DateTime::createFromFormat('Y-m-d', $carArray['dateSTK']));
+            $car->setCarType($carArray['carType']);
+
+            $this->em->persist($car);
+        } else {
+            throw new \Exception("json_file_car invalid");
+        }
+
+    }
+    private function importCourses($courseArray, $school)
+    {
+        if (isset($courseArray['name']) && isset($courseArray['capacity'])) {
+            $course = new Course();
+            $course->setName($courseArray['name']);
+            $course->setCapacity($courseArray['capacity']);
+            $course->setSchool($school);
+            if (isset($courseArray['registrations'])) {
+                foreach ($courseArray['registrations'] as $registrationArray) {
+                    $this->importRegistrations($registrationArray, $course);
+                }
+            }
+            $this->em->persist($course);
+        } else {
+            throw new \Exception("json_file_course invalid");
+        }
+    }
+    private function importRegistrations($registrationArray, $course)
+    {
+        if (isset($registrationArray['name']) && isset($registrationArray['surname'])) {
+            $registration = new Registration();
+            $registration->setName($registrationArray['name']);
+            $registration->setSurname($registrationArray['surname']);
+            $registration->setCourse($course);
+            $this->em->persist($registration);
+        } else {
+            throw new \Exception("json_file_course_registration invalid");
+        }
+    }
 }
