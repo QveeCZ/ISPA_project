@@ -3,6 +3,8 @@
 namespace SchoolBundle\Admin;
 
 use Doctrine\ORM\EntityNotFoundException;
+use Doctrine\ORM\Query;
+use Doctrine\ORM\QueryBuilder;
 use SchoolBundle\Entity\Car;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 

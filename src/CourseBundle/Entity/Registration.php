@@ -58,7 +58,7 @@ class Registration
      * @var String $birthDate
      *
      *
-     * @ORM\Column(name="birthDate", type="string", nullable=false)
+     * @ORM\Column(name="birthDate", type="date", nullable=false)
      */
     protected $birthDate;
 
@@ -151,11 +151,11 @@ class Registration
     }
 
     /**
-     * @param Date $birthDate
+     * @param String $birthDate
      */
     public function setBirthDate($birthDate)
     {
-        $this->surname = $birthDate;
+        $this->birthDate = $birthDate;
     }
 
     public function __toString()

@@ -109,7 +109,7 @@ class RegistrationAdmin extends AbstractAdmin
             ->add('surname', null, array('required' => true, 'label' => 'Příjmení:'))
             ->add('course', null, array('required' => true, 'label' => 'Kurz:'))
             ->add('email', null, array('required' => true, 'label' => 'Email:'))
-            ->add('birthDate', null, array('required' => true, 'label' => 'Datum narození:'))
+            ->add('birthDate', 'sonata_type_date_picker', array('format' => 'dd.MM.yyyy', 'required' => TRUE, 'label' => 'Datum narození:'))
             ->end();
 
         if ($securityContext->isGranted('ROLE_STAFF')) {
