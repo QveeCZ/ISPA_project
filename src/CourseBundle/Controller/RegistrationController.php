@@ -91,7 +91,7 @@ class RegistrationController extends Controller
             )
         ;
 
-        $mailer->send($message);
+//        $mailer->send($message);
     }
 
 
