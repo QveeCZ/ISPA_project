@@ -19,7 +19,7 @@ var Admin = {
      *
      * @param subject
      */
-    shared_setup: function(subject) {
+    shared_setup: function (subject) {
         Admin.log("[core|shared_setup] Register services on", subject);
         Admin.set_object_field_value(subject);
         Admin.add_filters(subject);
@@ -33,51 +33,50 @@ var Admin = {
         Admin.setup_collection_counter(subject);
         Admin.setup_sticky_elements(subject);
         Admin.setup_readmore_elements(subject);
-
-//        Admin.setup_list_modal(subject);
+        Admin.setup_list_modal(subject);
     },
-    setup_list_modal: function(modal) {
+    setup_list_modal: function (modal) {
         Admin.log('[core|setup_list_modal] configure modal on', modal);
         // this will force relation modal to open list of entity in a wider modal
         // to improve readability
         jQuery('div.modal-dialog', modal).css({
-            width:  '90%', //choose your width
+            width: '90%', //choose your width
             height: '85%',
             padding: 0
         });
         jQuery('div.modal-content', modal).css({
-            'border-radius':'0',
-            height:   '100%',
+            'border-radius': '0',
+            height: '100%',
             padding: 0
         });
         jQuery('.modal-body', modal).css({
-            width:    'auto',
-            height:   '90%',
+            width: 'auto',
+            height: '90%',
             padding: 15,
             overflow: 'auto'
         });
 
         jQuery(modal).trigger('sonata-admin-setup-list-modal');
     },
-    setup_select2: function(subject) {
+    setup_select2: function (subject) {
         if (window.SONATA_CONFIG && window.SONATA_CONFIG.USE_SELECT2) {
             Admin.log('[core|setup_select2] configure Select2 on', subject);
 
-            jQuery('select:not([data-sonata-select2="false"])', subject).each(function() {
-                var select            = jQuery(this);
+            jQuery('select:not([data-sonata-select2="false"])', subject).each(function () {
+                var select = jQuery(this);
                 var allowClearEnabled = false;
-                var popover           = select.data('popover');
+                var popover = select.data('popover');
 
                 select.removeClass('form-control');
 
-                if (select.find('option[value=""]').length || select.attr('data-sonata-select2-allow-clear')==='true') {
+                if (select.find('option[value=""]').length || select.attr('data-sonata-select2-allow-clear') === 'true') {
                     allowClearEnabled = true;
-                } else if (select.attr('data-sonata-select2-allow-clear')==='false') {
+                } else if (select.attr('data-sonata-select2-allow-clear') === 'false') {
                     allowClearEnabled = false;
                 }
 
                 select.select2({
-                    width: function(){
+                    width: function () {
                         // Select2 v3 and v4 BC. If window.Select2 is defined, then the v3 is installed.
                         // NEXT_MAJOR: Remove Select2 v3 support.
                         return Admin.get_select2_width(window.Select2 ? this.element : select);
@@ -96,7 +95,7 @@ var Admin = {
             });
         }
     },
-    setup_icheck: function(subject) {
+    setup_icheck: function (subject) {
         if (window.SONATA_CONFIG && window.SONATA_CONFIG.USE_ICHECK) {
             Admin.log('[core|setup_icheck] configure iCheck on', subject);
 
@@ -114,7 +113,7 @@ var Admin = {
      *
      * @param {string|Object} subject The html selector or object on which function should be applied
      */
-    setup_checkbox_range_selection: function(subject) {
+    setup_checkbox_range_selection: function (subject) {
         Admin.log('[core|setup_checkbox_range_selection] configure checkbox range selection on', subject);
 
         var previousIndex,
@@ -151,26 +150,26 @@ var Admin = {
                     });
                 }
 
-                previousIndex  = currentIndex;
+                previousIndex = currentIndex;
             }
         });
     },
 
-    setup_xeditable: function(subject) {
+    setup_xeditable: function (subject) {
         Admin.log('[core|setup_xeditable] configure xeditable on', subject);
         jQuery('.x-editable', subject).editable({
             emptyclass: 'editable-empty btn btn-sm btn-default',
             emptytext: '<i class="fa fa-pencil"></i>',
             container: 'body',
             placement: 'auto',
-            success: function(response) {
+            success: function (response) {
                 var html = jQuery(response);
                 Admin.setup_xeditable(html);
                 jQuery(this)
                     .closest('td')
                     .replaceWith(html);
             },
-            error: function(xhr, statusText, errorThrown) {
+            error: function (xhr, statusText, errorThrown) {
                 return xhr.responseText;
             }
         });
@@ -180,8 +179,8 @@ var Admin = {
      * render log message
      * @param mixed
      */
-    log: function() {
-        var msg = '[Sonata.Admin] ' + Array.prototype.join.call(arguments,', ');
+    log: function () {
+        var msg = '[Sonata.Admin] ' + Array.prototype.join.call(arguments, ', ');
         if (window.console && window.console.log) {
             window.console.log(msg);
         } else if (window.opera && window.opera.postError) {
@@ -194,19 +193,19 @@ var Admin = {
      *
      * @deprecated in version 3.0
      */
-    add_pretty_errors: function() {
+    add_pretty_errors: function () {
         console.warn('Admin.add_pretty_errors() was deprecated in version 3.0');
     },
 
-    stopEvent: function(event) {
+    stopEvent: function (event) {
         event.preventDefault();
 
         return event.target;
     },
 
-    add_filters: function(subject) {
+    add_filters: function (subject) {
         Admin.log('[core|add_filters] configure filters on', subject);
-        jQuery('a.sonata-toggle-filter', subject).on('click', function(e) {
+        jQuery('a.sonata-toggle-filter', subject).on('click', function (e) {
             e.preventDefault();
             e.stopPropagation();
 
@@ -256,11 +255,14 @@ var Admin = {
         });
 
         /* Advanced filters */
-        if (jQuery('.advanced-filter :input:visible', subject).filter(function () { return jQuery(this).val() }).length === 0) {
+        if (jQuery('.advanced-filter :input:visible', subject).filter(function () {
+                return jQuery(this).val()
+            }).length === 0) {
             jQuery('.advanced-filter').hide();
-        };
+        }
+        ;
 
-        jQuery('[data-toggle="advanced-filter"]', subject).click(function() {
+        jQuery('[data-toggle="advanced-filter"]', subject).click(function () {
             jQuery('.advanced-filter').toggle();
         });
     },
@@ -269,40 +271,40 @@ var Admin = {
      * Change object field value
      * @param subject
      */
-    set_object_field_value: function(subject) {
+    set_object_field_value: function (subject) {
         Admin.log('[core|set_object_field_value] set value field on', subject);
 
         this.log(jQuery('a.sonata-ba-edit-inline', subject));
-        jQuery('a.sonata-ba-edit-inline', subject).click(function(event) {
+        jQuery('a.sonata-ba-edit-inline', subject).click(function (event) {
             Admin.stopEvent(event);
             var subject = jQuery(this);
             jQuery.ajax({
                 url: subject.attr('href'),
                 type: 'POST',
-                success: function(response) {
+                success: function (response) {
                     var elm = jQuery(subject).parent();
                     elm.children().remove();
                     // fix issue with html comment ...
                     elm.html(jQuery(response.replace(/<!--[\s\S]*?-->/g, "")).html());
-                    elm.effect("highlight", {'color' : '#57A957'}, 2000);
+                    elm.effect("highlight", {'color': '#57A957'}, 2000);
                     Admin.set_object_field_value(elm);
                 },
-                error: function(xhr, statusText, errorThrown) {
-                    jQuery(subject).parent().effect("highlight", {'color' : '#C43C35'}, 2000);
+                error: function (xhr, statusText, errorThrown) {
+                    jQuery(subject).parent().effect("highlight", {'color': '#C43C35'}, 2000);
                 }
             });
         });
     },
 
-    setup_collection_counter: function(subject) {
+    setup_collection_counter: function (subject) {
         Admin.log('[core|setup_collection_counter] setup collection counter', subject);
 
         // Count and save element of each collection
         var highestCounterRegexp = new RegExp('_([0-9]+)[^0-9]*$');
-        jQuery(subject).find('[data-prototype]').each(function() {
+        jQuery(subject).find('[data-prototype]').each(function () {
             var collection = jQuery(this);
             var counter = 0;
-            collection.children().each(function() {
+            collection.children().each(function () {
                 var matches = highestCounterRegexp.exec(jQuery('[id^="sonata-ba-field-container"]', this).attr('id'));
                 if (matches && matches[1] && matches[1] > counter) {
                     counter = parseInt(matches[1], 10);
@@ -312,9 +314,9 @@ var Admin = {
         });
     },
 
-    setup_collection_buttons: function(subject) {
+    setup_collection_buttons: function (subject) {
 
-        jQuery(subject).on('click', '.sonata-collection-add', function(event) {
+        jQuery(subject).on('click', '.sonata-collection-add', function (event) {
             Admin.stopEvent(event);
 
             var container = jQuery(this).closest('[data-prototype]');
@@ -322,13 +324,13 @@ var Admin = {
             var proto = container.attr('data-prototype');
             var protoName = container.attr('data-prototype-name') || '__name__';
             // Set field id
-            var idRegexp = new RegExp(container.attr('id')+'_'+protoName,'g');
-            proto = proto.replace(idRegexp, container.attr('id')+'_'+counter);
+            var idRegexp = new RegExp(container.attr('id') + '_' + protoName, 'g');
+            proto = proto.replace(idRegexp, container.attr('id') + '_' + counter);
 
             // Set field name
             var parts = container.attr('id').split('_');
-            var nameRegexp = new RegExp(parts[parts.length-1]+'\\]\\['+protoName,'g');
-            proto = proto.replace(nameRegexp, parts[parts.length-1]+']['+counter);
+            var nameRegexp = new RegExp(parts[parts.length - 1] + '\\]\\[' + protoName, 'g');
+            proto = proto.replace(nameRegexp, parts[parts.length - 1] + '][' + counter);
             jQuery(proto)
                 .insertBefore(jQuery(this).parent())
                 .trigger('sonata-admin-append-form-element')
@@ -337,7 +339,7 @@ var Admin = {
             jQuery(this).trigger('sonata-collection-item-added');
         });
 
-        jQuery(subject).on('click', '.sonata-collection-delete', function(event) {
+        jQuery(subject).on('click', '.sonata-collection-delete', function (event) {
             Admin.stopEvent(event);
 
             jQuery(this).trigger('sonata-collection-item-deleted');
@@ -348,30 +350,30 @@ var Admin = {
         });
     },
 
-    setup_per_page_switcher: function(subject) {
+    setup_per_page_switcher: function (subject) {
         Admin.log('[core|setup_per_page_switcher] setup page switcher', subject);
 
-        jQuery('select.per-page').change(function(event) {
+        jQuery('select.per-page').change(function (event) {
             jQuery('input[type=submit]').hide();
 
-            window.top.location.href=this.options[this.selectedIndex].value;
+            window.top.location.href = this.options[this.selectedIndex].value;
         });
     },
 
-    setup_form_tabs_for_errors: function(subject) {
+    setup_form_tabs_for_errors: function (subject) {
         Admin.log('[core|setup_form_tabs_for_errors] setup form tab\'s errors', subject);
 
         // Switch to first tab with server side validation errors on page load
-        jQuery('form', subject).each(function() {
+        jQuery('form', subject).each(function () {
             Admin.show_form_first_tab_with_errors(jQuery(this), '.sonata-ba-field-error');
         });
 
         // Switch to first tab with HTML5 errors on form submit
         jQuery(subject)
-            .on('click', 'form [type="submit"]', function() {
+            .on('click', 'form [type="submit"]', function () {
                 Admin.show_form_first_tab_with_errors(jQuery(this).closest('form'), ':invalid');
             })
-            .on('keypress', 'form [type="text"]', function(e) {
+            .on('keypress', 'form [type="text"]', function (e) {
                 if (13 === e.which) {
                     Admin.show_form_first_tab_with_errors(jQuery(this), ':invalid');
                 }
@@ -379,12 +381,12 @@ var Admin = {
         ;
     },
 
-    show_form_first_tab_with_errors: function(form, errorSelector) {
+    show_form_first_tab_with_errors: function (form, errorSelector) {
         Admin.log('[core|show_form_first_tab_with_errors] show first tab with errors', form);
 
         var tabs = form.find('.nav-tabs a'), firstTabWithErrors;
 
-        tabs.each(function() {
+        tabs.each(function () {
             var id = jQuery(this).attr('href'),
                 tab = jQuery(this),
                 icon = tab.find('.has-errors');
@@ -403,16 +405,16 @@ var Admin = {
         });
     },
 
-    setup_inline_form_errors: function(subject) {
+    setup_inline_form_errors: function (subject) {
         Admin.log('[core|setup_inline_form_errors] show first tab with errors', subject);
 
         var deleteCheckboxSelector = '.sonata-ba-field-inline-table [id$="_delete"][type="checkbox"]';
 
-        jQuery(deleteCheckboxSelector, subject).each(function() {
+        jQuery(deleteCheckboxSelector, subject).each(function () {
             Admin.switch_inline_form_errors(jQuery(this));
         });
 
-        jQuery(subject).on('change', deleteCheckboxSelector, function() {
+        jQuery(subject).on('change', deleteCheckboxSelector, function () {
             Admin.switch_inline_form_errors(jQuery(this));
         });
     },
@@ -420,7 +422,7 @@ var Admin = {
     /**
      * Disable inline form errors when the row is marked for deletion
      */
-    switch_inline_form_errors: function(subject) {
+    switch_inline_form_errors: function (subject) {
         Admin.log('[core|switch_inline_form_errors] switch_inline_form_errors', subject);
 
         var row = subject.closest('.sonata-ba-field-inline-table'),
@@ -445,14 +447,14 @@ var Admin = {
         }
     },
 
-    setup_tree_view: function(subject) {
+    setup_tree_view: function (subject) {
         Admin.log('[core|setup_tree_view] setup tree view', subject);
 
         jQuery('ul.js-treeview', subject).treeView();
     },
 
     /** Return the width for simple and sortable select2 element **/
-    get_select2_width: function(element){
+    get_select2_width: function (element) {
         var ereg = /width:(auto|(([-+]?([0-9]*\.)?[0-9]+)(px|em|ex|%|in|cm|mm|pt|pc)))/i;
 
         // this code is an adaptation of select2 code (initContainerWidth function)
@@ -477,14 +479,14 @@ var Admin = {
         return '100%';
     },
 
-    setup_sortable_select2: function(subject, data) {
+    setup_sortable_select2: function (subject, data) {
         var transformedData = [];
-        for (var i = 0 ; i < data.length ; i++) {
+        for (var i = 0; i < data.length; i++) {
             transformedData[i] = {id: data[i].data, text: data[i].label};
         }
 
         subject.select2({
-            width: function(){
+            width: function () {
                 // Select2 v3 and v4 BC. If window.Select2 is defined, then the v3 is installed.
                 // NEXT_MAJOR: Remove Select2 v3 support.
                 return Admin.get_select2_width(window.Select2 ? this.element : subject);
@@ -509,12 +511,12 @@ var Admin = {
             var values = subject.val().trim();
             if (values !== '') {
                 var baseName = subject.attr('name');
-                values   = values.split(',');
-                baseName = baseName.substring(0, baseName.length-1);
-                for (var i=0; i<values.length; i++) {
+                values = values.split(',');
+                baseName = baseName.substring(0, baseName.length - 1);
+                for (var i = 0; i < values.length; i++) {
                     jQuery('<input>')
                         .attr('type', 'hidden')
-                        .attr('name', baseName+i+']')
+                        .attr('name', baseName + i + ']')
                         .val(values[i])
                         .appendTo(subject.parents('form:first'));
                 }
@@ -523,19 +525,19 @@ var Admin = {
         });
     },
 
-    setup_sticky_elements: function(subject) {
+    setup_sticky_elements: function (subject) {
         if (window.SONATA_CONFIG && window.SONATA_CONFIG.USE_STICKYFORMS) {
             Admin.log('[core|setup_sticky_elements] setup sticky elements on', subject);
 
             var wrapper = jQuery(subject).find('.content-wrapper');
-            var navbar  = jQuery(wrapper).find('nav.navbar');
-            var footer  = jQuery(wrapper).find('.sonata-ba-form-actions');
+            var navbar = jQuery(wrapper).find('nav.navbar');
+            var footer = jQuery(wrapper).find('.sonata-ba-form-actions');
 
             if (navbar.length) {
                 new Waypoint.Sticky({
                     element: navbar[0],
-                    offset:  50,
-                    handler: function( direction ) {
+                    offset: 50,
+                    handler: function (direction) {
                         if (direction == 'up') {
                             jQuery(navbar).width('auto');
                         } else {
@@ -549,7 +551,7 @@ var Admin = {
                 new Waypoint({
                     element: wrapper[0],
                     offset: 'bottom-in-view',
-                    handler: function(direction) {
+                    handler: function (direction) {
                         var position = jQuery('.sonata-ba-form form > .row').outerHeight() + jQuery(footer).outerHeight() - 2;
 
                         if (position < jQuery(footer).offset().top) {
@@ -566,13 +568,13 @@ var Admin = {
             Admin.handleScroll(footer, navbar, wrapper);
         }
     },
-    handleScroll: function(footer, navbar, wrapper) {
+    handleScroll: function (footer, navbar, wrapper) {
         if (footer.length && jQuery(window).scrollTop() + jQuery(window).height() != jQuery(document).height()) {
             jQuery(footer).addClass('stuck');
         }
 
         jQuery(window).scroll(
-            Admin.debounce(function() {
+            Admin.debounce(function () {
                 if (footer.length && jQuery(window).scrollTop() + jQuery(window).height() == jQuery(document).height()) {
                     jQuery(footer).removeClass('stuck');
                 }
@@ -583,18 +585,18 @@ var Admin = {
             }, 250)
         );
 
-        jQuery('body').on('expanded.pushMenu collapsed.pushMenu', function() {
+        jQuery('body').on('expanded.pushMenu collapsed.pushMenu', function () {
             Admin.handleResize(footer, navbar, wrapper);
         });
 
         jQuery(window).resize(
-            Admin.debounce(function() {
+            Admin.debounce(function () {
                 Admin.handleResize(footer, navbar, wrapper);
             }, 250)
         );
     },
-    handleResize: function(footer, navbar, wrapper) {
-        setTimeout(function() {
+    handleResize: function (footer, navbar, wrapper) {
+        setTimeout(function () {
             if (navbar.length && jQuery(navbar).hasClass('stuck')) {
                 jQuery(navbar).width(jQuery(wrapper).outerWidth());
             }
@@ -608,11 +610,11 @@ var Admin = {
     debounce: function (func, wait, immediate) {
         var timeout;
 
-        return function() {
+        return function () {
             var context = this,
-                args    = arguments;
+                args = arguments;
 
-            var later = function() {
+            var later = function () {
                 timeout = null;
 
                 if (!immediate) {
@@ -630,23 +632,25 @@ var Admin = {
             }
         };
     },
-    setup_readmore_elements: function(subject) {
+    setup_readmore_elements: function (subject) {
         Admin.log('[core|setup_readmore_elements] setup readmore elements on', subject);
 
-        jQuery(subject).find('.sonata-readmore').each(function(i, ui){
+        jQuery(subject).find('.sonata-readmore').each(function (i, ui) {
             jQuery(this).readmore({
                 collapsedHeight: parseInt(jQuery(this).data('readmore-height')),
-                moreLink: '<a href="#">'+jQuery(this).data('readmore-more')+'</a>',
-                lessLink: '<a href="#">'+jQuery(this).data('readmore-less')+'</a>'
+                moreLink: '<a href="#">' + jQuery(this).data('readmore-more') + '</a>',
+                lessLink: '<a href="#">' + jQuery(this).data('readmore-less') + '</a>'
             });
         });
     }
 };
 
-jQuery(document).ready(function() {
+jQuery(document).ready(function () {
     jQuery('html').removeClass('no-js');
     if (window.SONATA_CONFIG && window.SONATA_CONFIG.CONFIRM_EXIT) {
-        jQuery('.sonata-ba-form form').each(function () { jQuery(this).confirmExit(); });
+        jQuery('.sonata-ba-form form').each(function () {
+            jQuery(this).confirmExit();
+        });
     }
 
     Admin.setup_per_page_switcher(document);
@@ -654,7 +658,7 @@ jQuery(document).ready(function() {
     Admin.shared_setup(document);
 });
 
-jQuery(document).on('sonata-admin-append-form-element', function(e) {
+jQuery(document).on('sonata-admin-append-form-element', function (e) {
     Admin.setup_select2(e.target);
     Admin.setup_icheck(e.target);
     Admin.setup_collection_counter(e.target);

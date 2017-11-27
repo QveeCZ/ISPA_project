@@ -74,7 +74,7 @@ class Registration
     /**
      * @var ArrayCollection $registrationLectures
      *
-     * @ORM\OneToMany(targetEntity="CourseBundle\Entity\Lecture", mappedBy="courseRegistration", cascade={ "remove"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="CourseBundle\Entity\Lecture", mappedBy="courseRegistration", cascade={ "persist", "remove"}, orphanRemoval=true)
      */
     protected $registrationLectures;
 
@@ -161,7 +161,7 @@ class Registration
     }
 
     /**
-     * @param String email
+     * @param String $email
      */
     public function setEmail($email)
     {

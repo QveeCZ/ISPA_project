@@ -26,7 +26,7 @@ class Lecture
      * @var Integer $length
      *
      *
-     * @ORM\Column(name="capacity", type="integer", nullable=false)
+     * @ORM\Column(name="length", type="integer", nullable=false)
      */
     protected $length;
 
@@ -113,7 +113,16 @@ class Lecture
 
     public function __toString()
     {
-        return (string)$this->id;
+
+        $lengthString = "hodina";
+
+        if($this->length > 1){
+            $lengthString = "hodiny";
+        }else if($this->length > 4){
+            $lengthString = "hodin";
+        }
+
+        return $this->lectureType . ' o délce ' . $this->length . " " . $lengthString;
     }
 
 

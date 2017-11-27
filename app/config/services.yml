@@ -74,11 +74,11 @@ services:
         arguments: [~, CourseBundle\Entity\Registration, ~]
         public: true
 
-    school.admin.car:
-        class: SchoolBundle\Admin\CarAdmin
+    course.admin.lecture:
+        class: CourseBundle\Admin\LectureAdmin
         tags:
-          - { name: sonata.admin, manager_type: orm, group: school, label: car }
-        arguments: [~, SchoolBundle\Entity\Car, ~]
+          - { name: sonata.admin, manager_type: orm, group: course, label: lecture }
+        arguments: [~, CourseBundle\Entity\Lecture, ~]
         public: true
 
     #School bundle
@@ -94,6 +94,13 @@ services:
         tags:
           - { name: sonata.admin, manager_type: orm, group: school, label: school }
         arguments: [~, SchoolBundle\Entity\School, ~]
+        public: true
+
+    school.admin.car:
+        class: SchoolBundle\Admin\CarAdmin
+        tags:
+          - { name: sonata.admin, manager_type: orm, group: school, label: car }
+        arguments: [~, SchoolBundle\Entity\Car, ~]
         public: true
 
     #IO bundle
