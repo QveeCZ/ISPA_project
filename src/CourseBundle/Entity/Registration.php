@@ -71,11 +71,20 @@ class Registration
     protected $created;
 
 
+    /**
+     * @var ArrayCollection $registrationLectures
+     *
+     * @ORM\OneToMany(targetEntity="CourseBundle\Entity\Lecture", mappedBy="courseRegistration", cascade={ "remove"}, orphanRemoval=true)
+     */
+    protected $registrationLectures;
+
+
     function __construct()
     {
         if (!$this->created) {
             $this->created = new \DateTime();
         }
+        $this->registrationLectures = new ArrayCollection();
     }
 
 
@@ -189,6 +198,42 @@ class Registration
     public function setCreated(\DateTime $created)
     {
         $this->created = $created;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getRegistrationLectures()
+    {
+        return $this->registrationLectures;
+    }
+
+    /**
+     * @param ArrayCollection $registrationLectures
+     */
+    public function setRegistrationLectures($registrationLectures)
+    {
+        $this->registrationLectures = $registrationLectures;
+    }
+
+    /**
+     *
+     * @param Lecture $courseRegistrations
+     */
+    public function addRegistrationLectures(Lecture $registrationLectures)
+    {
+        $registrationLectures->setCourseRegistration($this);
+        $this->registrationLectures->add($registrationLectures);
+    }
+
+
+    /**
+     *
+     * @param Lecture $registrationLectures
+     */
+    public function removeRegistrationLectures(Lecture $registrationLectures)
+    {
+        $this->registrationLectures->removeElement($registrationLectures);
     }
 
 
