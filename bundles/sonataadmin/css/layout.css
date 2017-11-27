@@ -2745,6 +2745,10 @@
     clip: auto
 }
 
+.fa-force-hidden{
+    display: none !important;
+}
+
 @charset "UTF-8";
 
 div.border {
