@@ -32,8 +32,8 @@ class Lecture
 
     /**
      * @var Registration $courseRegistration
-     * @ORM\ManyToOne(targetEntity="CourseBundle\Entity\Registration", inversedBy="registrationLectures")
-     * @ORM\JoinColumn(name="course_registration_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="CourseBundle\Entity\Registration", inversedBy="registrationLectures", cascade={"persist"})
+     * @ORM\JoinColumn(name="course_registration_id", referencedColumnName="id", nullable=false, unique=true)
      */
     protected $courseRegistration;
 

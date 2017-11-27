@@ -70,6 +70,7 @@ class CourseAdmin extends AbstractAdmin
             ->add('name')
             ->add('capacity')
             ->add('school')
+            ->add('courseRegistrations')
             ->end();
     }
 
@@ -136,10 +137,16 @@ class CourseAdmin extends AbstractAdmin
     {
 
         $listMapper
-            ->addIdentifier('id')
             ->add('name')
             ->add('capacity')
-            ->add('school');
+            ->add('school')
+            ->add('_action', null, array(
+                'actions' => array(
+                    'show' => array(),
+                    'edit' => array(),
+                    'delete' => array(),
+                )
+            ));
     }
 
     /**
@@ -155,12 +162,12 @@ class CourseAdmin extends AbstractAdmin
         $securityContext = $this->getConfigurationPool()->getContainer()->get('security.authorization_checker');
         $currentUser = $this->getConfigurationPool()->getContainer()->get('security.token_storage')->getToken()->getUser();
 
-        if($securityContext->isGranted('ROLE_STAFF')){
+        if ($securityContext->isGranted('ROLE_STAFF')) {
             parent::preUpdate($course);
             return;
         }
 
-        if(!$currentUser->getSchool()){
+        if (!$currentUser->getSchool()) {
             throw new EntityNotFoundException("User " . $currentUser->getId() . " doesnt have ROLE_STAFF and is not associated with any school");
         }
 

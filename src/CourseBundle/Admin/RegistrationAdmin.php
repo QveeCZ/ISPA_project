@@ -78,9 +78,9 @@ class RegistrationAdmin extends AbstractAdmin
             ->add('name')
             ->add('surname')
             ->add('course')
-            ->add('registrationLectures')
             ->add('email')
             ->add('birthDate')
+            ->add('registrationLectures')
             ->end();
     }
 
@@ -178,11 +178,18 @@ class RegistrationAdmin extends AbstractAdmin
     {
 
         $listMapper
-            ->addIdentifier('id')
             ->add('name')
             ->add('course')
             ->add('email')
-            ->add('birthDate');
+            ->add('birthDate')
+            ->add('registrationLectures')
+            ->add('_action', null, array(
+                'actions' => array(
+                    'show' => array(),
+                    'edit' => array(),
+                    'delete' => array(),
+                )
+            ));
     }
 }
 
