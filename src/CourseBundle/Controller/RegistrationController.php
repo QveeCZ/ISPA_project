@@ -78,18 +78,18 @@ class RegistrationController extends Controller
 
         $confirmLink = md5($registration->getId() . $registration->getCreated()->format('Y-m-d H:i:s'));
 
-        $mailer = $this->get('mailer');
-        $message = (new \Swift_Message('Potvrzení registrace'))
-            ->setFrom('inpro.ispa@gmail.com')
-            ->setTo($registration->getEmail())
-            ->setBody(
-                $this->renderView(
-                    'CourseBundle:system:CourseRegistrationEmail.html.twig',
-                    array('registration' => $registration, 'confirmLink' => $confirmLink)
-                ),
-                'text/html'
-            )
-        ;
+//        $mailer = $this->get('mailer');
+//        $message = (new \Swift_Message('Potvrzení registrace'))
+//            ->setFrom('inpro.ispa@gmail.com')
+//            ->setTo($registration->getEmail())
+//            ->setBody(
+//                $this->renderView(
+//                    'CourseBundle:system:CourseRegistrationEmail.html.twig',
+//                    array('registration' => $registration, 'confirmLink' => $confirmLink)
+//                ),
+//                'text/html'
+//            )
+//        ;
 
 //        $mailer->send($message);
     }
