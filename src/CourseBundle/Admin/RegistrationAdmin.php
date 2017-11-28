@@ -118,7 +118,17 @@ class RegistrationAdmin extends AbstractAdmin
                 'edit' => 'standard',
                 'sortable' => 'position',
             ))
+            ->add('registrationRides', 'sonata_type_collection', array('required' => false,
+                'by_reference' => false,
+                'disabled'  => true,
+            ), array(
+                'edit' => 'standard',
+                'sortable' => 'position',
+            ))
             ->end();
+
+
+
 
         if ($securityContext->isGranted('ROLE_STAFF')) {
             $formMapper

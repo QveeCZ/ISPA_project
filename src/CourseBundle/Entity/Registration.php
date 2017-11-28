@@ -79,12 +79,20 @@ class Registration
     protected $registrationLectures;
 
 
+    /**
+     * @var ArrayCollection $registrationRides
+     *
+     * @ORM\OneToMany(targetEntity="CourseBundle\Entity\Ride", mappedBy="courseRegistration", cascade={ "persist", "remove"}, orphanRemoval=true)
+     */
+    protected $registrationRides;
+
     function __construct()
     {
         if (!$this->created) {
             $this->created = new \DateTime();
         }
         $this->registrationLectures = new ArrayCollection();
+        $this->registrationRides = new ArrayCollection();
     }
 
 
@@ -236,15 +244,55 @@ class Registration
         $this->registrationLectures->removeElement($registrationLectures);
     }
 
+    /**
+     * @return ArrayCollection
+     */
+    public function getRegistrationRides()
+    {
+        return $this->registrationRides;
+    }
+
+    /**
+     * @param ArrayCollection $registrationLectures
+     */
+    public function setRegistrationRides($registrationRides)
+    {
+        $this->registrationRides = $registrationRides;
+    }
+
+    /**
+     *
+     * @param Lecture $courseRegistrations
+     */
+    public function addRegistrationRides(Ride $registrationRide)
+    {
+        $registrationRide->setCourseRegistration($this);
+        $this->registrationRides->add($registrationRide);
+    }
+
+
+    /**
+     *
+     * @param Lecture $registrationLectures
+     */
+    public function removeRegistrationRides(Ride $registrationRide)
+    {
+        $this->registrationRides->removeElement($registrationRide);
+    }
+
 
     public function __toString()
     {
         $lectures = implode(', ', $this->getRegistrationLectures()->toArray());
         if($lectures){
-            $lectures = "Teorie: (" . $lectures . ")";
+            $lectures = ", Teorie: " . $lectures;
+        }
+        $rides = implode(', ', $this->getRegistrationRides()->toArray());
+        if($rides){
+            $rides = ", Jízdy: " . $rides;
         }
 
-        return ($this->id) ? $this->getCourse()->getName() . " - " . $this->getSurname() . " " . $this->getName() . " " . $lectures : "";
+        return ($this->id) ? $this->getSurname() . " " . $this->getName() . $lectures . $rides : "";
     }
 
 

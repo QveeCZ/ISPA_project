@@ -18,7 +18,7 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
 use UserBundle\Entity\User;
 
 
-class LectureAdmin extends AbstractAdmin
+class RideAdmin extends AbstractAdmin
 {
 
 
@@ -31,7 +31,7 @@ class LectureAdmin extends AbstractAdmin
 
         $showMapper
             ->with('General')
-            ->add('length')
+            ->add('dateRide')
             ->add('lectureType')
             ->end();
     }
@@ -44,8 +44,7 @@ class LectureAdmin extends AbstractAdmin
 
         $formMapper
             ->with('General')
-            ->add('length', null, array('required' => true, 'label' => 'Délka:'))
-            ->add('lectureType', null, array('required' => true, 'label' => 'Typ lekce:'))
+            ->add('dateRide', 'sonata_type_date_picker', array('format' => 'dd.MM.yyyy', 'required' => true, 'label' => 'Datum:'))
             ->add('courseRegistration', null, array('required' => true, 'label' => ' ', 'attr' => array('class' => "fa-force-hidden")))
             ->end();
     }
@@ -61,8 +60,8 @@ class LectureAdmin extends AbstractAdmin
         $securityContext = $this->getConfigurationPool()->getContainer()->get('security.authorization_checker');
 
         $filterMapper
-            ->add('length')
-            ->add('lectureType');
+            ->add('dateRide')
+            ->add('courseRegistration');
     }
 
     /**
@@ -72,8 +71,8 @@ class LectureAdmin extends AbstractAdmin
     {
 
         $listMapper
-            ->add('length')
-            ->add('lectureType')
+            ->add('dateRide')
+            ->add('courseRegistration')
             ->add('_action', null, array(
                 'actions' => array(
                     'show' => array(),

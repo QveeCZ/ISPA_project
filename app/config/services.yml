@@ -81,6 +81,13 @@ services:
         arguments: [~, CourseBundle\Entity\Lecture, ~]
         public: true
 
+    course.admin.ride:
+        class: CourseBundle\Admin\RideAdmin
+        tags:
+          - { name: sonata.admin, manager_type: orm, group: course, label: ride }
+        arguments: [~, CourseBundle\Entity\Ride, ~]
+        public: true
+
     #School bundle
     school.admin.lector:
         class: SchoolBundle\Admin\LectorAdmin
