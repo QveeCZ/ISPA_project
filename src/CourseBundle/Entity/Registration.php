@@ -239,7 +239,12 @@ class Registration
 
     public function __toString()
     {
-        return ($this->id) ? $this->getCourse()->getName() . " - " . $this->getSurname() . " " . $this->getName() : "";
+        $lectures = implode(', ', $this->getRegistrationLectures()->toArray());
+        if($lectures){
+            $lectures = "Teorie: (" . $lectures . ")";
+        }
+
+        return ($this->id) ? $this->getCourse()->getName() . " - " . $this->getSurname() . " " . $this->getName() . " " . $lectures : "";
     }
 
 
