@@ -120,11 +120,6 @@ class Ride
         $this->created = $created;
     }
 
-
-
-
-
-
     public function __toString()
     {
 

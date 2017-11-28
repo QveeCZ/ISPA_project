@@ -189,6 +189,7 @@ class RegistrationAdmin extends AbstractAdmin
 
         $listMapper
             ->add('name')
+            ->add('surname')
             ->add('course')
             ->add('email')
             ->add('birthDate')

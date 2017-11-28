@@ -17,6 +17,7 @@ use Sonata\AdminBundle\Show\ShowMapper;
 
 use FOS\UserBundle\Model\UserManagerInterface;
 use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\CoreBundle\Validator\ErrorElement;
 use Symfony\Component\Finder\Exception\AccessDeniedException;
 use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
 use UserBundle\Entity\User;
@@ -85,10 +86,7 @@ class RideAdmin extends AbstractAdmin
             ));
     }
 
-    /**
-     * @param Ride $object
-     */
-    public function prePersist($object)
+    public function validate(ErrorElement $errorElement, $object)
     {
 
         /**
@@ -101,10 +99,24 @@ class RideAdmin extends AbstractAdmin
         $stmt->bindValue("id", $object->getCourseRegistration()->getId());
         $stmt->execute();
         $rides = $stmt->fetchAll();
+
         if(count($rides) > 1){
-            throw new \Exception("Overflow");
+            $error = 'Pro dané datum nelze přidat další jízdu.';
+            $errorElement->with( 'enabled' )->addViolation($error)->end();
+            $this->getRequest()->getSession()->getFlashBag()->add( "menu_type_check", $error );
         }
 
+        $query = 'SELECT * FROM course_ride WHERE course_registration_id = :id';
+        $stmt = $connection->prepare($query);
+        $stmt->bindValue("id", $object->getCourseRegistration()->getId());
+        $stmt->execute();
+        $ridesSum = $stmt->fetchAll();
+
+        if(count($ridesSum) + 1 > 28){
+            $error = 'Pro danou registraci již nelze přidat další jízdu.';
+            $errorElement->with( 'enabled' )->addViolation($error)->end();
+            $this->getRequest()->getSession()->getFlashBag()->add( "menu_type_check", $error );
+        }
     }
 
 
