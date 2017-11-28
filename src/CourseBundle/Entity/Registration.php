@@ -284,13 +284,10 @@ class Registration
     public function __toString()
     {
         $lectures = implode(', ', $this->getRegistrationLectures()->toArray());
-        if($lectures){
+        if ($lectures) {
             $lectures = ", Teorie: " . $lectures;
         }
-        $rides = implode(', ', $this->getRegistrationRides()->toArray());
-        if($rides){
-            $rides = ", Jízdy: " . $rides;
-        }
+        $rides = ", " . $this->getRegistrationRides()->count() . " jízd";
 
         return ($this->id) ? $this->getSurname() . " " . $this->getName() . $lectures . $rides : "";
     }

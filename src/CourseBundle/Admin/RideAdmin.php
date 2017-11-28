@@ -3,7 +3,11 @@
 namespace CourseBundle\Admin;
 
 use CourseBundle\Entity\Course;
+use CourseBundle\Entity\Ride;
+use Doctrine\DBAL\Connection;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityNotFoundException;
+use Doctrine\ORM\Query\ResultSetMapping;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 
 use Sonata\AdminBundle\Form\FormMapper;
@@ -80,5 +84,29 @@ class RideAdmin extends AbstractAdmin
                 )
             ));
     }
+
+    /**
+     * @param Ride $object
+     */
+    public function prePersist($object)
+    {
+
+        /**
+         * @var Connection $connection
+         */
+        $connection = $this->getConfigurationPool()->getContainer()->get('doctrine')->getConnection();
+        $query = 'SELECT * FROM course_ride WHERE date_ride = :date AND course_registration_id = :id';
+        $stmt = $connection->prepare($query);
+        $stmt->bindValue("date", $object->getDateRide()->format("Y-m-d"));
+        $stmt->bindValue("id", $object->getCourseRegistration()->getId());
+        $stmt->execute();
+        $rides = $stmt->fetchAll();
+        if(count($rides) > 1){
+            throw new \Exception("Overflow");
+        }
+
+    }
+
+
 }
 

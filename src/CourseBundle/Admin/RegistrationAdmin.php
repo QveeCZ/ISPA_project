@@ -193,6 +193,7 @@ class RegistrationAdmin extends AbstractAdmin
             ->add('email')
             ->add('birthDate')
             ->add('registrationLectures')
+            ->add('registrationRides')
             ->add('_action', null, array(
                 'actions' => array(
                     'show' => array(),
