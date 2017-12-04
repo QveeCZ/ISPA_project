@@ -94,6 +94,8 @@ services:
         tags:
           - { name: sonata.admin, manager_type: orm, group: school, label: lector }
         arguments: [~, SchoolBundle\Entity\Lector, ~]
+        calls:
+            - [ setTemplate, [base_list_field, SchoolBundle:Admin:lector_base_list_field.html.twig]]
         public: true
 
     school.admin.school:
@@ -108,6 +110,8 @@ services:
         tags:
           - { name: sonata.admin, manager_type: orm, group: school, label: car }
         arguments: [~, SchoolBundle\Entity\Car, ~]
+        calls:
+            - [ setTemplate, [base_list_field, SchoolBundle:Admin:car_base_list_field.html.twig]]
         public: true
 
     #IO bundle

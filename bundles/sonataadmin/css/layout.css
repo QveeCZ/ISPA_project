@@ -2819,6 +2819,10 @@ table.sonata-ba-list td img {
     vertical-align: bottom
 }
 
+table .expired{
+    background-color: #ff6961 !important;
+}
+
 td.pager ul {
     float: left;
     list-style: none;
