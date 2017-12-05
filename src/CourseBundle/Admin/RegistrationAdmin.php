@@ -81,6 +81,7 @@ class RegistrationAdmin extends AbstractAdmin
             ->add('email')
             ->add('birthDate')
             ->add('registrationLectures')
+            ->add('registrationRides')
             ->end();
     }
 

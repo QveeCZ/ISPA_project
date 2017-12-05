@@ -6,6 +6,7 @@ use CourseBundle\Entity\Course;
 use CourseBundle\Entity\Lecture;
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityNotFoundException;
+use Doctrine\ORM\QueryBuilder;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 
 use Sonata\AdminBundle\Form\FormMapper;
@@ -23,6 +24,33 @@ use UserBundle\Entity\User;
 
 class LectureAdmin extends AbstractAdmin
 {
+    public function createQuery($context = 'list')
+    {
+
+        /**
+         * @var AuthorizationChecker $securityContext
+         * @var User $currentUser
+         */
+        $securityContext = $this->getConfigurationPool()->getContainer()->get('security.authorization_checker');
+        $currentUser = $this->getConfigurationPool()->getContainer()->get('security.token_storage')->getToken()->getUser();
+
+        /**
+         * @var QueryBuilder $query
+         */
+        $query = parent::createQuery($context);
+
+        if ($securityContext->isGranted('ROLE_STAFF')) {
+            return $query;
+        }
+
+        $query->leftJoin($query->getRootAlias() . '.courseRegistration.course', 'c');
+
+        $query->andWhere(
+            $query->expr()->eq('c.school', ':school')
+        );
+        $query->setParameter('school', $currentUser->getSchool());
+        return $query;
+    }
 
 
     /**
@@ -30,6 +58,20 @@ class LectureAdmin extends AbstractAdmin
      */
     protected function configureShowFields(ShowMapper $showMapper)
     {
+        /**
+         * @var AuthorizationChecker $securityContext
+         * @var User $currentUser
+         */
+        $securityContext = $this->getConfigurationPool()->getContainer()->get('security.authorization_checker');
+        $currentUser = $this->getConfigurationPool()->getContainer()->get('security.token_storage')->getToken()->getUser();
+
+        /**
+         * @var Lecture $subject
+         */
+        $subject = $this->getSubject();
+        if (!$securityContext->isGranted('ROLE_STAFF') && $subject->getCourseRegistration()->getCourse()->getSchool()->getId() != $currentUser->getSchool()->getId()) {
+            throw new AccessDeniedException();
+        }
 
 
         $showMapper
@@ -44,6 +86,20 @@ class LectureAdmin extends AbstractAdmin
      */
     protected function configureFormFields(FormMapper $formMapper)
     {
+        /**
+         * @var AuthorizationChecker $securityContext
+         * @var User $currentUser
+         */
+        $securityContext = $this->getConfigurationPool()->getContainer()->get('security.authorization_checker');
+        $currentUser = $this->getConfigurationPool()->getContainer()->get('security.token_storage')->getToken()->getUser();
+
+        /**
+         * @var Lecture $subject
+         */
+        $subject = $this->getSubject();
+        if (!$securityContext->isGranted('ROLE_STAFF') && $subject->getCourseRegistration()->getCourse()->getSchool()->getId() != $currentUser->getSchool()->getId()) {
+            throw new AccessDeniedException();
+        }
 
         $formMapper
             ->with('General')

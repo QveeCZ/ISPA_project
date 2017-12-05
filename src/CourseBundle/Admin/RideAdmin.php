@@ -25,6 +25,33 @@ use UserBundle\Entity\User;
 
 class RideAdmin extends AbstractAdmin
 {
+    public function createQuery($context = 'list')
+    {
+
+        /**
+         * @var AuthorizationChecker $securityContext
+         * @var User $currentUser
+         */
+        $securityContext = $this->getConfigurationPool()->getContainer()->get('security.authorization_checker');
+        $currentUser = $this->getConfigurationPool()->getContainer()->get('security.token_storage')->getToken()->getUser();
+
+        /**
+         * @var QueryBuilder $query
+         */
+        $query = parent::createQuery($context);
+
+        if ($securityContext->isGranted('ROLE_STAFF')) {
+            return $query;
+        }
+
+        $query->leftJoin($query->getRootAlias() . '.courseRegistration.course', 'c');
+
+        $query->andWhere(
+            $query->expr()->eq('c.school', ':school')
+        );
+        $query->setParameter('school', $currentUser->getSchool());
+        return $query;
+    }
 
 
     /**
@@ -32,6 +59,20 @@ class RideAdmin extends AbstractAdmin
      */
     protected function configureShowFields(ShowMapper $showMapper)
     {
+        /**
+         * @var AuthorizationChecker $securityContext
+         * @var User $currentUser
+         */
+        $securityContext = $this->getConfigurationPool()->getContainer()->get('security.authorization_checker');
+        $currentUser = $this->getConfigurationPool()->getContainer()->get('security.token_storage')->getToken()->getUser();
+
+        /**
+         * @var Ride $subject
+         */
+        $subject = $this->getSubject();
+        if (!$securityContext->isGranted('ROLE_STAFF') && $subject->getCourseRegistration()->getCourse()->getSchool()->getId() != $currentUser->getSchool()->getId()) {
+            throw new AccessDeniedException();
+        }
 
 
         $showMapper
@@ -46,6 +87,20 @@ class RideAdmin extends AbstractAdmin
      */
     protected function configureFormFields(FormMapper $formMapper)
     {
+        /**
+         * @var AuthorizationChecker $securityContext
+         * @var User $currentUser
+         */
+        $securityContext = $this->getConfigurationPool()->getContainer()->get('security.authorization_checker');
+        $currentUser = $this->getConfigurationPool()->getContainer()->get('security.token_storage')->getToken()->getUser();
+
+        /**
+         * @var Ride $subject
+         */
+        $subject = $this->getSubject();
+        if (!$securityContext->isGranted('ROLE_STAFF') && $subject->getCourseRegistration()->getCourse()->getSchool()->getId() != $currentUser->getSchool()->getId()) {
+            throw new AccessDeniedException();
+        }
 
         $formMapper
             ->with('General')
