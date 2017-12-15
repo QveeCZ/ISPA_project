@@ -13,9 +13,6 @@
 
 # Disabling MultiViews prevents unwanted negotiation, e.g. "/app" should not resolve
 # to the front controller "/app.php" but be rewritten to "/app.php/app".
-<IfModule mod_negotiation.c>
-    Options -MultiViews
-</IfModule>
 
 <IfModule mod_rewrite.c>
     RewriteEngine On
@@ -54,8 +51,7 @@
     RewriteRule ^ - [L]
 
     # Rewrite all other queries to the front controller.
-#    RewriteRule ^ %{ENV:BASE}/app.php [L]
-    RewriteRule ^ %{ENV:BASE}/app_dev.php [L]
+    RewriteRule ^ %{ENV:BASE}/app.php [L]
 </IfModule>
 
 <IfModule !mod_rewrite.c>

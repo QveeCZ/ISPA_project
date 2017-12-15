@@ -11,7 +11,7 @@ use SchoolBundle\Entity\School;
  * @ORM\Entity
  * @ORM\Table(name="users")
  */
-class User extends \FOS\UserBundle\Model\User
+class User extends \FOS\UserBundle\Entity\User
 {
     /**
      * @var mixed

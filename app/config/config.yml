@@ -16,7 +16,7 @@ framework:
     translator:      { enabled:    true, fallback: %locale% }
     secret: '%secret%'
     router:
-        resource: '%kernel.project_dir%/app/config/routing.yml'
+        resource: '%kernel.root_dir%/../app/config/routing.yml'
         strict_requirements: ~
     form: ~
     csrf_protection: ~
@@ -29,12 +29,10 @@ framework:
     session:
         # https://symfony.com/doc/current/reference/configuration/framework.html#handler-id
         handler_id: session.handler.native_file
-        save_path: '%kernel.project_dir%/var/sessions/%kernel.environment%'
+        save_path: '%kernel.root_dir%/../var/sessions/%kernel.environment%'
     fragments: ~
     http_method_override: true
     assets: ~
-    php_errors:
-        log: true
 
 # Twig Configuration
 twig:
@@ -68,13 +66,14 @@ doctrine:
 #        metadata_cache_driver: array
 #        query_cache_driver: array
 
+
+
 # Swiftmailer Configuration
 swiftmailer:
     transport: '%mailer_transport%'
     host: '%mailer_host%'
     username: '%mailer_user%'
     password: '%mailer_password%'
-
 
 # Sonata configuration
 sonata_block:
