@@ -18,12 +18,20 @@
                 <source>course</source>
                 <target>Kurzy</target>
             </trans-unit>
+            <trans-unit id="link_course">
+                <source>link_course</source>
+                <target>Kurzy</target>
+             </trans-unit>
             <trans-unit id="car">
                 <source>car</source>
                 <target>Auta</target>
             </trans-unit>
             <trans-unit id="lector">
                 <source>lector</source>
+                <target>Lektoři</target>
+            </trans-unit>
+            <trans-unit id="label.school.lector">
+                <source>label.school.lector</source>
                 <target>Lektoři</target>
             </trans-unit>
         </body>

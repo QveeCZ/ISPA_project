@@ -6,6 +6,22 @@
                 <source>General</source>
                 <target>Obecné</target>
             </trans-unit>
+            <trans-unit id="field.label_username">
+                <source>field.label_username</source>
+                <target>Uživatelské jméno</target>
+            </trans-unit>
+            <trans-unit id="field.email">
+                <source>field.email</source>
+                <target>Email</target>
+            </trans-unit>
+            <trans-unit id="field.plain_password">
+                <source>field.plain_password</source>
+                <target>Heslo</target>
+            </trans-unit>
+            <trans-unit id="field.createdAt">
+                 <source>field.createdAt</source>
+                 <target>Vytvořen(datum)</target>
+            </trans-unit>
             <trans-unit id="Management">
                 <source>Management</source>
                 <target>Správa</target>
@@ -13,6 +29,20 @@
             <trans-unit id="field.label_roles_editable">
                 <source>field.label_roles_editable</source>
                 <target>Uživatelské role</target>
+            </trans-unit>
+            <trans-unit id="field.label_school">
+                <source>field.label_school</source>
+                <target>Škola</target>
+            </trans-unit>
+            <trans-unit id="field.label_enabled">
+                <source>field.label_enabled</source>
+                <target>Povoleno</target>
+            </trans-unit>
+
+
+            <trans-unit id="form.label_school">
+                 <source>form.label_school</source>
+                 <target>Škola</target>
             </trans-unit>
         </body>
     </file>

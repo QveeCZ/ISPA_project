@@ -74,14 +74,14 @@ class RegistrationAdmin extends AbstractAdmin
 
 
         $showMapper
-            ->with('General')
-            ->add('name')
-            ->add('surname')
-            ->add('course')
-            ->add('email')
-            ->add('birthDate')
-            ->add('registrationLectures')
-            ->add('registrationRides')
+            ->with('General',array('label' => 'Informace o uchazeči'))
+            ->add('name' ,null,  array('label' => 'Jméno'))
+            ->add('surname',null,  array('label' => 'Příjmení'))
+            ->add('course',null,  array('label' => 'Kurz'))
+            ->add('email',null,  array('label' => 'Email'))
+            ->add('birthDate',null,  array('label' => 'Datum narození'))
+            ->add('registrationLectures',null,  array('label' => 'Lekce'))
+            ->add('registrationRides',null,  array('label' => 'Jízdy'))
             ->end();
     }
 
@@ -106,20 +106,20 @@ class RegistrationAdmin extends AbstractAdmin
         }
 
         $formMapper
-            ->with('General')
+            ->with('General',array('label' => 'Uchazeč'))
             ->add('name', null, array('required' => true, 'label' => 'Název:'))
             ->add('surname', null, array('required' => true, 'label' => 'Příjmení:'))
             ->add('course', null, array('required' => true, 'label' => 'Kurz:'))
             ->add('email', null, array('required' => true, 'label' => 'Email:'))
             ->add('birthDate', 'sonata_type_date_picker', array('format' => 'dd.MM.yyyy', 'required' => TRUE, 'label' => 'Datum narození:'))
-            ->add('registrationLectures', 'sonata_type_collection', array('required' => false,
+            ->add('registrationLectures', 'sonata_type_collection', array('label' => 'Lekce:','required' => false,
                 'by_reference' => false,
                 'disabled'  => true,
             ), array(
                 'edit' => 'standard',
                 'sortable' => 'position',
             ))
-            ->add('registrationRides', 'sonata_type_collection', array('required' => false,
+            ->add('registrationRides', 'sonata_type_collection', array('label' => 'Jízdy:','required' => false,
                 'by_reference' => false,
                 'disabled'  => true,
             ), array(
@@ -162,15 +162,15 @@ class RegistrationAdmin extends AbstractAdmin
         $currentUser = $this->getConfigurationPool()->getContainer()->get('security.token_storage')->getToken()->getUser();
 
         $filterMapper
-            ->add('name')
-            ->add('surname')
-            ->add('email')
-            ->add('birthDate');
+            ->add('name',null,array('label' => 'Jméno'))
+            ->add('surname',null,array('label' => 'Příjmení'))
+            ->add('email',null,array('label' => 'Email'))
+            ->add('birthDate',null,array('label' => 'Datum narození'));
 
 
         if ($securityContext->isGranted('ROLE_STAFF')) {
             $filterMapper
-                ->add('course');
+                ->add('course',null,array('label' => 'Kurz'));
         }else{
             $filterMapper
                 ->add('course', null, array('label' => 'Kurz:',
@@ -189,19 +189,19 @@ class RegistrationAdmin extends AbstractAdmin
     {
 
         $listMapper
-            ->add('name')
-            ->add('surname')
-            ->add('course')
-            ->add('email')
-            ->add('birthDate')
-            ->add('registrationLectures')
-            ->add('registrationRides')
+            ->add('name' ,null,  array('label' => 'Jméno'))
+            ->add('surname',null,  array('label' => 'Příjmení'))
+            ->add('course',null,  array('label' => 'Kurz'))
+            ->add('email',null,  array('label' => 'Email'))
+            ->add('birthDate',null,  array('format' => 'd.m.Y','label' => 'Datum narození'))
+            ->add('registrationLectures',null,  array('label' => 'Lekce'))
+            ->add('registrationRides',null,  array('label' => 'Jízdy'))
             ->add('_action', null, array(
                 'actions' => array(
                     'show' => array(),
                     'edit' => array(),
                     'delete' => array(),
-                )
+                ),'label' => 'Akce'
             ));
     }
 }

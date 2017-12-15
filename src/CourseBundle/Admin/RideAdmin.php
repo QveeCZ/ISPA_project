@@ -76,9 +76,9 @@ class RideAdmin extends AbstractAdmin
 
 
         $showMapper
-            ->with('General')
-            ->add('dateRide')
-            ->add('lectureType')
+            ->with('General',array('label' => 'Informace o jízdě'))
+            ->add('dateRide',null,array('format' => 'd.m.Y','label' => 'Datum jízdy'))
+            ->add('lectureType',null,array('label' => 'Lekce'))
             ->end();
     }
 
@@ -103,7 +103,7 @@ class RideAdmin extends AbstractAdmin
         }
 
         $formMapper
-            ->with('General')
+            ->with('General',array('label' => 'Jízda'))
             ->add('dateRide', 'sonata_type_date_picker', array('format' => 'dd.MM.yyyy', 'required' => true, 'label' => 'Datum:'))
             ->add('courseRegistration', null, array('required' => true, 'label' => ' ', 'attr' => array('class' => "fa-force-hidden")))
             ->end();
@@ -120,8 +120,8 @@ class RideAdmin extends AbstractAdmin
         $securityContext = $this->getConfigurationPool()->getContainer()->get('security.authorization_checker');
 
         $filterMapper
-            ->add('dateRide')
-            ->add('courseRegistration');
+            ->add('dateRide',null,array('label' => 'Datum jízdy'))
+            ->add('courseRegistration',null,array('label' => 'Informace o uchazeči'));
     }
 
     /**
@@ -131,13 +131,13 @@ class RideAdmin extends AbstractAdmin
     {
 
         $listMapper
-            ->add('dateRide')
-            ->add('courseRegistration')
+            ->add('dateRide',null,array('format' => 'd.m.Y','label' => 'Datum jízdy'))
+            ->add('courseRegistration',null,array('label' => 'Informace o uchazeči'))
             ->add('_action', null, array(
                 'actions' => array(
                     'show' => array(),
                     'delete' => array(),
-                )
+                ),'label' => 'Akce'
             ));
     }
 

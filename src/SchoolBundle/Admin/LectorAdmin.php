@@ -66,7 +66,7 @@ class LectorAdmin extends AbstractAdmin
         }
 
         $showMapper
-            ->with('General')
+            ->with('General',array('label' => 'Informace o lektorovi'))
             ->add('name', null, array('label' => 'Jméno:'))
             ->add('surname', null, array('label' => 'Příjmení:'))
             ->add('email', null, array('label' => 'Email:'))
@@ -96,7 +96,7 @@ class LectorAdmin extends AbstractAdmin
             throw new AccessDeniedException();
         }
         $formMapper
-            ->with('Přidání lektora')
+            ->with('General', array('label' => 'Lektor'))
             ->add('name', null, array('required' => TRUE, 'label' => 'Jméno:'))
             ->add('surname', null, array('required' => TRUE, 'label' => 'Příjmení:'))
             ->add('email', null, array('required' => TRUE, 'label' => 'Email:'))
@@ -107,7 +107,7 @@ class LectorAdmin extends AbstractAdmin
 
         if ($securityContext->isGranted('ROLE_STAFF')) {
             $formMapper
-                ->with('Přidání lektora')
+                ->with('General')
                 ->add('school', null, array('required' => TRUE, 'label' => 'Škola:'))
                 ->end();
         }

@@ -41,7 +41,7 @@ class XMLImport extends BaseImport
         $xml = simplexml_load_file($file->getRealPath(), 'SimpleXmlElement', LIBXML_NOERROR + LIBXML_ERR_FATAL + LIBXML_ERR_NONE);
 
         if (!$this->is_valid_xml(file_get_contents($file->getRealPath()))) {
-            throw new \Exception("xml_file_invalid");
+            throw new \Exception("XML není validní");
         }
 
         if($xml->cars){
