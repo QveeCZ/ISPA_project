@@ -30,6 +30,66 @@
                 <source>school</source>
                 <target>Školy</target>
             </trans-unit>
+            <trans-unit id="Course List">
+                <source>Course List</source>
+                <target>Seznam kurzů</target>
+            </trans-unit>
+            <trans-unit id="Course Create">
+                 <source>Course Create</source>
+                 <target>Vytváření kurzu</target>
+            </trans-unit>
+            <trans-unit id="Registration List">
+                  <source>Registration List</source>
+                  <target>Seznam registrací</target>
+            </trans-unit>
+            <trans-unit id="Registration Create">
+                  <source>Registration Create</source>
+                  <target>Registrace uchazeče</target>
+            </trans-unit>
+            <trans-unit id="Lecture List">
+                  <source>Lecture List</source>
+                  <target>Seznam lekcí</target>
+            </trans-unit>
+            <trans-unit id="Lecture Create">
+                  <source>Lecture Create</source>
+                  <target>Vytváření lekcí</target>
+            </trans-unit>
+            <trans-unit id="Ride List">
+                  <source>Ride List</source>
+                  <target>Seznam jízd</target>
+            </trans-unit>
+            <trans-unit id="Ride Create">
+                   <source>Ride Create</source>
+                   <target>Vytváření jízd</target>
+            </trans-unit>
+            <trans-unit id="Lector List">
+                   <source>Lector List</source>
+                   <target>Seznam lektorů</target>
+            </trans-unit>
+            <trans-unit id="Lector Create">
+                   <source>Lector Create</source>
+                   <target>Registrace lektora</target>
+            </trans-unit>
+            <trans-unit id="Car List">
+                   <source>Car List</source>
+                   <target>Seznam aut</target>
+            </trans-unit>
+            <trans-unit id="Car Create">
+                   <source>Car Create</source>
+                   <target>Registrace auta</target>
+            </trans-unit>
+            <trans-unit id="School List">
+                   <source>School List</source>
+                   <target>Seznam škol</target>
+            </trans-unit>
+            <trans-unit id="School Create">
+                   <source>School Create</source>
+                   <target>Registrace školy</target>
+            </trans-unit>
+            <trans-unit id="List">
+                   <source>List</source>
+                   <target>Import dat</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
