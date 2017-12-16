@@ -2,11 +2,34 @@
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
     <file source-language="cs" datatype="plaintext" original="file.ext">
         <body>
-            <trans-unit id="link_breadcrumb_dashboard">
-                <source>link_breadcrumb_dashboard</source>
-                <target>Hlavní panel</target>
+            <trans-unit id="course">
+                <source>course</source>
+                <target>Kurzy</target>
             </trans-unit>
-
+            <trans-unit id="registration">
+                <source>registration</source>
+                <target>Registrace do kurzu</target>
+            </trans-unit>
+            <trans-unit id="lecture">
+                <source>lecture</source>
+                <target>Lekce</target>
+            </trans-unit>
+            <trans-unit id="ride">
+                <source>ride</source>
+                <target>Jízdy</target>
+            </trans-unit>
+            <trans-unit id="car">
+                <source>car</source>
+                <target>Auta</target>
+            </trans-unit>
+            <trans-unit id="lector">
+                <source>lector</source>
+                <target>Lektoři</target>
+            </trans-unit>
+            <trans-unit id="school">
+                <source>school</source>
+                <target>Školy</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

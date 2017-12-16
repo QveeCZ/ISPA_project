@@ -28,7 +28,7 @@
             </trans-unit>
             <trans-unit id="field.label_roles_editable">
                 <source>field.label_roles_editable</source>
-                <target>Uživatelské role</target>
+                <target></target>
             </trans-unit>
             <trans-unit id="field.label_school">
                 <source>field.label_school</source>
@@ -38,8 +38,6 @@
                 <source>field.label_enabled</source>
                 <target>Povoleno</target>
             </trans-unit>
-
-
             <trans-unit id="form.label_school">
                  <source>form.label_school</source>
                  <target>Škola</target>
