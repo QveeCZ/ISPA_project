@@ -75,9 +75,9 @@ class LectureAdmin extends AbstractAdmin
 
 
         $showMapper
-            ->with('General')
-            ->add('length')
-            ->add('lectureType')
+            ->with('General',array('label' => 'Informace o lekci'))
+            ->add('length',null,  array('label' => 'Délka lekce'))
+            ->add('lectureType',null,  array('label' => 'Typ lekce'))
             ->end();
     }
 
@@ -102,8 +102,8 @@ class LectureAdmin extends AbstractAdmin
         }
 
         $formMapper
-            ->with('General')
-            ->add('length', null, array('required' => true, 'label' => 'Délka:'))
+            ->with('General',array('label' => 'Přidání lekce'))
+            ->add('length', null, array('required' => true, 'label' => 'Délka lekce:'))
             ->add('lectureType', null, array('required' => true, 'label' => 'Typ lekce:'))
             ->add('courseRegistration', null, array('required' => true, 'label' => ' ', 'attr' => array('class' => "fa-force-hidden")))
             ->end();
@@ -120,8 +120,8 @@ class LectureAdmin extends AbstractAdmin
         $securityContext = $this->getConfigurationPool()->getContainer()->get('security.authorization_checker');
 
         $filterMapper
-            ->add('length')
-            ->add('lectureType');
+            ->add('length',null,  array('label' => 'Délka lekce'))
+            ->add('lectureType',null,  array('label' => 'Typ lekce'));
     }
 
     /**
@@ -131,13 +131,13 @@ class LectureAdmin extends AbstractAdmin
     {
 
         $listMapper
-            ->add('length')
-            ->add('lectureType')
+            ->add('length',null,  array('label' => 'Délka lekce'))
+            ->add('lectureType',null,  array('label' => 'Typ lekce'))
             ->add('_action', null, array(
                 'actions' => array(
                     'show' => array(),
                     'delete' => array(),
-                )
+                ),'label' => 'Akce'
             ));
     }
 

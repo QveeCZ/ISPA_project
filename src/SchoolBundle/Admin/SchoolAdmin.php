@@ -64,11 +64,11 @@ class SchoolAdmin extends AbstractAdmin
         }
 
         $showMapper
-            ->with('General')
-            ->add('name')
-            ->add('kontakt')
-            ->add('ico')
-            ->add('web')
+            ->with('General',array('label' => 'Informace o škole'))
+            ->add('name',null,array('label' => 'Název'))
+            ->add('kontakt',null,array('label' => 'Kontakt'))
+            ->add('ico',null,array('label' => 'IČO'))
+            ->add('web',null,array('label' => 'Webová stránka'))
              ->end();
     }
 
@@ -93,7 +93,7 @@ class SchoolAdmin extends AbstractAdmin
         }
 
         $formMapper
-            ->with('General')
+            ->with('General',array('label' => 'Škola'))
             ->add('name',null,array('required' => TRUE,'label' => 'Název'))
             ->add('kontakt',null,array('required' => TRUE))
             ->add('ico',null,array('required' => TRUE,'label' => 'IČO'))

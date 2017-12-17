@@ -41,7 +41,7 @@ class JSONImport extends BaseImport
         $data = json_decode($json, true);
 
         if ($data == null) {
-            throw new \Exception("json_file_invalid");
+            throw new \Exception("JSON není validní");
         } else {
             foreach ($data as $row => $value) {
                 if ($row == "lectors") {
@@ -59,7 +59,7 @@ class JSONImport extends BaseImport
                     }
 
                 } else {
-                    throw new \Exception("invalide format of input json");
+                    throw new \Exception("Špatná konstrukce vkládaného JSONU!");
                 }
 
 
@@ -81,7 +81,7 @@ class JSONImport extends BaseImport
 
             $this->em->persist($lector);
         } else {
-            throw new \Exception("json_file_lector invalid");
+            throw new \Exception("JSON lector nevalidní");
         }
     }
     private function importCars($carArray, $school)
@@ -97,7 +97,7 @@ class JSONImport extends BaseImport
 
             $this->em->persist($car);
         } else {
-            throw new \Exception("json_file_car invalid");
+            throw new \Exception("JSON auto nevalidní");
         }
 
     }
@@ -115,7 +115,7 @@ class JSONImport extends BaseImport
             }
             $this->em->persist($course);
         } else {
-            throw new \Exception("json_file_course invalid");
+            throw new \Exception("JSON kurz nevalidní");
         }
     }
     private function importRegistrations($registrationArray, $course)
@@ -127,7 +127,7 @@ class JSONImport extends BaseImport
             $registration->setCourse($course);
             $this->em->persist($registration);
         } else {
-            throw new \Exception("json_file_course_registration invalid");
+            throw new \Exception("JSON registrace do kurzu nevalidní");
         }
     }
 }

@@ -20,17 +20,6 @@ use UserBundle\Entity\User;
 
 class CourseAdmin extends AbstractAdmin
 {
-
-
-
-
-    protected function configureRoutes(RouteCollection $collection)
-    {
-        $collection->add('pdf', 'pdf/' . $this->getRouterIdParameter());
-    }
-
-
-
     public function createQuery($context = 'list')
     {
 
@@ -78,10 +67,10 @@ class CourseAdmin extends AbstractAdmin
 
         $showMapper
             ->with('General')
-            ->add('name')
-            ->add('capacity')
-            ->add('school')
-            ->add('courseRegistrations')
+            ->add('name',null, array('label' => 'Název kurzu'))
+            ->add('capacity',null, array('label' => 'Kapacita'))
+            ->add('school',null,array('label' => 'Škola'))
+            ->add('courseRegistrations',null,array('label' => 'Zaregistrovaní uchazeči'))
             ->end();
     }
 
@@ -106,15 +95,15 @@ class CourseAdmin extends AbstractAdmin
         }
 
         $formMapper
-            ->with('General')
-            ->add('name', null, array('required' => true, 'label' => 'Název:'))
+            ->with('General',array('label' => 'Kurz'))
+            ->add('name', null, array('required' => true, 'label' => 'Název kurzu:'))
             ->add('capacity', null, array('required' => true, 'label' => 'Kapacita:'))
             ->end();
 
         if ($securityContext->isGranted('ROLE_STAFF')) {
             $formMapper
                 ->with('General')
-                ->add('school', null, array('required' => true, 'label' => 'škola:'))
+                ->add('school', null, array('required' => true, 'label' => 'Škola:'))
                 ->end();
         }
     }
@@ -130,14 +119,14 @@ class CourseAdmin extends AbstractAdmin
         $securityContext = $this->getConfigurationPool()->getContainer()->get('security.authorization_checker');
 
         $filterMapper
-            ->add('id')
-            ->add('name')
-            ->add('capacity');
+            ->add('id',null,array('label' => 'ID'))
+            ->add('name',null,array('label' => 'Název kurzu'))
+            ->add('capacity',null,array('label' => 'Kapacita'));
 
 
         if ($securityContext->isGranted('ROLE_STAFF')) {
             $filterMapper
-                ->add('school');
+                ->add('school',null,array('label' => 'Škola'));
         }
     }
 
@@ -148,18 +137,15 @@ class CourseAdmin extends AbstractAdmin
     {
 
         $listMapper
-            ->add('name')
-            ->add('capacity')
-            ->add('school')
+            ->add('name',null,array('label' => 'Název kurzu'))
+            ->add('capacity',null,array('label' => 'Kapacita'))
+            ->add('school',null,array('label' => 'Škola'))
             ->add('_action', null, array(
                 'actions' => array(
                     'show' => array(),
                     'edit' => array(),
                     'delete' => array(),
-                    'PDF' => array(
-                        'template' => 'SchoolBundle:CRUD:list__action_pdf.html.twig'
-                    )
-                )
+                ),'label' => 'Akce'
             ));
     }
 

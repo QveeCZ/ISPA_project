@@ -68,12 +68,12 @@ class CarAdmin extends AbstractAdmin
 
 
         $showMapper
-            ->with('General')
-            ->add('spz')
-            ->add('dateSTK')
-            ->add('school')
-            ->add('color')
-            ->add('carType')
+            ->with('General',array('label' => 'Informace o autě'))
+            ->add('spz', null,  array('label' => 'STK'))
+            ->add('dateSTK',null, array('format' => 'd.m.Y','label' => 'Datum STK'))
+            ->add('school',null, array('label' => 'Škola'))
+            ->add('color',null, array('label' => 'Barva'))
+            ->add('carType',null,array('label' => 'Typ auta'))
             ->end();
     }
 
@@ -103,18 +103,18 @@ class CarAdmin extends AbstractAdmin
         $securityContext = $this->getConfigurationPool()->getContainer()->get('security.authorization_checker');
 
         $formMapper
-            ->with('General')
-            ->add('spz', null, array('required' => TRUE))
-            ->add('dateSTK', 'sonata_type_date_picker', array('format' => 'dd.MM.yyyy', 'required' => TRUE))
-            ->add('color', null, array('required' => TRUE))
-            ->add('carType', null, array('required' => TRUE))
-            ->add('condition', null, array('required' => TRUE))
+            ->with('General',array('label' => 'Auto'))
+            ->add('spz', null, array('required' => TRUE,'label' => 'SPZ:'))
+            ->add('dateSTK', 'sonata_type_date_picker', array('format' => 'dd.MM.yyyy', 'required' => TRUE,'label' => 'Datum STK:'))
+            ->add('color', null, array('required' => TRUE,'label' => 'Barva:'))
+            ->add('carType', null, array('required' => TRUE,'label' => 'Typ auta:'))
+            ->add('condition', null, array('required' => TRUE,'label' => 'Stav:'))
             ->end();
 
         if ($securityContext->isGranted('ROLE_STAFF')) {
             $formMapper
                 ->with('General')
-                ->add('school', null, array('required' => TRUE))
+                ->add('school', null, array('required' => TRUE,'label' => 'Škola'))
                 ->end();
         }
     }
@@ -130,13 +130,13 @@ class CarAdmin extends AbstractAdmin
         $securityContext = $this->getConfigurationPool()->getContainer()->get('security.authorization_checker');
 
         $filterMapper
-            ->add('spz')
-            ->add('dateSTK');
+            ->add('spz',null,array('label' => 'SPZ'))
+            ->add('dateSTK',null, array('label' => 'Datum STK'));
 
 
         if ($securityContext->isGranted('ROLE_STAFF')) {
             $filterMapper
-                ->add('school');
+                ->add('school',null, array('label' => 'Škola'));
         }
     }
 
@@ -147,11 +147,11 @@ class CarAdmin extends AbstractAdmin
     {
 
         $listMapper
-            ->addIdentifier('spz')
-            ->add('dateSTK')
-            ->add('school')
-            ->add('color')
-            ->add('carType');
+            ->addIdentifier('spz',null,array('label' => 'SPZ'))
+            ->add('dateSTK',null,array('format' => 'd.m.Y','label' => 'Datum STK'))
+            ->add('school', null,array('label' => 'Škola'))
+            ->add('color',null, array('label' => 'Barva'))
+            ->add('carType',null,array('label' => 'Typ auta'));
     }
 
     /**
