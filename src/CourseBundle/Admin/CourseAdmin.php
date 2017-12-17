@@ -20,6 +20,16 @@ use UserBundle\Entity\User;
 
 class CourseAdmin extends AbstractAdmin
 {
+
+
+
+
+    protected function configureRoutes(RouteCollection $collection)
+    {
+        $collection->add('pdf', 'pdf/' . $this->getRouterIdParameter());
+    }
+
+    
     public function createQuery($context = 'list')
     {
 
