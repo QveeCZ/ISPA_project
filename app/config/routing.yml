@@ -7,6 +7,10 @@ CourseBundle:
     resource: "@CourseBundle/Resources/config/routing.php"
     prefix:   /
 
+
+SchoolBundle:
+    resource: "@SchoolBundle/Resources/config/routing.php"
+    prefix:   /
 IOBundle:
     resource: "@IOBundle/Resources/config/routing.php"
     prefix:   /

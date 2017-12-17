@@ -19,6 +19,13 @@ use UserBundle\Entity\User;
 
 class LectorAdmin extends AbstractAdmin
 {
+
+
+    protected function configureRoutes(RouteCollection $collection)
+    {
+        $collection->add('pdf', 'pdf/' . $this->getRouterIdParameter());
+    }
+
     public function createQuery($context = 'list')
     {
 
@@ -146,7 +153,17 @@ class LectorAdmin extends AbstractAdmin
             ->add('surname', null, array('label' => 'Příjmení'))
             ->addIdentifier('email', null, array('label' => 'Email'))
             ->add('dateMedical' ,null, array('format' => 'd.m.Y','label' => 'Lékařská prohlídka'))
-            ->add('school', null, array('label' => 'Škola'));
+            ->add('school', null, array('label' => 'Škola'))
+            ->add('_action', null, array(
+                'actions' => array(
+                    'show' => array(),
+                    'edit' => array(),
+                    'delete' => array(),
+                    'PDF' => array(
+                        'template' => 'SchoolBundle:CRUD:list__action_pdf.html.twig'
+                    )
+                ),'label' => 'Akce'
+            ));
     }
     /**
      * @param Lector $lector
