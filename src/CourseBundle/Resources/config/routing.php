@@ -10,4 +10,8 @@ $collection->add('CourseBundle_registration', new Route('/course/register/{cours
     '_controller' => 'CourseBundle:Registration:register',
 )));
 
+$collection->add('CourseBundle_export_pdf', new Route('/admin/course/course/pdf/{courseId}', array(
+    '_controller' => 'CourseBundle:CourseExport:pdf',
+)));
+
 return $collection;
