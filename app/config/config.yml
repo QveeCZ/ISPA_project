@@ -9,6 +9,7 @@ parameters:
     locale: cs
     sonata.user.admin.user.class: UserBundle\Admin\UserAdmin
     sonata.user.admin.user.entity: UserBundle\Entity\User
+    image_directory: '%kernel.root_dir%/web/uploads/images'
 
 
 framework:

@@ -76,7 +76,7 @@ class CourseAdmin extends AbstractAdmin
 
 
         $showMapper
-            ->with('General')
+            ->with('General', array('label' => 'Informace o kurzu'))
             ->add('name',null, array('label' => 'Název kurzu'))
             ->add('capacity',null, array('label' => 'Kapacita'))
             ->add('school',null,array('label' => 'Škola'))

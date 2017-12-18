@@ -191,5 +191,136 @@ class Car
         return ($this->getSpz()) ? $this->getSpz() : "";
     }
 
+    /**
+     * Unmapped property to handle file uploads
+     */
+    private $file;
 
+    /**
+     * Sets file.
+     *
+     * @param UploadedFile $file
+     */
+    public function setFile($file = null)
+    {
+        $this->file = $file;
+    }
+
+    /**
+     * Get file.
+     *
+     * @return UploadedFile
+     */
+    public function getFile()
+    {
+        return $this->file;
+    }
+
+    /**
+     * Manages the copying of the file to the relevant place on the server
+     */
+    public function upload()
+    {
+
+        $uploadDir =  __DIR__ . "/../../../upload";
+
+        // the file property can be empty if the field is not required
+        if (null === $this->getFile()) {
+            return;
+        }
+
+        // we use the original file name here but you should
+        // sanitize it at least to avoid any security issues
+
+        $filename = uniqid() . "_" . $this->getFile()->getClientOriginalName();
+
+        // move takes the target directory and target filename as params
+        $this->getFile()->move(
+            $uploadDir,
+            $filename
+        );
+
+        if($this->filename){
+            unlink($uploadDir . "/" . $this->filename);
+        }
+
+        // set the path property to the filename where you've saved the file
+        $this->filename = $filename;
+
+        // clean up the file property as you won't need it anymore
+        $this->setFile(null);
+    }
+
+    /**
+     * Lifecycle callback to upload the file to the server
+     */
+    public function lifecycleFileUpload()
+    {
+        $this->upload();
+    }
+
+    /**
+     * Updates the hash value to force the preUpdate and postUpdate events to fire
+     */
+    public function refreshUpdated()
+    {
+        $this->setUpdated(new \DateTime());
+    }
+
+
+    /**
+     * @var \DateTime $updated
+     *
+     *
+     * @ORM\Column(name="updated", type="datetime", nullable=false)
+     */
+    protected $updated;
+
+    /**
+     * @var String $filename
+     *
+     *
+     * @ORM\Column(name="filename", type="string", nullable=true)
+     */
+    protected $filename;
+
+    /**
+     * @return \DateTime
+     */
+    public function getUpdated()
+    {
+        return $this->updated;
+    }
+
+    /**
+     * @param \DateTime $updated
+     */
+    public function setUpdated($updated)
+    {
+        $this->updated = $updated;
+    }
+
+    /**
+     * @return String
+     */
+    public function getFilename()
+    {
+        return $this->filename;
+    }
+
+    /**
+     * @param String $filename
+     */
+    public function setFilename($filename)
+    {
+        $this->filename = $filename;
+    }
+
+
+
+
+
+
+// ... the rest of your class lives under here, including the generated fields
+//     such as filename and updated
 }

@@ -4,7 +4,6 @@ namespace CourseBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use SchoolBundle\Entity\Lector;
 use SchoolBundle\Entity\School;
 
 /**
@@ -39,13 +38,6 @@ class Ride
      * @ORM\JoinColumn(name="course_registration_id", referencedColumnName="id", nullable=false, unique=true)
      */
     protected $courseRegistration;
-
-    /**
-     * @var Lector $lector
-     * @ORM\ManyToOne(targetEntity="SchoolBundle\Entity\Lector", inversedBy="lectorRides")
-     * @ORM\JoinColumn(name="lector_id", referencedColumnName="id")
-     */
-    protected $lector;
 
     /**
      * @var \DateTime $created
@@ -128,24 +120,6 @@ class Ride
         $this->created = $created;
     }
 
-    /**
-     * @return Lector
-     */
-    public function getLector()
-    {
-        return $this->lector;
-    }
-
-    /**
-     * @param Lector $lector
-     */
-    public function setLector($lector)
-    {
-        $this->lector = $lector;
-    }
-
-
-
     public function __toString()
     {
 
@@ -155,7 +129,7 @@ class Ride
             $rideDate = $this->getDateRide()->format("d.m.Y");
         }
 
-        return 'Jízda ' . $rideDate . " lektor " . $this->lector->getName();
+        return 'Jízda ' . $rideDate;
     }
 
 

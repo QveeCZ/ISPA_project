@@ -74,6 +74,11 @@ class CarAdmin extends AbstractAdmin
             ->add('school',null, array('label' => 'Škola'))
             ->add('color',null, array('label' => 'Barva'))
             ->add('carType',null,array('label' => 'Typ auta'))
+            ->add('filename', 'image', array(
+                'prefix' => '/upload/',
+                'width' => 250,
+                'height' => 250,
+            ))
             ->end();
     }
 
@@ -109,6 +114,7 @@ class CarAdmin extends AbstractAdmin
             ->add('color', null, array('required' => TRUE,'label' => 'Barva:'))
             ->add('carType', null, array('required' => TRUE,'label' => 'Typ auta:'))
             ->add('condition', null, array('required' => TRUE,'label' => 'Stav:'))
+            ->add('file', 'file', ['required' => false])
             ->end();
 
         if ($securityContext->isGranted('ROLE_STAFF')) {
@@ -158,7 +164,8 @@ class CarAdmin extends AbstractAdmin
      * @param Car $course
      * @throws EntityNotFoundException
      */
-    public function prePersist($course)
+
+    public function prePersist($car)
     {
         /**
          * @var AuthorizationChecker $securityContext
@@ -167,8 +174,10 @@ class CarAdmin extends AbstractAdmin
         $securityContext = $this->getConfigurationPool()->getContainer()->get('security.authorization_checker');
         $currentUser = $this->getConfigurationPool()->getContainer()->get('security.token_storage')->getToken()->getUser();
 
+        $this->manageFileUpload($car);
+
         if($securityContext->isGranted('ROLE_STAFF')){
-            parent::preUpdate($course);
+            parent::preUpdate($car);
             return;
         }
 
@@ -176,12 +185,31 @@ class CarAdmin extends AbstractAdmin
             throw new EntityNotFoundException("User " . $currentUser->getId() . " doesnt have ROLE_STAFF and is not associated with any school");
         }
 
-        $course->setSchool($currentUser->getSchool());
-        parent::prePersist($course);
+        $car->setSchool($currentUser->getSchool());
+        parent::prePersist($car);
 
 
     }
 
+    /**
+     * @param car $car
+     * @throws EntityNotFoundException
+     */
+    public function preUpdate($car)
+    {
+        $this->manageFileUpload($car);
+    }
 
+    /**
+     * @param car $car
+     * @throws EntityNotFoundException
+     */
+    private function manageFileUpload($car)
+    {
+        if ($car->getFile()) {
+            $car->upload();
+            $car->refreshUpdated();
+        }
+    }
 }
 

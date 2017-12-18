@@ -2,6 +2,7 @@
 
 namespace SchoolBundle\Admin;
 
+use Doctrine\ORM\EntityNotFoundException;
 use SchoolBundle\Entity\Lector;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 
@@ -82,6 +83,11 @@ class LectorAdmin extends AbstractAdmin
             ->add('pocet_deti', null, array('label' => 'Počet dětí:'))
             ->add('dateMedical' ,null, array('format' => 'd.m.Y','label' => 'Lékařská prohlídka:'))
             ->add('school', null, array('label' => 'Škola:'))
+            ->add('filename', 'image', array(
+                'prefix' => '/upload/',
+                'width' => 250,
+                'height' => 250,
+            ))
             ->end();
     }
 
@@ -113,6 +119,7 @@ class LectorAdmin extends AbstractAdmin
             ->add('pocet_deti', null, array('required' => TRUE,'label' => 'Počet dětí:'))
             ->add('phone', null, array('required' => TRUE, 'label' => 'Telefon:'))
             ->add('dateMedical', 'sonata_type_date_picker', array('format' => 'dd.MM.yyyy', 'required' => TRUE, 'label' => 'Datum lékařské prohlídky:'))
+            ->add('file', 'file', ['required' => false])
             ->end();
 
 
@@ -184,6 +191,8 @@ class LectorAdmin extends AbstractAdmin
         $securityContext = $this->getConfigurationPool()->getContainer()->get('security.authorization_checker');
         $currentUser = $this->getConfigurationPool()->getContainer()->get('security.token_storage')->getToken()->getUser();
 
+        $this->manageFileUpload($lector);
+
         if($securityContext->isGranted('ROLE_STAFF')){
             parent::preUpdate($lector);
             return;
@@ -197,6 +206,27 @@ class LectorAdmin extends AbstractAdmin
         parent::prePersist($lector);
 
 
+    }
+
+    /**
+     * @param Lector $lector
+     * @throws EntityNotFoundException
+     */
+    public function preUpdate($lector)
+    {
+        $this->manageFileUpload($lector);
+    }
+
+    /**
+     * @param Lector $lector
+     * @throws EntityNotFoundException
+     */
+    private function manageFileUpload($lector)
+    {
+        if ($lector->getFile()) {
+            $lector->upload();
+            $lector->refreshUpdated();
+        }
     }
 }
 

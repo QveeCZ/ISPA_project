@@ -104,7 +104,7 @@ class LectureAdmin extends AbstractAdmin
         }
 
         $formMapper
-            ->with('General',array('label' => 'Přidání lekce'))
+            ->with('General',array('label' => 'Lekce'))
             ->add('length', null, array('required' => true, 'label' => 'Délka lekce:'))
             ->add('dateLecture', 'sonata_type_date_picker', array('format' => 'dd.MM.yyyy', 'required' => true, 'label' => 'Datum:'))
             ->add('lectureType', null, array('required' => true, 'label' => 'Typ lekce:'))
