@@ -6,6 +6,7 @@ use CourseBundle\Entity\Course;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * SchoolBundle\Entity\Lector
@@ -41,6 +42,66 @@ class Lector
      */
     protected $name;
 
+    /**
+     * @var integer $pocet_deti
+     *
+     *
+     * @ORM\Column(name="pocet_deti", type="integer", nullable=false)
+     * @Assert\Range(
+     *      min = 0,
+     *      max = 100,
+     *      minMessage = "Minimalne 0",
+     *      maxMessage = "Nejvice 100 :D"
+     * )
+     */
+    protected $pocet_deti;
+
+    /**
+     * @return int
+     */
+    public function getPocetDeti()
+    {
+        return $this->pocet_deti;
+    }
+
+    /**
+     * @param int $pocet_deti
+     */
+    public function setPocetDeti($pocet_deti)
+    {
+        $this->pocet_deti = $pocet_deti;
+    }
+
+    /**
+     * @return int
+     */
+    public function getHodinovaMzda()
+    {
+        return $this->hodinova_mzda;
+    }
+
+    /**
+     * @param int $hodinova_mzda
+     */
+    public function setHodinovaMzda($hodinova_mzda)
+    {
+        $this->hodinova_mzda = $hodinova_mzda;
+    }
+
+    /**
+     * @var integer $phone
+     *
+     *
+     * @ORM\Column(name="hodinova_mzda", type="integer", nullable=false)
+     *      * @Assert\Range(
+     *      min = 60,
+     *      max = 1000,
+     *      minMessage = "Nejměně 60",
+     *      maxMessage = "Nejvíce 1000"
+     * )
+     */
+    protected $hodinova_mzda;
+
 
     /**
      * @var String $surname
@@ -65,6 +126,12 @@ class Lector
      *
      *
      * @ORM\Column(name="phone", type="integer", nullable=false)
+     * @Assert\Length(
+     *      min = 9,
+     *      max = 9,
+     *      minMessage = "Délka musí být 9",
+     *      maxMessage = "Délka musí být 9"
+     * )
      */
     protected $phone;
 

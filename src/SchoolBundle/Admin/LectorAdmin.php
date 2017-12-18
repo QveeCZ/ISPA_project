@@ -78,6 +78,8 @@ class LectorAdmin extends AbstractAdmin
             ->add('surname', null, array('label' => 'Příjmení:'))
             ->add('email', null, array('label' => 'Email:'))
             ->add('phone', null, array('label' => 'Telefon:'))
+            ->add('hodinova_mzda', null, array('label' => 'Mzda:'))
+            ->add('pocet_deti', null, array('label' => 'Počet dětí:'))
             ->add('dateMedical' ,null, array('format' => 'd.m.Y','label' => 'Lékařská prohlídka:'))
             ->add('school', null, array('label' => 'Škola:'))
             ->end();
@@ -107,6 +109,8 @@ class LectorAdmin extends AbstractAdmin
             ->add('name', null, array('required' => TRUE, 'label' => 'Jméno:'))
             ->add('surname', null, array('required' => TRUE, 'label' => 'Příjmení:'))
             ->add('email', null, array('required' => TRUE, 'label' => 'Email:'))
+            ->add('hodinova_mzda', null, array('required' => TRUE,'label' => 'Mzda:'))
+            ->add('pocet_deti', null, array('required' => TRUE,'label' => 'Počet dětí:'))
             ->add('phone', null, array('required' => TRUE, 'label' => 'Telefon:'))
             ->add('dateMedical', 'sonata_type_date_picker', array('format' => 'dd.MM.yyyy', 'required' => TRUE, 'label' => 'Datum lékařské prohlídky:'))
             ->end();
@@ -153,6 +157,8 @@ class LectorAdmin extends AbstractAdmin
             ->add('surname', null, array('label' => 'Příjmení'))
             ->addIdentifier('email', null, array('label' => 'Email'))
             ->add('dateMedical' ,null, array('format' => 'd.m.Y','label' => 'Lékařská prohlídka'))
+            ->add('hodinova_mzda', null, array('label' => 'Mzda'))
+            ->add('pocet_deti', null, array('label' => 'Počet dětí'))
             ->add('school', null, array('label' => 'Škola'))
             ->add('_action', null, array(
                 'actions' => array(
