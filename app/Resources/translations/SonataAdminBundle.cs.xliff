@@ -14,9 +14,13 @@
                 <source>school</source>
                 <target>Školy</target>
             </trans-unit>
-            <trans-unit id="course">
-                <source>course</source>
+            <trans-unit id="course_group">
+                <source>course_group</source>
                 <target>Kurzy</target>
+            </trans-unit>
+            <trans-unit id="school_group">
+                <source>school_group</source>
+                <target>Školy</target>
             </trans-unit>
         </body>
     </file>
