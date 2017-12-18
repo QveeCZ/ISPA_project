@@ -1,7 +1,7 @@
 <?php
 
 namespace SchoolBundle\Controller;
-require_once 'dompdf/autoload.inc.php';
+require_once 'mpdf/vendor/autoload.php';
 
 use CourseBundle\Entity\Registration;
 use CourseBundle\Form\Model\CourseRegistration;
@@ -12,6 +12,7 @@ use Doctrine\DBAL\DriverManager;
 use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\Query\ResultSetMapping;
 use Dompdf\Dompdf;
+use mPDF;
 use SchoolBundle\Admin\LectorAdmin;
 use SchoolBundle\Entity\Lector;
 use Sonata\AdminBundle\Controller\CRUDController;
@@ -98,114 +99,89 @@ class LectorExportController extends Controller
 
 
         $html = "
-
+<!DOCTYPE html>
+<html>
     <head>
-<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />
+    <title>Výplata</title>
+<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />
   <style>
-    body{ font-family: DejaVu Sans !important;}
+  body { font-family: DejaVu Sans, sans-serif; }
+
   </style>
       </head>
 
 
   <body>
      
-                      <h1>Vyplatni list </h1>
-                       <br />
-                        <div style='border: solid'>
-                            &nbsp;
-                        </div>
-                      
-                        <br />
+                      <h1>Výplatní list </h1>
                     Rok: 2017  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;ICO: 1235468790  
-                     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;IČO: 1235468790
+                       &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
                      &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Datum: ".$datum."
-                      <br />
-                        <div style='border: solid'>
-                            &nbsp;
+                        <div style='    border-bottom: 2px solid black;'>
+
                         </div>
-                      <br />
-                    Jmeno:  ".$lekor[0]['name']." ".$lekor[0]['surname']."         <br />
-                    Datum narozeni: ".date('d.m.Y',strtotime($lekor[0]['date_medical']))."<br />
-                    Obdobi: ".$obdovi."      <br />
+                    Jméno:  ".$lekor[0]['name']." ".$lekor[0]['surname']."         <br />
+                    Datum narození: ".date('d.m.Y',strtotime($lekor[0]['date_medical']))."<br />
+                    Období: ".$obdovi."      <br />
                     
-                    Hodinova mzda: ".$lekor[0]['hodinova_mzda']."  <br />
-                    Deti: ".$lekor[0]['pocet_deti']."
-                    <br />
-                    <div style='border: solid'>
+                    Hodinová mzda: ".$lekor[0]['hodinova_mzda']."  <br />
+                    
+                  Děti: ".$lekor[0]['pocet_deti']."
+                    
+                    <div style='border-bottom: 1px solid black;'>
                           &nbsp;
                      </div>
+                     Počet hodin: ".$pocetHodin."
                      <br />
-                     Pocet hodin: ".$pocetHodin."
-                     <br />
-                     Hruba mzda:  ".$hruba_mzda."
-                      <br />
-                        <div style='border: solid'>
+                     Hrubá mzda:  ".$hruba_mzda."
+                        <div style='border-bottom: 1px solid black;'>
                           &nbsp;
                      </div>
-                              <br />
-                              Zdanitelny prijem
+                              Zdanitelný příjem
                                  <br />
-                     Socialni:  ".$socialni_poj."
+                     Socialní:  ".$socialni_poj."
                      <br />
-                     Zdravotni:  ".$zdravptmo_poj."
+                     Zdravotní:  ".$zdravptmo_poj."
                      <br />
-                     Superhruba mzda: ".$super_hruba_mzda."
-                       <br />
-                       <div style='border: solid'>
+                     Superhrubá mzda: ".$super_hruba_mzda."
+                       <div style='border-bottom: 1px solid black;'>
                           &nbsp;
                      </div>
+                      Záloha na daň před slevou:  ".$zaloha_na_dan."
                               <br />
-                      Zaloha na dan pred slevou:  ".$zaloha_na_dan."
-                              <br />
-                      Sleva na poplatnika: ".$sleva_na_poplatnika."
+                      Sleva na poplatníka: ".$sleva_na_poplatnika."
                                 <br />
-                      Sleva na detech: ".$sleva_na_detech."
+                      Sleva na dětech: ".$sleva_na_detech."
                                                       <br />
                       
                       Záloha na dani: ".$this->prevedCisloNaNulu($zaloha_na_dan - $sleva_na_detech - $sleva_na_poplatnika)."
-                                                      <br />
                       
-                      <div style='border: solid'>
+                      <div style='border-bottom: 1px solid black;'>
                            &nbsp; 
                      </div>
-                              <br />
                               
-                  Pojisteni zamestnance:
+                  Pojištění zaměstnance:
                    <br />
-                     Socialni:  ".$pojisteni_zamestnanec_socialni."
+                     Socialní:  ".$pojisteni_zamestnanec_socialni."
                      <br />
-                     Zdravotni:  ".$pojisteni_zamestnanec_zdravotni."
+                     Zdravotní:  ".$pojisteni_zamestnanec_zdravotni."
                      <br />
                      <br />
-                     <br />
-                    <h3>Cista mzda: ".($hruba_mzda - $pojisteni_zamestnanec_socialni - $pojisteni_zamestnanec_zdravotni - $this->prevedCisloNaNulu($zaloha_na_dan - $sleva_na_detech - $sleva_na_poplatnika))." </h3>
+                    <h3>Čistá mzda: ".($hruba_mzda - $pojisteni_zamestnanec_socialni - $pojisteni_zamestnanec_zdravotni - $this->prevedCisloNaNulu($zaloha_na_dan - $sleva_na_detech - $sleva_na_poplatnika))." </h3>
                     
                     
 
 
       </body>
-                ";
+          </html>      ";
+//        $html =  mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8');
+//        $html = iconv('WINDOWS-1250', 'UTF-8//TRANSLIT', $html);
 
+        $mpdf = new Mpdf(['mode' => 'c']);
+        $mpdf->WriteHTML($html);
+        $mpdf->Output('vyplata.pdf', 'D');
 
-
-        $dompdf = new Dompdf();
-        $dompdf->loadHtml($html,'UTF-8');
-
-// (Optional) Setup the paper size and orientation
-        $dompdf->setPaper('A4', 'landscape');
-
-// Render the HTML as PDF
-        $dompdf->render();
-
-// Output the generated PDF to Browser
-        $dompdf->stream();
 
         $response = new Response();
 
