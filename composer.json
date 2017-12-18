@@ -1,75 +1,76 @@
 {
-
-    "name": "inpro/ispa",
-    "license": "MIT",
-    "type": "project",
-    "autoload": {
-        "psr-4": {
-            "AppBundle\\": "src/AppBundle",
-            "UserBundle\\": "src/UserBundle",
-            "SchoolBundle\\": "src/SchoolBundle",
-            "CourseBundle\\": "src/CourseBundle",
-            "IOBundle\\": "src/IOBundle"
-        },
-        "classmap": [
-            "app/AppKernel.php",
-            "app/AppCache.php"
-        ]
+  "name": "inpro/ispa",
+  "license": "MIT",
+  "type": "project",
+  "autoload": {
+    "psr-4": {
+      "AppBundle\\": "src/AppBundle",
+      "UserBundle\\": "src/UserBundle",
+      "SchoolBundle\\": "src/SchoolBundle",
+      "CourseBundle\\": "src/CourseBundle",
+      "IOBundle\\": "src/IOBundle"
     },
-    "autoload-dev": {
-        "psr-4": {
-            "Tests\\": "tests/"
-        },
-        "files": [
-            "vendor/symfony/symfony/src/Symfony/Component/VarDumper/Resources/functions/dump.php"
-        ]
+    "classmap": [
+      "app/AppKernel.php",
+      "app/AppCache.php"
+    ]
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\": "tests/"
     },
-    "require": {
-        "php": ">=5.5.9",
-        "kint-php/kint": "^2.2",
-      "doctrine/doctrine-bundle": "~1.4",
-      "doctrine/orm": "^2.4.8",
-        "incenteev/composer-parameter-handler": "^2.0",
-      "sensio/distribution-bundle": "~4.0",
-      "sensio/framework-extra-bundle": "^3.0.2",
-      "symfony/monolog-bundle": "^3.0.2",
-      "symfony/symfony": "2.8.*",
-      "symfony/swiftmailer-bundle": "~2.3,>=2.3.10",
-      "twig/twig": "1.33.*",
-      "sonata-project/core-bundle": "3.*",
-      "sonata-project/doctrine-orm-admin-bundle": "3.*",
-      "sonata-project/exporter": "1.*",
-      "sonata-project/user-bundle": "3.*",
-      "sonata-project/translation-bundle": "2.*"    },
-    "require-dev": {
-        "sensio/generator-bundle": "^3.0",
-        "symfony/phpunit-bridge": "^3.0"
-    },
-    "scripts": {
-        "symfony-scripts": [
-            "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::prepareDeploymentTarget"
-        ]
-    },
-    "config": {
-        "sort-packages": true,
-        "platform": {
-            "php": "5.6.2"
-        }
-    },
-    "extra": {
-        "symfony-app-dir": "app",
-        "symfony-bin-dir": "bin",
-        "symfony-var-dir": "var",
-        "symfony-web-dir": "",
-        "symfony-tests-dir": "tests",
-        "symfony-assets-install": "relative",
-        "incenteev-parameters": {
-            "file": "app/config/parameters.yml"
-        }
+    "files": [
+      "vendor/symfony/symfony/src/Symfony/Component/VarDumper/Resources/functions/dump.php"
+    ]
+  },
+  "require": {
+    "php": ">=5.5.9",
+    "kint-php/kint": "^2.2",
+    "doctrine/doctrine-bundle": "~1.4",
+    "doctrine/orm": "^2.4.8",
+    "incenteev/composer-parameter-handler": "^2.0",
+    "sensio/distribution-bundle": "~4.0",
+    "sensio/framework-extra-bundle": "^3.0.2",
+    "symfony/monolog-bundle": "^3.0.2",
+    "symfony/symfony": "2.8.*",
+    "symfony/swiftmailer-bundle": "~2.3,>=2.3.10",
+    "twig/twig": "1.33.*",
+    "sonata-project/core-bundle": "3.*",
+    "sonata-project/doctrine-orm-admin-bundle": "3.*",
+    "sonata-project/exporter": "1.*",
+    "sonata-project/user-bundle": "3.*",
+    "sonata-project/translation-bundle": "2.*",
+    "dompdf/dompdf": "0.*"
+  },
+  "require-dev": {
+    "sensio/generator-bundle": "^3.0",
+    "symfony/phpunit-bridge": "^3.0"
+  },
+  "scripts": {
+    "symfony-scripts": [
+      "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
+      "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
+      "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
+      "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
+      "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile",
+      "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::prepareDeploymentTarget"
+    ]
+  },
+  "config": {
+    "sort-packages": true,
+    "platform": {
+      "php": "5.6.2"
     }
+  },
+  "extra": {
+    "symfony-app-dir": "app",
+    "symfony-bin-dir": "bin",
+    "symfony-var-dir": "var",
+    "symfony-web-dir": "",
+    "symfony-tests-dir": "tests",
+    "symfony-assets-install": "relative",
+    "incenteev-parameters": {
+      "file": "app/config/parameters.yml"
+    }
+  }
 }
