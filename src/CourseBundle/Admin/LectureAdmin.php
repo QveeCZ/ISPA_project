@@ -77,7 +77,9 @@ class LectureAdmin extends AbstractAdmin
         $showMapper
             ->with('General',array('label' => 'Informace o lekci'))
             ->add('length',null,  array('label' => 'Délka lekce'))
+            ->add('dateRide',null,array('format' => 'd.m.Y','label' => 'Datum jízdy'))
             ->add('lectureType',null,  array('label' => 'Typ lekce'))
+            ->add('lector', null, array('label' => 'Lektor:'))
             ->end();
     }
 
@@ -104,9 +106,27 @@ class LectureAdmin extends AbstractAdmin
         $formMapper
             ->with('General',array('label' => 'Přidání lekce'))
             ->add('length', null, array('required' => true, 'label' => 'Délka lekce:'))
+            ->add('dateLecture', 'sonata_type_date_picker', array('format' => 'dd.MM.yyyy', 'required' => true, 'label' => 'Datum:'))
             ->add('lectureType', null, array('required' => true, 'label' => 'Typ lekce:'))
             ->add('courseRegistration', null, array('required' => true, 'label' => ' ', 'attr' => array('class' => "fa-force-hidden")))
             ->end();
+
+        if ($securityContext->isGranted('ROLE_STAFF')) {
+            $formMapper
+                ->with('General')
+                ->add('lector', null, array('required' => true, 'label' => 'Lektor:'))
+                ->end();
+        } else {
+            $formMapper
+                ->with('General')
+                ->add('lector', null, array('required' => true, 'label' => 'Lektor:',
+                    'class' => 'CourseBundle\Entity\Course',
+                    'query_builder' => function ($repository) use ($currentUser) {
+                        return $repository->createQueryBuilder('l')
+                            ->where('l.school = ' . $currentUser->getSchool()->getId());
+                    }))
+                ->end();
+        }
     }
 
     /**
@@ -132,7 +152,9 @@ class LectureAdmin extends AbstractAdmin
 
         $listMapper
             ->add('length',null,  array('label' => 'Délka lekce'))
+            ->add('dateRide',null,array('format' => 'd.m.Y','label' => 'Datum jízdy'))
             ->add('lectureType',null,  array('label' => 'Typ lekce'))
+            ->add('lector', null, array('label' => 'Lektor:'))
             ->add('_action', null, array(
                 'actions' => array(
                     'show' => array(),

@@ -23,28 +23,28 @@ services:
     course.admin.course:
         class: CourseBundle\Admin\CourseAdmin
         tags:
-          - { name: sonata.admin, manager_type: orm, group: course, label: course }
+          - { name: sonata.admin, manager_type: orm, group: course_group, label: course }
         arguments: [~, CourseBundle\Entity\Course, ~]
         public: true
 
     course.admin.registration:
         class: CourseBundle\Admin\RegistrationAdmin
         tags:
-          - { name: sonata.admin, manager_type: orm, group: course, label: registration }
+          - { name: sonata.admin, manager_type: orm, group: course_group, label: registration }
         arguments: [~, CourseBundle\Entity\Registration, ~]
         public: true
 
     course.admin.lecture:
         class: CourseBundle\Admin\LectureAdmin
         tags:
-          - { name: sonata.admin, manager_type: orm, group: course, label: lecture }
+          - { name: sonata.admin, manager_type: orm, group: course_group, label: lecture }
         arguments: [~, CourseBundle\Entity\Lecture, ~]
         public: true
 
     course.admin.ride:
         class: CourseBundle\Admin\RideAdmin
         tags:
-          - { name: sonata.admin, manager_type: orm, group: course, label: ride }
+          - { name: sonata.admin, manager_type: orm, group: course_group, label: ride }
         arguments: [~, CourseBundle\Entity\Ride, ~]
         public: true
 
@@ -52,7 +52,7 @@ services:
     school.admin.lector:
         class: SchoolBundle\Admin\LectorAdmin
         tags:
-          - { name: sonata.admin, manager_type: orm, group: school, label: lector }
+          - { name: sonata.admin, manager_type: orm, group: school_group, label: lector }
         arguments: [~, SchoolBundle\Entity\Lector, ~]
         calls:
             - [ setTemplate, [base_list_field, SchoolBundle:Admin:lector_base_list_field.html.twig]]
@@ -61,14 +61,14 @@ services:
     school.admin.school:
         class: SchoolBundle\Admin\SchoolAdmin
         tags:
-          - { name: sonata.admin, manager_type: orm, group: school, label: school }
+          - { name: sonata.admin, manager_type: orm, group: school_group, label: school }
         arguments: [~, SchoolBundle\Entity\School, ~]
         public: true
 
     school.admin.car:
         class: SchoolBundle\Admin\CarAdmin
         tags:
-          - { name: sonata.admin, manager_type: orm, group: school, label: car }
+          - { name: sonata.admin, manager_type: orm, group: school_group, label: car }
         arguments: [~, SchoolBundle\Entity\Car, ~]
         calls:
             - [ setTemplate, [base_list_field, SchoolBundle:Admin:car_base_list_field.html.twig]]

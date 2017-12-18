@@ -79,6 +79,7 @@ class RideAdmin extends AbstractAdmin
             ->with('General',array('label' => 'Informace o jízdě'))
             ->add('dateRide',null,array('format' => 'd.m.Y','label' => 'Datum jízdy'))
             ->add('lectureType',null,array('label' => 'Lekce'))
+            ->add('lector', null, array('label' => 'Lektor:'))
             ->end();
     }
 
@@ -107,6 +108,23 @@ class RideAdmin extends AbstractAdmin
             ->add('dateRide', 'sonata_type_date_picker', array('format' => 'dd.MM.yyyy', 'required' => true, 'label' => 'Datum:'))
             ->add('courseRegistration', null, array('required' => true, 'label' => ' ', 'attr' => array('class' => "fa-force-hidden")))
             ->end();
+
+        if ($securityContext->isGranted('ROLE_STAFF')) {
+            $formMapper
+                ->with('General')
+                ->add('lector', null, array('required' => true, 'label' => 'Lektor:'))
+                ->end();
+        } else {
+            $formMapper
+                ->with('General')
+                ->add('lector', null, array('required' => true, 'label' => 'Lektor:',
+                    'class' => 'CourseBundle\Entity\Course',
+                    'query_builder' => function ($repository) use ($currentUser) {
+                        return $repository->createQueryBuilder('l')
+                            ->where('l.school = ' . $currentUser->getSchool()->getId());
+                    }))
+                ->end();
+        }
     }
 
     /**
@@ -133,6 +151,7 @@ class RideAdmin extends AbstractAdmin
         $listMapper
             ->add('dateRide',null,array('format' => 'd.m.Y','label' => 'Datum jízdy'))
             ->add('courseRegistration',null,array('label' => 'Informace o uchazeči'))
+            ->add('lector', null, array('label' => 'Lektor:'))
             ->add('_action', null, array(
                 'actions' => array(
                     'show' => array(),

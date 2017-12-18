@@ -1,9 +1,11 @@
 <?php
+
 namespace CourseBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use SchoolBundle\Entity\Lector;
 use SchoolBundle\Entity\School;
 
 /**
@@ -43,6 +45,21 @@ class Lecture
      * @ORM\JoinColumn(name="lecture_type_id", referencedColumnName="name")
      */
     protected $lectureType;
+
+    /**
+     * @var Lector $lector
+     * @ORM\ManyToOne(targetEntity="SchoolBundle\Entity\Lector", inversedBy="lectorLectures")
+     * @ORM\JoinColumn(name="lector_id", referencedColumnName="id")
+     */
+    protected $lector;
+
+    /**
+     * @var \DateTime $dateLecture
+     *
+     *
+     * @ORM\Column(name="date_lecture", type="date", nullable=false)
+     */
+    protected $dateLecture;
 
     /**
      * @return int
@@ -108,6 +125,38 @@ class Lecture
         $this->lectureType = $lectureType;
     }
 
+    /**
+     * @return Lector
+     */
+    public function getLector()
+    {
+        return $this->lector;
+    }
+
+    /**
+     * @param Lector $lector
+     */
+    public function setLector($lector)
+    {
+        $this->lector = $lector;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getDateLecture()
+    {
+        return $this->dateLecture;
+    }
+
+    /**
+     * @param \DateTime $dateLecture
+     */
+    public function setDateLecture($dateLecture)
+    {
+        $this->dateLecture = $dateLecture;
+    }
+
 
 
 
@@ -116,13 +165,13 @@ class Lecture
 
         $lengthString = "hodina";
 
-        if($this->length > 1){
+        if ($this->length > 1) {
             $lengthString = "hodiny";
-        }else if($this->length > 4){
+        } else if ($this->length > 4) {
             $lengthString = "hodin";
         }
 
-        return $this->lectureType . ' o délce ' . $this->length . " " . $lengthString;
+        return $this->lectureType . ' o délce ' . $this->length . " " . $lengthString . " lektor " . $this->lector->getName();
     }
 
 
