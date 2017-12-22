@@ -75,7 +75,7 @@ class LectorAdmin extends AbstractAdmin
             ->add('hodinova_mzda', null, array('label' => 'Hodinová mzda:'))
             ->add('pocet_deti', null, array('label' => 'Počet dětí:'))
             ->add('birthDate', null, array('required' => TRUE,'label' => 'Datum narození:'))
-            ->add('dateMedical' ,null, array('format' => 'd.m.Y','label' => 'Lékařská prohlídka:'))
+            ->add('dateMedical' ,null, array('format' => 'd.m.Y','label' => 'Osvědčení:'))
             ->add('school', null, array('label' => 'Škola:'))
             ->end();
     }
@@ -152,7 +152,7 @@ class LectorAdmin extends AbstractAdmin
             ->add('name', null, array('label' => 'Jméno'))
             ->add('surname', null, array('label' => 'Příjmení'))
             ->addIdentifier('email', null, array('label' => 'Email'))
-            ->add('dateMedical' ,null, array('format' => 'd.m.Y','label' => 'Lékařská prohlídka'))
+            ->add('dateMedical' ,null, array('format' => 'd.m.Y','label' => 'Osvědčení'))
             ->add('hodinova_mzda', null, array('label' => 'Mzda'))
             ->add('pocet_deti', null, array('label' => 'Počet dětí'))
             ->add('birthDate', null, array('required' => TRUE,'label' => 'Datum narození:'))

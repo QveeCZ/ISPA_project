@@ -73,8 +73,8 @@ class LectorImageAdmin extends AbstractAdmin
         $currentUser = $this->getConfigurationPool()->getContainer()->get('security.token_storage')->getToken()->getUser();
 
         $formMapper
-            ->add('file', 'file', array('required' => false, 'label' => 'Nahrát obrázek:'))
-            ->add('protocolDate', 'sonata_type_date_picker', array('format' => 'dd.MM.yyyy', 'required' => TRUE, 'label' => 'Datum lékařské prohlídky:'))
+            ->add('file', 'file', array('required' => false, 'label' => 'Nahrát protokol:'))
+            ->add('protocolDate', 'sonata_type_date_picker', array('format' => 'dd.MM.yyyy', 'required' => TRUE, 'label' => 'Datum osvědčení:'))
             ->end();
 
         if ($securityContext->isGranted('ROLE_STAFF')) {
@@ -104,7 +104,7 @@ class LectorImageAdmin extends AbstractAdmin
     public function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->add('filename', 'string', array('label' => 'Obrázek'))
+            ->add('filename', 'string', array('label' => 'Protokol'))
             ->add('_action', 'actions', array(
                 'actions' => array(
                     //'publish' => array(),

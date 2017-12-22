@@ -42,6 +42,10 @@
                  <source>form.label_school</source>
                  <target>Škola</target>
             </trans-unit>
+            <trans-unit id="user_block_profile">
+                 <source>user_block_profile</source>
+                 <target>Uživatelské údaje</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
