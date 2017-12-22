@@ -19,8 +19,7 @@ use UserBundle\Entity\User;
 class DefaultController extends  Controller
 {
 
-    function lectorFileAction($fileId){
-
+    function lectorFileAction($fileId, $src = false){
 
         $em = $this->getDoctrine()->getManager();
         $repoFile = $em->getRepository('ImageBundle:LectorImage');
@@ -52,10 +51,10 @@ class DefaultController extends  Controller
         }
 
 
-        return $this->returnFile($file->getFilename(), $file->isImage());
+        return $this->returnFile($file->getFilename(), $file->isImage(), $src);
 
     }
-    function carFileAction($fileId){
+    function carFileAction($fileId, $src = false){
 
 
         $em = $this->getDoctrine()->getManager();
@@ -88,23 +87,27 @@ class DefaultController extends  Controller
         }
 
 
-        return $this->returnFile($file->getFilename(), $file->isImage());
+        return $this->returnFile($file->getFilename(), $file->isImage(), $src);
 
     }
 
 
 
-    private function returnFile($fileName, $isImage){
+    private function returnFile($fileName, $isImage, $src){
 
         $file =    readfile(\ImageBundle\UPLOAD_DIR . $fileName);
 
 
         if($isImage){
 
-            $imageExtension = pathinfo($fileName, PATHINFO_EXTENSION);
+
             $headers = array(
-                'Content-Type'     => 'image/' . $imageExtension,
                 'Content-Disposition' => 'inline; filename="'.$fileName.'"');
+
+            if(!$src){
+                $imageExtension = pathinfo($fileName, PATHINFO_EXTENSION);
+                $headers['Content-Type'] = 'image/' . $imageExtension;
+            }
         }else{
 
             $headers = array(

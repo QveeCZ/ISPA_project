@@ -2,9 +2,9 @@
     <div class="protocol" rel="{{ image.id }}">
 
         {% if image.isImage %}
-            <a target="_blank" href="{{ asset('/admin/file/lector/' ~ image.id) }}"><img src="{{ asset('/admin/file/lector/' ~ image.id) }}" alt=""/></a>
+            <a target="_blank" href="{{ asset('/admin/file/lector/' ~ image.id ~ "/0") }}"><img src="{{ asset('/admin/file/lector/' ~ image.id ~ "/1") }}" alt=""/></a>
         {% else %}
-            <a target="_blank" href="{{ asset('/admin/file/lector/' ~ image.id) }}">{{ image.filename }}</a>
+            <a target="_blank" href="{{ asset('/admin/file/lector/' ~ image.id ~ "/0") }}">{{ image.filename }}</a>
         {% endif %}
         <p><strong>Datum prohlídky: {{ image.protocolDate|date("d.m.Y") }}</strong></p>
         <div class="image-actions">

@@ -35,9 +35,9 @@ file that was distributed with this source code.
                     <div class="input">
 
                         {% if object.isImage %}
-                            <a target="_blank" href="{{ asset('/admin/file/lector/' ~ object.id) }}"><img src="{{ asset('/admin/file/lector/' ~ object.id) }}" alt=""/></a>
+                            <a target="_blank" href="{{ asset('/admin/file/lector/' ~ object.id ~ "/0") }}"><img src="{{ asset('/admin/file/lector/' ~ object.id ~ "/1") }}" alt=""/></a>
                         {% else %}
-                            <a target="_blank" href="{{ asset('/admin/file/lector/' ~ object.id) }}">{{ object.filename }}</a>
+                            <a target="_blank" href="{{ asset('/admin/file/lector/' ~ object.id ~ "/0") }}">{{ object.filename }}</a>
                         {% endif %}
                     </div>
                 </div>
