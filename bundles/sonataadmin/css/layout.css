@@ -2749,6 +2749,10 @@
     display: none !important;
 }
 
+.form-group .form-group .sonata-ba-field .sonata-ba-action, .form-group .form-group .sonata-ba-field .checkbox{
+    display: none !important;
+}
+
 @charset "UTF-8";
 
 div.border {

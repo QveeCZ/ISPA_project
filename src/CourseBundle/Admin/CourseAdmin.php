@@ -22,14 +22,6 @@ class CourseAdmin extends AbstractAdmin
 {
 
 
-
-
-    protected function configureRoutes(RouteCollection $collection)
-    {
-        $collection->add('pdf', 'pdf/' . $this->getRouterIdParameter());
-    }
-
-
     public function createQuery($context = 'list')
     {
 
@@ -154,10 +146,7 @@ class CourseAdmin extends AbstractAdmin
                 'actions' => array(
                     'show' => array(),
                     'edit' => array(),
-                    'delete' => array(),
-                    'PDF' => array(
-                        'template' => 'SchoolBundle:CRUD:list__action_pdf.html.twig'
-                    )
+                    'delete' => array()
                 ),'label' => 'Akce'
             ));
     }

@@ -1,0 +1,23 @@
+{% for image in images %}
+    <div class="protocol" rel="{{ image.id }}">
+
+        {% if image.isImage %}
+            <a target="_blank" href="{{ asset('/admin/file/lector/' ~ image.id) }}"><img src="{{ asset('/admin/file/lector/' ~ image.id) }}" alt=""/></a>
+        {% else %}
+            <a target="_blank" href="{{ asset('/admin/file/lector/' ~ image.id) }}">{{ image.filename }}</a>
+        {% endif %}
+        <p><strong>Datum prohlídky: {{ image.protocolDate|date("d.m.Y") }}</strong></p>
+        <div class="image-actions">
+            <a href="{{ path('admin_image_lector_image_edit', {'id' : image.id}) }}" title="Upravit"
+               onclick="start_field_dialog_form_add_{{ id }}(event)"
+            >
+                <img src="{{ asset('bundles/sonataadmin/iconic/pencil-4x.png') }}" alt="Upravit"/>
+            </a>
+            <a class="delete_link" href="{{ path('admin_image_lector_image_delete', {'id' : image.id}) }}"
+               title="Smazat obrázek" onclick="return confirm('Opravdu smazat?')">
+                <img src="{{ asset('bundles/sonataadmin/iconic/circle-x-4x.png') }}" alt="Smazat obrázek"/>
+            </a>
+        </div>
+    </div>
+{% endfor %}
+<div class="clearer"></div>

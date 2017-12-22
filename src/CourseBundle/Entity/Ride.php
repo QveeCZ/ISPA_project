@@ -4,6 +4,8 @@ namespace CourseBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use SchoolBundle\Entity\Car;
+use SchoolBundle\Entity\Lector;
 use SchoolBundle\Entity\School;
 
 /**
@@ -40,12 +42,34 @@ class Ride
     protected $courseRegistration;
 
     /**
+     * @var Lector $lector
+     * @ORM\ManyToOne(targetEntity="SchoolBundle\Entity\Lector", inversedBy="lectorRides")
+     * @ORM\JoinColumn(name="lector_id", referencedColumnName="id")
+     */
+    protected $lector;
+
+    /**
+     * @var Car $car
+     * @ORM\ManyToOne(targetEntity="SchoolBundle\Entity\Car", inversedBy="carRides")
+     * @ORM\JoinColumn(name="car_id", referencedColumnName="id")
+     */
+    protected $car;
+
+    /**
      * @var \DateTime $created
      *
      *
      * @ORM\Column(name="created", type="datetime", nullable=true)
      */
     protected $created;
+
+    /**
+     * @var integer $length
+     *
+     *
+     * @ORM\Column(name="length", type="integer", nullable=false)
+     */
+    protected $length;
 
 
     function __construct()
@@ -120,6 +144,54 @@ class Ride
         $this->created = $created;
     }
 
+    /**
+     * @return Lector
+     */
+    public function getLector()
+    {
+        return $this->lector;
+    }
+
+    /**
+     * @param Lector $lector
+     */
+    public function setLector($lector)
+    {
+        $this->lector = $lector;
+    }
+
+    /**
+     * @return Car
+     */
+    public function getCar()
+    {
+        return $this->car;
+    }
+
+    /**
+     * @param Car $car
+     */
+    public function setCar(Car $car)
+    {
+        $this->car = $car;
+    }
+
+    /**
+     * @return integer
+     */
+    public function getLength()
+    {
+        return $this->length;
+    }
+
+    /**
+     * @param integer $length
+     */
+    public function setLength($length)
+    {
+        $this->length = $length;
+    }
+
     public function __toString()
     {
 
@@ -129,7 +201,7 @@ class Ride
             $rideDate = $this->getDateRide()->format("d.m.Y");
         }
 
-        return 'Jízda ' . $rideDate;
+        return 'Jízda ' . $rideDate . ", lektor " . $this->lector->getSurname() . ", délka " . $this->length . " km.";
     }
 
 

@@ -14,6 +14,12 @@ SchoolBundle:
 IOBundle:
     resource: "@IOBundle/Resources/config/routing.php"
     prefix:   /
+ImageBundle:
+    resource: "@ImageBundle/Resources/config/routing.php"
+    prefix:   /
+ApiBundle:
+    resource: "@ApiBundle/Resources/config/routing.php"
+    prefix:   /
 
 fos_user_security:
     resource: "@FOSUserBundle/Resources/config/routing/security.xml"

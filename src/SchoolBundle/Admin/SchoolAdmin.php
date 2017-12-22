@@ -18,6 +18,8 @@ use UserBundle\Entity\User;
 
 class SchoolAdmin extends AbstractAdmin
 {
+
+
     public function createQuery($context = 'list')
     {
 
@@ -31,12 +33,12 @@ class SchoolAdmin extends AbstractAdmin
 
         $query = parent::createQuery($context);
 
-        if($securityContext->isGranted('ROLE_STAFF')){
+        if ($securityContext->isGranted('ROLE_STAFF')) {
             return $query;
         }
 
         $query->andWhere(
-            $query->expr()->eq($query->getRootAlias().'.school', ':school')
+            $query->expr()->eq($query->getRootAlias() . '.school', ':school')
         );
         $query->setParameter('school', $currentUser->getSchool());
         return $query;
@@ -64,12 +66,12 @@ class SchoolAdmin extends AbstractAdmin
         }
 
         $showMapper
-            ->with('General',array('label' => 'Informace o škole'))
-            ->add('name',null,array('label' => 'Název'))
-            ->add('kontakt',null,array('label' => 'Kontakt'))
-            ->add('ico',null,array('label' => 'IČO'))
-            ->add('web',null,array('label' => 'Webová stránka'))
-             ->end();
+            ->with('General', array('label' => 'Informace o škole'))
+            ->add('name', null, array('label' => 'Název'))
+            ->add('kontakt', null, array('label' => 'Kontakt'))
+            ->add('ico', null, array('label' => 'IČO'))
+            ->add('web', null, array('label' => 'Webová stránka'))
+            ->end();
     }
 
     /**
@@ -93,12 +95,12 @@ class SchoolAdmin extends AbstractAdmin
         }
 
         $formMapper
-            ->with('General',array('label' => 'Škola'))
-            ->add('name',null,array('required' => TRUE,'label' => 'Název'))
-            ->add('kontakt',null,array('required' => TRUE))
-            ->add('ico',null,array('required' => TRUE,'label' => 'IČO'))
-            ->add('web',null,array('required' => TRUE))
-           ->end();
+            ->with('General', array('label' => 'Škola'))
+            ->add('name', null, array('required' => TRUE, 'label' => 'Název'))
+            ->add('kontakt', null, array('required' => TRUE))
+            ->add('ico', null, array('required' => TRUE, 'label' => 'IČO'))
+            ->add('web', null, array('required' => TRUE))
+            ->end();
     }
 
     /**
@@ -109,10 +111,10 @@ class SchoolAdmin extends AbstractAdmin
 
 
         $filterMapper
-            ->add('name',null,array('label' => 'Název'))
-            ->add('kontakt',null)
-            ->add('ico',null,array('label' => 'IČO'))
-            ->add('web',null);
+            ->add('name', null, array('label' => 'Název'))
+            ->add('kontakt', null)
+            ->add('ico', null, array('label' => 'IČO'))
+            ->add('web', null);
     }
 
     /**
@@ -122,12 +124,18 @@ class SchoolAdmin extends AbstractAdmin
     {
 
 
-
         $listMapper
-            ->addIdentifier('name',null,array('label' => 'Název'))
-            ->add('kontakt',null)
-            ->add('ico',null,array('label' => 'IČO'))
-            ->add('web',null);
+            ->add('name', null, array('label' => 'Název'))
+            ->add('kontakt', null)
+            ->add('ico', null, array('label' => 'IČO'))
+            ->add('web', null)
+            ->add('_action', null, array(
+                'actions' => array(
+                    'show' => array(),
+                    'edit' => array(),
+                    'delete' => array()
+                ), 'label' => 'Akce'
+            ));
 
     }
 
@@ -144,12 +152,12 @@ class SchoolAdmin extends AbstractAdmin
         $securityContext = $this->getConfigurationPool()->getContainer()->get('security.authorization_checker');
         $currentUser = $this->getConfigurationPool()->getContainer()->get('security.token_storage')->getToken()->getUser();
 
-        if($securityContext->isGranted('ROLE_STAFF')){
+        if ($securityContext->isGranted('ROLE_STAFF')) {
             parent::preUpdate($course);
             return;
         }
 
-        if(!$currentUser->getSchool()){
+        if (!$currentUser->getSchool()) {
             throw new EntityNotFoundException("User " . $currentUser->getId() . " doesnt have ROLE_STAFF and is not associated with any school");
         }
 

@@ -15,7 +15,7 @@ class ImportAdmin extends AbstractAdmin
 
         switch ($name){
             case "list":
-                return 'IOBundle:Admin:full_import.html.twig';
+                return 'IOBundle:Admin:salary_form.html.twig';
                 break;
         }
 

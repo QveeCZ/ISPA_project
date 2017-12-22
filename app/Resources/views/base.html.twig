@@ -9,7 +9,13 @@
 <body>
 {% for label, messages in app.session.flashbag.all %}
     <div class="alert alert-{{ label }}">
-        {{ message }}
+        {{ messages[0] }}
+    </div>
+{% endfor %}
+
+{% for flashMessage in app.session.flashbag.all %}
+    <div class="alert">
+        {{ flashMessage }}
     </div>
 {% endfor %}
 {% block body %}{% endblock %}

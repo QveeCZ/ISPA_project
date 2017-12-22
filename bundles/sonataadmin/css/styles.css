@@ -113,6 +113,28 @@ body > .header .logo {
     display: inline-block;
 }
 
+
+/* MEGA PROTOKOLY STYLE */
+#uploaded-protocols{
+    font-size: 1.4em;
+}
+
+#uploaded-protocols img{
+    max-width: 250px;
+    height: auto;
+}
+
+#uploaded-protocols .protocol{
+    border-bottom: 2px #404040 solid;
+    padding-bottom: 15px;
+    padding-top: 15px;
+}
+
+.sonata-ba-action{
+    font-size: 1.4em;
+    margin-bottom: 30px;
+}
+
 /* MEGA MENU STYLE
 ********************************/
 .dropdown-menu.multi-column .dropdown-menu {

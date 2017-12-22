@@ -121,7 +121,7 @@ class RegistrationAdmin extends AbstractAdmin
             ))
             ->add('registrationRides', 'sonata_type_collection', array('label' => 'Jízdy:','required' => false,
                 'by_reference' => false,
-                'disabled'  => true,
+                'disabled'  => true
             ), array(
                 'edit' => 'standard',
                 'sortable' => 'position',

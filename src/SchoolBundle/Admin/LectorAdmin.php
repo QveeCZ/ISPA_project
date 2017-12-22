@@ -20,13 +20,6 @@ use UserBundle\Entity\User;
 
 class LectorAdmin extends AbstractAdmin
 {
-
-
-    protected function configureRoutes(RouteCollection $collection)
-    {
-        $collection->add('pdf', 'pdf/' . $this->getRouterIdParameter());
-    }
-
     public function createQuery($context = 'list')
     {
 
@@ -79,15 +72,11 @@ class LectorAdmin extends AbstractAdmin
             ->add('surname', null, array('label' => 'Příjmení:'))
             ->add('email', null, array('label' => 'Email:'))
             ->add('phone', null, array('label' => 'Telefon:'))
-            ->add('hodinova_mzda', null, array('label' => 'Mzda:'))
+            ->add('hodinova_mzda', null, array('label' => 'Hodinová mzda:'))
             ->add('pocet_deti', null, array('label' => 'Počet dětí:'))
+            ->add('birthDate', null, array('required' => TRUE,'label' => 'Datum narození:'))
             ->add('dateMedical' ,null, array('format' => 'd.m.Y','label' => 'Lékařská prohlídka:'))
             ->add('school', null, array('label' => 'Škola:'))
-            ->add('filename', 'image', array(
-                'prefix' => '/upload/',
-                'width' => 250,
-                'height' => 250,
-            ))
             ->end();
     }
 
@@ -115,11 +104,10 @@ class LectorAdmin extends AbstractAdmin
             ->add('name', null, array('required' => TRUE, 'label' => 'Jméno:'))
             ->add('surname', null, array('required' => TRUE, 'label' => 'Příjmení:'))
             ->add('email', null, array('required' => TRUE, 'label' => 'Email:'))
-            ->add('hodinova_mzda', null, array('required' => TRUE,'label' => 'Mzda:'))
+            ->add('hodinova_mzda', null, array('required' => TRUE,'label' => 'Hodinová mzda:'))
             ->add('pocet_deti', null, array('required' => TRUE,'label' => 'Počet dětí:'))
+            ->add('birthDate', 'sonata_type_date_picker', array('format' => 'dd.MM.yyyy', 'required' => TRUE, 'label' => 'Datum narození:'))
             ->add('phone', null, array('required' => TRUE, 'label' => 'Telefon:'))
-            ->add('dateMedical', 'sonata_type_date_picker', array('format' => 'dd.MM.yyyy', 'required' => TRUE, 'label' => 'Datum lékařské prohlídky:'))
-            ->add('file', 'file', ['required' => false])
             ->end();
 
 
@@ -144,6 +132,7 @@ class LectorAdmin extends AbstractAdmin
         $filterMapper
             ->add('name', null, array('label' => 'Jméno:'))
             ->add('surname', null, array('label' => 'Příjmení:'))
+            ->add('birthDate', null, array('required' => TRUE,'label' => 'Datum narození:'))
             ->add('email', null, array('label' => 'Email:'));
 
         if ($securityContext->isGranted('ROLE_STAFF')) {
@@ -166,23 +155,21 @@ class LectorAdmin extends AbstractAdmin
             ->add('dateMedical' ,null, array('format' => 'd.m.Y','label' => 'Lékařská prohlídka'))
             ->add('hodinova_mzda', null, array('label' => 'Mzda'))
             ->add('pocet_deti', null, array('label' => 'Počet dětí'))
+            ->add('birthDate', null, array('required' => TRUE,'label' => 'Datum narození:'))
             ->add('school', null, array('label' => 'Škola'))
             ->add('_action', null, array(
                 'actions' => array(
                     'show' => array(),
                     'edit' => array(),
-                    'delete' => array(),
-                    'PDF' => array(
-                        'template' => 'SchoolBundle:CRUD:list__action_pdf.html.twig'
-                    )
+                    'delete' => array()
                 ),'label' => 'Akce'
             ));
     }
     /**
-     * @param Lector $lector
+     * @param Lector $car
      * @throws EntityNotFoundException
      */
-    public function prePersist($lector)
+    public function prePersist($car)
     {
         /**
          * @var AuthorizationChecker $securityContext
@@ -191,10 +178,10 @@ class LectorAdmin extends AbstractAdmin
         $securityContext = $this->getConfigurationPool()->getContainer()->get('security.authorization_checker');
         $currentUser = $this->getConfigurationPool()->getContainer()->get('security.token_storage')->getToken()->getUser();
 
-        $this->manageFileUpload($lector);
+        $this->manageFileUpload($car);
 
         if($securityContext->isGranted('ROLE_STAFF')){
-            parent::preUpdate($lector);
+            parent::preUpdate($car);
             return;
         }
 
@@ -202,31 +189,25 @@ class LectorAdmin extends AbstractAdmin
             throw new EntityNotFoundException("User " . $currentUser->getId() . " doesnt have ROLE_STAFF and is not associated with any school");
         }
 
-        $lector->setSchool($currentUser->getSchool());
-        parent::prePersist($lector);
+        $car->setSchool($currentUser->getSchool());
+        parent::prePersist($car);
 
 
     }
 
-    /**
-     * @param Lector $lector
-     * @throws EntityNotFoundException
-     */
-    public function preUpdate($lector)
+    public function getTemplate($name)
     {
-        $this->manageFileUpload($lector);
-    }
-
-    /**
-     * @param Lector $lector
-     * @throws EntityNotFoundException
-     */
-    private function manageFileUpload($lector)
-    {
-        if ($lector->getFile()) {
-            $lector->upload();
-            $lector->refreshUpdated();
+        switch ($name) {
+            case "edit":
+                return $this->getEditTemplate();
+                break;
         }
+        return parent::getTemplate($name);
+    }
+
+    public function getEditTemplate()
+    {
+        return 'SchoolBundle:Admin:editLector.html.twig';
     }
 }
 

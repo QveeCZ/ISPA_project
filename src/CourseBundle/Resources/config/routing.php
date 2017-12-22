@@ -10,4 +10,5 @@ $collection->add('CourseBundle_registration', new Route('/course/register/{cours
     '_controller' => 'CourseBundle:Registration:register',
 )));
 
+
 return $collection;

@@ -190,7 +190,7 @@ class LectureAdmin extends AbstractAdmin
             case "TZBJ":
                 $valid = ($sumLength > 15) ? false : true;
                 break;
-            case "ZDRV":
+            case "Zdravověda":
                 $valid = ($sumLength > 3) ? false : true;
                 break;
         }

@@ -3,9 +3,11 @@
 namespace SchoolBundle\Entity;
 
 use CourseBundle\Entity\Course;
+use CourseBundle\Entity\Ride;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use ImageBundle\Entity\LectorImage;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -116,15 +118,6 @@ class Lector
 
 
     /**
-     * @var String $dateMedical
-     *
-     *
-     * @ORM\Column(name="date_medical", type="date", nullable=false)
-     */
-    protected $dateMedical;
-
-
-    /**
      * @var integer $phone
      *
      *
@@ -144,6 +137,32 @@ class Lector
      * @ORM\JoinColumn(name="school_id", referencedColumnName="id")
      */
     protected $school;
+
+
+    /**
+     * @var ArrayCollection $lectorRides
+     *
+     * @ORM\OneToMany(targetEntity="CourseBundle\Entity\Ride", mappedBy="lector", cascade={ "remove"}, orphanRemoval=true)
+     */
+    protected $lectorRides;
+
+
+    /**
+     * @var ArrayCollection $lectorImages
+     *
+     * @ORM\OneToMany(targetEntity="ImageBundle\Entity\LectorImage", mappedBy="lector", cascade={ "remove"}, orphanRemoval=true, cascade={"persist", "remove"})
+     * @ORM\OrderBy({"protocolDate" = "DESC"})
+     */
+    protected $lectorImages;
+
+
+    /**
+     * @var \DateTime $birthDate
+     *
+     *
+     * @ORM\Column(name="date_birth", type="date", nullable=false)
+     */
+    protected $birthDate;
 
     /**
      * @return int
@@ -214,15 +233,19 @@ class Lector
      */
     public function getDateMedical()
     {
-        return $this->dateMedical;
-    }
 
-    /**
-     * @param String $dateMedical
-     */
-    public function setDateMedical($dateMedical)
-    {
-        $this->dateMedical = $dateMedical;
+        $protocolArray = $this->getLectorImages()->toArray();
+
+        if (empty($protocolArray)){
+            return "";
+        }
+        /**
+         * @var LectorImage $lastedical
+         */
+        $lastedical = $protocolArray[0];
+        $ret = $lastedical->getProtocolDate();
+        return $ret->format("Y-m-d");
+
     }
 
     /**
@@ -263,128 +286,91 @@ class Lector
     }
 
     /**
-     * Unmapped property to handle file uploads
+     * @return ArrayCollection
      */
-    private $file;
+    public function getLectorRides()
+    {
+        return $this->lectorRides;
+    }
 
     /**
-     * Sets file.
+     * @param ArrayCollection $lectorRides
+     */
+    public function setLectorRides($lectorRides)
+    {
+        $this->lectorRides = $lectorRides;
+    }
+
+    /**
      *
-     * @param UploadedFile $file
+     * @param Lector $lectorRides
      */
-    public function setFile($file = null)
+    public function addCarRides(Ride $lectorRides)
     {
-        $this->file = $file;
-    }
-
-    /**
-     * Get file.
-     *
-     * @return UploadedFile
-     */
-    public function getFile()
-    {
-        return $this->file;
-    }
-
-    /**
-     * Manages the copying of the file to the relevant place on the server
-     */
-    public function upload()
-    {
-
-        $uploadDir =  __DIR__ . "/../../../upload";
-
-        // the file property can be empty if the field is not required
-        if (null === $this->getFile()) {
-            return;
-        }
-
-        // we use the original file name here but you should
-        // sanitize it at least to avoid any security issues
-
-        $filename = uniqid() . "_" . $this->getFile()->getClientOriginalName();
-
-        // move takes the target directory and target filename as params
-        $this->getFile()->move(
-            $uploadDir,
-            $filename
-        );
-
-        if($this->filename){
-            unlink($uploadDir . "/" . $this->filename);
-        }
-
-        // set the path property to the filename where you've saved the file
-        $this->filename = $filename;
-
-        // clean up the file property as you won't need it anymore
-        $this->setFile(null);
-    }
-
-    /**
-     * Lifecycle callback to upload the file to the server
-     */
-    public function lifecycleFileUpload()
-    {
-        $this->upload();
-    }
-
-    /**
-     * Updates the hash value to force the preUpdate and postUpdate events to fire
-     */
-    public function refreshUpdated()
-    {
-        $this->setUpdated(new \DateTime());
+        $lectorRides->setLector($this);
+        $this->lectorRides->add($lectorRides);
     }
 
 
     /**
-     * @var \DateTime $updated
      *
-     *
-     * @ORM\Column(name="updated", type="datetime", nullable=false)
+     * @param Ride $lectorRides
      */
-    protected $updated;
+    public function removeCarRides(Ride $lectorRides)
+    {
+        $this->lectorRides->removeElement($lectorRides);
+    }
 
     /**
-     * @var String $filename
-     *
-     *
-     * @ORM\Column(name="filename", type="string", nullable=true)
+     * @return ArrayCollection
      */
-    protected $filename;
+    public function getLectorImages()
+    {
+        return $this->lectorImages;
+    }
+
+    /**
+     * @param ArrayCollection $lectorImages
+     */
+    public function setLectorImages($lectorImages)
+    {
+        $this->lectorImages = $lectorImages;
+    }
+
+    /**
+     *
+     * @param Lector $lectorImages
+     */
+    public function addCarImages(Ride $lectorImages)
+    {
+        $lectorImages->setLector($this);
+        $this->lectorImages->add($lectorImages);
+    }
+
+
+    /**
+     *
+     * @param Ride $lectorImages
+     */
+    public function removeCarImages(Ride $lectorImages)
+    {
+        $this->lectorImages->removeElement($lectorImages);
+    }
 
     /**
      * @return \DateTime
      */
-    public function getUpdated()
+    public function getBirthDate()
     {
-        return $this->updated;
+        return $this->birthDate;
     }
 
     /**
-     * @param \DateTime $updated
+     * @param \DateTime $birthDate
      */
-    public function setUpdated($updated)
+    public function setBirthDate($birthDate)
     {
-        $this->updated = $updated;
-    }
-
-    /**
-     * @return String
-     */
-    public function getFilename()
-    {
-        return $this->filename;
-    }
-
-    /**
-     * @param String $filename
-     */
-    public function setFilename($filename)
-    {
-        $this->filename = $filename;
+        $this->birthDate = $birthDate;
     }
 
 

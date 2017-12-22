@@ -74,6 +74,27 @@ services:
             - [ setTemplate, [base_list_field, SchoolBundle:Admin:car_base_list_field.html.twig]]
         public: true
 
+    school.admin.salary:
+        class: SchoolBundle\Admin\SalaryAdmin
+        tags:
+         - { name: sonata.admin, manager_type: orm, group: school_group, label: salary  }
+        arguments: [~, ~, SchoolBundle:SalaryAdmin]
+        public: true
+
+    image.admin.carimage:
+        class: ImageBundle\Admin\CarImageAdmin
+        tags:
+         - { name: sonata.admin, manager_type: orm, group: school_group, label: carImage, show_in_dashboard: false  }
+        arguments: [~, ImageBundle\Entity\CarImage, ImageBundle:CarImageAdmin]
+        public: true
+
+    image.admin.lectorimage:
+        class: ImageBundle\Admin\LectorImageAdmin
+        tags:
+         - { name: sonata.admin, manager_type: orm, group: school_group, label: lectorImage, show_in_dashboard: false  }
+        arguments: [~, ImageBundle\Entity\LectorImage, ImageBundle:LectorImageAdmin]
+        public: true
+
     #IO bundle
     iobundle.admin.import:
         class: IOBundle\Admin\ImportAdmin

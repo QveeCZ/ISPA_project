@@ -1,0 +1,143 @@
+{#
+
+This file is part of the Sonata package.
+
+(c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+
+#}
+
+{% extends 'SonataAdminBundle:CRUD:base_edit.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/admin.css') }}" type="text/css" media="all">
+{% endblock %}
+
+{% block form %}
+
+    {% set url = admin.id(object) ? 'edit' : 'create' %}
+
+    {% if not admin.hasRoute(url) %}
+        <div>
+            {{ "form_not_available"|trans({}, "SonataAdminBundle") }}
+        </div>
+    {% else %}
+        <form action="{{ admin.generateUrl(url, {'id': admin.id(object), 'uniqid': admin.uniqid}) }}" {{ form_enctype(form) }}
+              method="POST">
+
+            {% if form.vars.errors|length > 0 %}
+                <div class="sonata-ba-form-error">
+                    {{ form_errors(form) }}
+                </div>
+            {% endif %}
+
+            {% for name, form_group in admin.formgroups %}
+                <fieldset {% if form_group.collapsed %}class="sonata-ba-fielset-collapsed"{% endif %}>
+                    <legend>
+                        {% if form_group.collapsed %}
+                            <a href="" class="sonata-ba-collapsed"
+                               title="{% trans from 'SonataAdminBundle' %}link_expand{% endtrans %}">{{ name|trans({}, admin.translationdomain) }}</a>
+                        {% else %}
+                            {{ name|trans({}, admin.translationdomain) }}
+                        {% endif %}
+                    </legend>
+
+                    <div class="sonata-ba-collapsed-fields">
+                        {% for field_name in form_group.fields %}
+                            {% if admin.formfielddescriptions[field_name] is defined %}
+                                {{ form_row(form[field_name]) }}
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </fieldset>
+            {% endfor %}
+
+
+            <fieldset>
+                <legend>Lékařské prohlídky</legend>
+                <div id="uploaded-protocols">
+                    {% include  "ImageBundle:Admin:editLectorImagesList.html.twig" with {'images' : object.lectorImages, 'id' : object.id} %}
+
+                    {% if object.id %}
+                        <a
+                                href="{{ path('admin_image_lector_image_create') }}?gallery={{ object.id }}"
+                                onclick="start_field_dialog_form_add_{{ object.id }}(event)"
+                                class="sonata-ba-action"
+                                title="Přidat obrázek"
+                        >
+                            <img
+                                    src="{{ asset('bundles/sonataadmin/iconic/plus-4x.png') }}"
+                                    alt="{% trans from 'SonataAdminBundle' %}btn_add{% endtrans %}"
+                            />
+                            Přidat protokol </a>
+                    {% else %}
+                        Protokoly lze přidávat až při editaci.
+                    {% endif %}
+                </div>
+                <br/>
+
+                <div style="display: none" id="field_dialog_{{ object.id }}">
+
+                </div>
+            </fieldset>
+            <script type="text/javascript">
+                $(function () {
+                    $("#images").sortable();
+
+                });
+            </script>
+
+            {{ form_rest(form) }}
+
+            {% block formactions %}
+                <div class="sonata-ba-form-actions well well-small form-actions">
+                    {% block sonata_form_actions %}
+                        {% if app.request.isxmlhttprequest %}
+                            {# NEXT_MAJOR: remove default filter #}
+                            {% if objectId|default(admin.id(object)) is not null %}
+                                <button type="submit" class="btn btn-success" name="btn_update"><i class="fa fa-save" aria-hidden="true"></i> {{ 'btn_update'|trans({}, 'SonataAdminBundle') }}</button>
+                            {% else %}
+                                <button type="submit" class="btn btn-success" name="btn_create"><i class="fa fa-plus-circle" aria-hidden="true"></i> {{ 'btn_create'|trans({}, 'SonataAdminBundle') }}</button>
+                            {% endif %}
+                        {% else %}
+                            {% if admin.supportsPreviewMode %}
+                                <button class="btn btn-info persist-preview" name="btn_preview" type="submit">
+                                    <i class="fa fa-eye" aria-hidden="true"></i>
+                                    {{ 'btn_preview'|trans({}, 'SonataAdminBundle') }}
+                                </button>
+                            {% endif %}
+                            {# NEXT_MAJOR: remove default filter #}
+                            {% if objectId|default(admin.id(object)) is not null %}
+                                <button type="submit" class="btn btn-success" name="btn_update_and_edit"><i class="fa fa-save" aria-hidden="true"></i> {{ 'btn_update_and_edit_again'|trans({}, 'SonataAdminBundle') }}</button>
+
+                                {% if admin.hasRoute('list') and admin.hasAccess('list') %}
+                                    <button type="submit" class="btn btn-success" name="btn_update_and_list"><i class="fa fa-save"></i> <i class="fa fa-list" aria-hidden="true"></i> {{ 'btn_update_and_return_to_list'|trans({}, 'SonataAdminBundle') }}</button>
+                                {% endif %}
+
+                                {% if admin.hasRoute('delete') and admin.hasAccess('delete', object) %}
+                                    {{ 'delete_or'|trans({}, 'SonataAdminBundle') }}
+                                    <a class="btn btn-danger" href="{{ admin.generateObjectUrl('delete', object) }}"><i class="fa fa-minus-circle" aria-hidden="true"></i> {{ 'link_delete'|trans({}, 'SonataAdminBundle') }}</a>
+                                {% endif %}
+
+                                {% if admin.isAclEnabled() and admin.hasRoute('acl') and admin.hasAccess('acl', object) %}
+                                    <a class="btn btn-info" href="{{ admin.generateObjectUrl('acl', object) }}"><i class="fa fa-users" aria-hidden="true"></i> {{ 'link_edit_acl'|trans({}, 'SonataAdminBundle') }}</a>
+                                {% endif %}
+                            {% else %}
+                                {% if admin.hasroute('edit') and admin.hasAccess('edit') %}
+                                    <button class="btn btn-success" type="submit" name="btn_create_and_edit"><i class="fa fa-save" aria-hidden="true"></i> {{ 'btn_create_and_edit_again'|trans({}, 'SonataAdminBundle') }}</button>
+                                {% endif %}
+                                {% if admin.hasroute('list') and admin.hasAccess('list') %}
+                                    <button type="submit" class="btn btn-success" name="btn_create_and_list"><i class="fa fa-save"></i> <i class="fa fa-list" aria-hidden="true"></i> {{ 'btn_create_and_return_to_list'|trans({}, 'SonataAdminBundle') }}</button>
+                                {% endif %}
+                                <button class="btn btn-success" type="submit" name="btn_create_and_create"><i class="fa fa-plus-circle" aria-hidden="true"></i> {{ 'btn_create_and_create_a_new_one'|trans({}, 'SonataAdminBundle') }}</button>
+                            {% endif %}
+                        {% endif %}
+                    {% endblock %}
+                </div>
+            {% endblock formactions %}
+        </form>
+    {% endif %}
+{% endblock %}

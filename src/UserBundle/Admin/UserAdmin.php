@@ -68,10 +68,24 @@ class UserAdmin extends BaseUserAdmin
             ->end()// .. more info
         ;
 
+
+        if (!$this->getSubject()->hasRole('ROLE_STAFF') && !$this->getSubject()->hasRole('ROLE_ADMIN')) {
+            $formMapper
+                ->with('General')
+                ->add('school')
+                ->add('secret', null,
+                    array(
+                        'label' => 'API kód',
+                        'read_only' => true
+                    )
+                )
+                ->end();
+
+        }
+
         if (!$this->getSubject()->hasRole('ROLE_ADMIN') && $securityContext->isGranted('ROLE_ADMIN')) {
             $formMapper
                 ->with('Management')
-                ->add('school')
                 ->add('roles', 'sonata_security_roles', array(
                     'expanded' => true,
                     'multiple' => true,
@@ -129,5 +143,17 @@ class UserAdmin extends BaseUserAdmin
                 ->add('impersonating', 'string', array('template' => 'SonataUserBundle:Admin:Field/impersonating.html.twig'));
         }
     }
+
+    /**
+     * @param User $object
+     */
+    public function prePersist($object)
+    {
+        if($this->getRequest()->get($this->getIdParameter()) == null){
+            $object->setSecret(hash("whirlpool", $this->uniqid));
+        }
+    }
+
+
 }
 

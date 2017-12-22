@@ -74,11 +74,7 @@ class CarAdmin extends AbstractAdmin
             ->add('school',null, array('label' => 'Škola'))
             ->add('color',null, array('label' => 'Barva'))
             ->add('carType',null,array('label' => 'Typ auta'))
-            ->add('filename', 'image', array(
-                'prefix' => '/upload/',
-                'width' => 250,
-                'height' => 250,
-            ))
+            ->add('carRides', 'sonata_type_collection', array('label' => 'Jízdy:'))
             ->end();
     }
 
@@ -110,11 +106,9 @@ class CarAdmin extends AbstractAdmin
         $formMapper
             ->with('General',array('label' => 'Auto'))
             ->add('spz', null, array('required' => TRUE,'label' => 'SPZ:'))
-            ->add('dateSTK', 'sonata_type_date_picker', array('format' => 'dd.MM.yyyy', 'required' => TRUE,'label' => 'Datum STK:'))
             ->add('color', null, array('required' => TRUE,'label' => 'Barva:'))
             ->add('carType', null, array('required' => TRUE,'label' => 'Typ auta:'))
             ->add('condition', null, array('required' => TRUE,'label' => 'Stav:'))
-            ->add('file', 'file', ['required' => false])
             ->end();
 
         if ($securityContext->isGranted('ROLE_STAFF')) {
@@ -123,6 +117,19 @@ class CarAdmin extends AbstractAdmin
                 ->add('school', null, array('required' => TRUE,'label' => 'Škola'))
                 ->end();
         }
+
+
+        $formMapper
+            ->with('General')
+            ->add('carRides', 'sonata_type_collection', array('label' => 'Jízdy:','required' => false,
+                'by_reference' => false,
+                'btn_add' => false,
+                'disabled'  => true
+            ), array(
+                'edit' => 'standard',
+                'sortable' => 'position',
+            ))
+            ->end();
     }
 
     /**
@@ -136,8 +143,7 @@ class CarAdmin extends AbstractAdmin
         $securityContext = $this->getConfigurationPool()->getContainer()->get('security.authorization_checker');
 
         $filterMapper
-            ->add('spz',null,array('label' => 'SPZ'))
-            ->add('dateSTK',null, array('label' => 'Datum STK'));
+            ->add('spz',null,array('label' => 'SPZ'));
 
 
         if ($securityContext->isGranted('ROLE_STAFF')) {
@@ -153,11 +159,19 @@ class CarAdmin extends AbstractAdmin
     {
 
         $listMapper
-            ->addIdentifier('spz',null,array('label' => 'SPZ'))
+            ->add('spz',null,array('label' => 'SPZ'))
             ->add('dateSTK',null,array('format' => 'd.m.Y','label' => 'Datum STK'))
             ->add('school', null,array('label' => 'Škola'))
             ->add('color',null, array('label' => 'Barva'))
-            ->add('carType',null,array('label' => 'Typ auta'));
+            ->add('carType',null,array('label' => 'Typ auta'))
+            ->add('totalridelength',null,array('label' => 'Najeto'))
+            ->add('_action', null, array(
+                'actions' => array(
+                    'show' => array(),
+                    'edit' => array(),
+                    'delete' => array()
+                ),'label' => 'Akce'
+            ));
     }
 
     /**
@@ -191,25 +205,19 @@ class CarAdmin extends AbstractAdmin
 
     }
 
-    /**
-     * @param car $car
-     * @throws EntityNotFoundException
-     */
-    public function preUpdate($car)
+    public function getTemplate($name)
     {
-        $this->manageFileUpload($car);
+        switch ($name) {
+            case "edit":
+                return $this->getEditTemplate();
+                break;
+        }
+        return parent::getTemplate($name);
     }
 
-    /**
-     * @param car $car
-     * @throws EntityNotFoundException
-     */
-    private function manageFileUpload($car)
+    public function getEditTemplate()
     {
-        if ($car->getFile()) {
-            $car->upload();
-            $car->refreshUpdated();
-        }
+        return 'SchoolBundle:Admin:editCar.html.twig';
     }
 }
 

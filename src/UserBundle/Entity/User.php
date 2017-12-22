@@ -30,6 +30,12 @@ class User extends \FOS\UserBundle\Entity\User
     protected $school;
 
     /**
+     * @var string $secret
+     * @ORM\Column(name="secret", type="string")
+     */
+    protected $secret;
+
+    /**
      * @return School
      */
     public function getSchool()
@@ -45,6 +51,21 @@ class User extends \FOS\UserBundle\Entity\User
         $this->school = $school;
     }
 
+    /**
+     * @return string
+     */
+    public function getSecret()
+    {
+        return $this->secret;
+    }
+
+    /**
+     * @param string $secret
+     */
+    public function setSecret($secret)
+    {
+        $this->secret = $secret;
+    }
 
 
 

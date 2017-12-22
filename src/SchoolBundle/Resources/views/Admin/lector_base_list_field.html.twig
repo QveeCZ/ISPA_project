@@ -9,7 +9,7 @@ file that was distributed with this source code.
 
 #}
 
-<td class="{% if object.dateMedical|date("U") < "-2 years"|date("U") %}expired{% endif %} sonata-ba-list-field sonata-ba-list-field-{{ field_description.type }}" objectId="{{ admin.id(object) }}"{% if field_description.options.row_align is defined %} style="text-align:{{ field_description.options.row_align }}"{% endif %}>
+<td class="{% if object.dateMedical is empty or object.dateMedical|date("U") < "-2 years"|date("U") %}expired{% endif %} sonata-ba-list-field sonata-ba-list-field-{{ field_description.type }}" objectId="{{ admin.id(object) }}"{% if field_description.options.row_align is defined %} style="text-align:{{ field_description.options.row_align }}"{% endif %}>
     {% set route = field_description.options.route.name|default(null) %}
 
     {% if

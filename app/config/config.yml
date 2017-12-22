@@ -9,7 +9,6 @@ parameters:
     locale: cs
     sonata.user.admin.user.class: UserBundle\Admin\UserAdmin
     sonata.user.admin.user.entity: UserBundle\Entity\User
-    image_directory: '%kernel.root_dir%/web/uploads/images'
 
 
 framework:
@@ -37,7 +36,7 @@ framework:
 
 # Twig Configuration
 twig:
-#    cache:  false
+    cache:  false
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
     form_themes:
@@ -87,6 +86,8 @@ sonata_block:
             contexts:   [admin]
 
 sonata_admin:
+    dashboard:
+        blocks:
     assets:
             stylesheets:
 

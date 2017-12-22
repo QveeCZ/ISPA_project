@@ -107,6 +107,7 @@ class RideAdmin extends AbstractAdmin
             ->with('General',array('label' => 'Jízda'))
             ->add('dateRide', 'sonata_type_date_picker', array('format' => 'dd.MM.yyyy', 'required' => true, 'label' => 'Datum:'))
             ->add('courseRegistration', null, array('required' => true, 'label' => ' ', 'attr' => array('class' => "fa-force-hidden")))
+            ->add('length',null, array('label' => 'Délka'))
             ->end();
 
         if ($securityContext->isGranted('ROLE_STAFF')) {
@@ -122,6 +123,23 @@ class RideAdmin extends AbstractAdmin
                     'query_builder' => function ($repository) use ($currentUser) {
                         return $repository->createQueryBuilder('l')
                             ->where('l.school = ' . $currentUser->getSchool()->getId());
+                    }))
+                ->end();
+        }
+
+        if ($securityContext->isGranted('ROLE_STAFF')) {
+            $formMapper
+                ->with('General')
+                ->add('car', null, array('required' => true, 'label' => 'Auto:'))
+                ->end();
+        } else {
+            $formMapper
+                ->with('General')
+                ->add('car', null, array('required' => true, 'label' => 'Auto:',
+                    'class' => 'CourseBundle\Entity\Course',
+                    'query_builder' => function ($repository) use ($currentUser) {
+                        return $repository->createQueryBuilder('c')
+                            ->where('c.school = ' . $currentUser->getSchool()->getId());
                     }))
                 ->end();
         }

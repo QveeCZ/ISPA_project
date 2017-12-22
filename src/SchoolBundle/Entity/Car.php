@@ -3,9 +3,11 @@
 namespace SchoolBundle\Entity;
 
 use CourseBundle\Entity\Course;
+use CourseBundle\Entity\Ride;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use ImageBundle\Entity\CarImage;
 
 /**
  * SchoolBundle\Entity\Car
@@ -43,15 +45,6 @@ class Car
 
 
     /**
-     * @var String $dateSTK
-     *
-     *
-     * @ORM\Column(name="date_stk", type="date", nullable=false)
-     */
-    protected $dateSTK;
-
-
-    /**
      * @var String $condition
      *
      *
@@ -73,6 +66,23 @@ class Car
      * @ORM\JoinColumn(name="school_id", referencedColumnName="id")
      */
     protected $school;
+
+
+    /**
+     * @var ArrayCollection $carRides
+     *
+     * @ORM\OneToMany(targetEntity="CourseBundle\Entity\Ride", mappedBy="car", cascade={ "remove"}, orphanRemoval=true)
+     */
+    protected $carRides;
+
+
+    /**
+     * @var ArrayCollection $carImages
+     *
+     * @ORM\OneToMany(targetEntity="ImageBundle\Entity\CarImage", mappedBy="car", cascade={ "remove"}, orphanRemoval=true, cascade={"persist", "remove"})
+     * @ORM\OrderBy({"protocolDate" = "DESC"})
+     */
+    protected $carImages;
 
     /**
      * @return int
@@ -127,15 +137,18 @@ class Car
      */
     public function getDateSTK()
     {
-        return $this->dateSTK;
-    }
 
-    /**
-     * @param String $dateSTK
-     */
-    public function setDateSTK($dateSTK)
-    {
-        $this->dateSTK = $dateSTK;
+        $protocolArray = $this->getCarImages()->toArray();
+
+        if (empty($protocolArray)){
+            return "";
+        }
+        /**
+         * @var CarImage $lastSTK
+         */
+        $lastSTK = $protocolArray[0];
+        $ret = $lastSTK->getProtocolDate();
+        return $ret->format("Y-m-d");
     }
 
     /**
@@ -192,132 +205,88 @@ class Car
     }
 
     /**
-     * Unmapped property to handle file uploads
+     * @return ArrayCollection
      */
-    private $file;
-
-    /**
-     * Sets file.
-     *
-     * @param UploadedFile $file
-     */
-    public function setFile($file = null)
+    public function getCarRides()
     {
-        $this->file = $file;
+        return $this->carRides;
     }
 
     /**
-     * Get file.
-     *
-     * @return UploadedFile
+     * @param ArrayCollection $carRides
      */
-    public function getFile()
+    public function setCarRides($carRides)
     {
-        return $this->file;
+        $this->carRides = $carRides;
     }
 
     /**
-     * Manages the copying of the file to the relevant place on the server
+     *
+     * @param Ride $carRides
      */
-    public function upload()
+    public function addCarRides(Ride $carRides)
     {
+        $carRides->setCar($this);
+        $this->carRides->add($carRides);
+    }
 
-        $uploadDir =  __DIR__ . "/../../../upload";
 
-        // the file property can be empty if the field is not required
-        if (null === $this->getFile()) {
-            return;
+    /**
+     *
+     * @param Ride $carRides
+     */
+    public function removeCarRides(Ride $carRides)
+    {
+        $this->carRides->removeElement($carRides);
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getCarImages()
+    {
+        return $this->carImages;
+    }
+
+    /**
+     * @param ArrayCollection $carImages
+     */
+    public function setCarImages($carImages)
+    {
+        $this->carImages = $carImages;
+    }
+
+    /**
+     *
+     * @param Ride $carImages
+     */
+    public function addCarImages(Ride $carImages)
+    {
+        $carImages->setCar($this);
+        $this->carImages->add($carImages);
+    }
+
+
+    /**
+     *
+     * @param Ride $carImages
+     */
+    public function removeCarImages(Ride $carImages)
+    {
+        $this->carImages->removeElement($carImages);
+    }
+
+
+    public function getTotalRideLength() {
+        $i = 0;
+        /**
+         * @var Ride $ride
+         */
+        foreach ($this->getCarRides() as $ride) {
+            $i +=  $ride->getLength();
         }
-
-        // we use the original file name here but you should
-        // sanitize it at least to avoid any security issues
-
-        $filename = uniqid() . "_" . $this->getFile()->getClientOriginalName();
-
-        // move takes the target directory and target filename as params
-        $this->getFile()->move(
-            $uploadDir,
-            $filename
-        );
-
-        if($this->filename){
-            unlink($uploadDir . "/" . $this->filename);
-        }
-
-        // set the path property to the filename where you've saved the file
-        $this->filename = $filename;
-
-        // clean up the file property as you won't need it anymore
-        $this->setFile(null);
+        return $i;
     }
-
-    /**
-     * Lifecycle callback to upload the file to the server
-     */
-    public function lifecycleFileUpload()
-    {
-        $this->upload();
-    }
-
-    /**
-     * Updates the hash value to force the preUpdate and postUpdate events to fire
-     */
-    public function refreshUpdated()
-    {
-        $this->setUpdated(new \DateTime());
-    }
-
-
-    /**
-     * @var \DateTime $updated
-     *
-     *
-     * @ORM\Column(name="updated", type="datetime", nullable=false)
-     */
-    protected $updated;
-
-    /**
-     * @var String $filename
-     *
-     *
-     * @ORM\Column(name="filename", type="string", nullable=true)
-     */
-    protected $filename;
-
-    /**
-     * @return \DateTime
-     */
-    public function getUpdated()
-    {
-        return $this->updated;
-    }
-
-    /**
-     * @param \DateTime $updated
-     */
-    public function setUpdated($updated)
-    {
-        $this->updated = $updated;
-    }
-
-    /**
-     * @return String
-     */
-    public function getFilename()
-    {
-        return $this->filename;
-    }
-
-    /**
-     * @param String $filename
-     */
-    public function setFilename($filename)
-    {
-        $this->filename = $filename;
-    }
-
-
-
 
 
 
