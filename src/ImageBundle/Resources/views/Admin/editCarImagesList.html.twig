@@ -6,7 +6,7 @@
         {% else %}
             <a target="_blank" href="{{ asset('/admin/file/car/' ~ image.id ~ "/0") }}">{{ image.filename }}</a>
         {% endif %}
-        <p><strong>Datum provedení STK: {{ image.protocolDate|date("d.m.Y") }}</strong></p>
+        <p><strong>Datum osvědčení STK: {{ image.protocolDate|date("d.m.Y") }}</strong></p>
         <div class="image-actions">
             <a href="{{ path('admin_image_car_image_edit', {'id' : image.id}) }}" title="Upravit"
                onclick="start_field_dialog_form_add_{{ id }}(event)"
