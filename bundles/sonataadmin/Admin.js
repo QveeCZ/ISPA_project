@@ -9,6 +9,17 @@
 
  */
 
+
+
+
+$( document ).ready(function() {
+    $( '.treeview-menu' ).each( function( index, element ){
+        if($(this).find('li.active').length !== 0){
+            $(this).css("display", "block");
+        }
+    });
+});
+
 var Admin = {
 
     collectionCounters: [],
