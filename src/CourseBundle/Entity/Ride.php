@@ -201,7 +201,7 @@ class Ride
             $rideDate = $this->getDateRide()->format("d.m.Y");
         }
 
-        return 'Jízda ' . $rideDate . ", lektor " . $this->lector->getSurname() . ", délka " . $this->length . " km.";
+        return 'Jízda ' . $rideDate . ", lektor " . $this->lector->getSurname() . ", délka " . $this->length . " km (" . $this->getCar()->getFuelConsumption() / 100 * $this->length . " l).";
     }
 
 

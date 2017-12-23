@@ -74,6 +74,7 @@ class CarAdmin extends AbstractAdmin
             ->add('school',null, array('label' => 'Škola'))
             ->add('color',null, array('label' => 'Barva'))
             ->add('carType',null,array('label' => 'Typ auta'))
+            ->add('fuelConsumption',null,array('label' => 'Spotřeba'))
             ->add('carRides', 'sonata_type_collection', array('label' => 'Jízdy:'))
             ->end();
     }
@@ -109,6 +110,7 @@ class CarAdmin extends AbstractAdmin
             ->add('color', null, array('required' => TRUE,'label' => 'Barva:'))
             ->add('carType', null, array('required' => TRUE,'label' => 'Typ auta:'))
             ->add('condition', null, array('required' => TRUE,'label' => 'Stav:'))
+            ->add('fuelConsumption', null, array('required' => TRUE,'label' => 'Spotřeba:'))
             ->end();
 
         if ($securityContext->isGranted('ROLE_STAFF')) {
@@ -164,6 +166,7 @@ class CarAdmin extends AbstractAdmin
             ->add('school', null,array('label' => 'Škola'))
             ->add('color',null, array('label' => 'Barva'))
             ->add('carType',null,array('label' => 'Typ auta'))
+            ->add('fuelConsumption',null,array('label' => 'Spotřeba'))
             ->add('totalridelength',null,array('label' => 'Najeto'))
             ->add('_action', null, array(
                 'actions' => array(

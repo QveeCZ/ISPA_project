@@ -61,6 +61,14 @@ class Car
     protected $carType;
 
     /**
+     * @var integer $carType
+     *
+     *
+     * @ORM\Column(name="fuel_consumption", type="integer", nullable=false)
+     */
+    protected $fuelConsumption;
+
+    /**
      * @var School $school
      * @ORM\ManyToOne(targetEntity="SchoolBundle\Entity\School", inversedBy="schoolCars")
      * @ORM\JoinColumn(name="school_id", referencedColumnName="id")
@@ -287,6 +295,24 @@ class Car
         }
         return $i;
     }
+
+    /**
+     * @return int
+     */
+    public function getFuelConsumption()
+    {
+        return $this->fuelConsumption;
+    }
+
+    /**
+     * @param int $fuelConsumption
+     */
+    public function setFuelConsumption($fuelConsumption)
+    {
+        $this->fuelConsumption = $fuelConsumption;
+    }
+
+
 
 
 
