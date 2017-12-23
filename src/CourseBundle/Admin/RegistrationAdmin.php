@@ -75,6 +75,7 @@ class RegistrationAdmin extends AbstractAdmin
 
         $showMapper
             ->with('General',array('label' => 'Informace o uchazeči'))
+            ->add('id', null, array('label' => 'ID:'))
             ->add('name' ,null,  array('label' => 'Jméno'))
             ->add('surname',null,  array('label' => 'Příjmení'))
             ->add('course',null,  array('label' => 'Kurz'))
@@ -189,6 +190,7 @@ class RegistrationAdmin extends AbstractAdmin
     {
 
         $listMapper
+            ->add('id', null, array('label' => 'ID:'))
             ->add('name' ,null,  array('label' => 'Jméno'))
             ->add('surname',null,  array('label' => 'Příjmení'))
             ->add('course',null,  array('label' => 'Kurz'))

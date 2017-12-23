@@ -69,6 +69,7 @@ class CourseAdmin extends AbstractAdmin
 
         $showMapper
             ->with('General', array('label' => 'Informace o kurzu'))
+            ->add('id',null,array('label' => 'ID'))
             ->add('name',null, array('label' => 'Název kurzu'))
             ->add('capacity',null, array('label' => 'Kapacita'))
             ->add('school',null,array('label' => 'Škola'))
@@ -139,6 +140,7 @@ class CourseAdmin extends AbstractAdmin
     {
 
         $listMapper
+            ->add('id',null,array('label' => 'ID'))
             ->add('name',null,array('label' => 'Název kurzu'))
             ->add('capacity',null,array('label' => 'Kapacita'))
             ->add('school',null,array('label' => 'Škola'))
