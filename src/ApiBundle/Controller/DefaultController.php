@@ -16,21 +16,12 @@ class DefaultController extends Controller
     public function apiAction(Request $request)
     {
 
-        $data = $request->request->get('request');
-
-        if(!$data){
-            $headers = array('Content-Type' => 'application/json');
-            $response = new Response(json_encode(array('result' => "Bad request.")), 500, $headers);
-            return $response;
-        }
-
         $em = $this->getDoctrine()->getManager();
-        $requestArray = json_decode(urldecode($data));
 
-        $hash = $requestArray["hash"];
-        $stamp = $requestArray["stamp"];
-        $client = $requestArray["client"];
-        $payload = $requestArray["payload"];
+        $hash = $request->request->get('hash');
+        $stamp = $request->request->get('stamp');
+        $client = $request->request->get('client');
+        $payload = $request->request->get('payload');
 
         $repoUser = $em->getRepository('UserBundle:User');
 
