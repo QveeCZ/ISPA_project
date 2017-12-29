@@ -53,15 +53,16 @@ h5 {
 /* ------------------------------------------------------------------------------
 	Global Styles
 -------------------------------------------------------------------------------*/
-a {
-    color: #e84545;
+.header-content h1 a {
+    color: #FFFFFF !important;
 }
-a:hover, a:focus {
+.header-content h1 a:hover, a:focus {
     text-decoration: none;
     -moz-transition: background-color, color, 0.3s;
     -o-transition: background-color, color, 0.3s;
     -webkit-transition: background-color, color, 0.3s;
     transition: background-color, color, 0.3s;
+    color: #FFFFFF !important;
 }
 body {
     font-family: "Roboto", sans-serif;
@@ -303,7 +304,7 @@ ul li {
 
 .banner {
     background-color: #65349c;
-    min-height: 750px;
+    min-height: 100vh;
 }
 .banner-text {
     padding-top: 28%;
