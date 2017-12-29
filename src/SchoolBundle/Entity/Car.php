@@ -266,9 +266,9 @@ class Car
 
     /**
      *
-     * @param Ride $carImages
+     * @param CarImage $carImages
      */
-    public function addCarImages(Ride $carImages)
+    public function addCarImages(CarImage $carImages)
     {
         $carImages->setCar($this);
         $this->carImages->add($carImages);
@@ -277,9 +277,9 @@ class Car
 
     /**
      *
-     * @param Ride $carImages
+     * @param CarImage $carImages
      */
-    public function removeCarImages(Ride $carImages)
+    public function removeCarImages(CarImage $carImages)
     {
         $this->carImages->removeElement($carImages);
     }

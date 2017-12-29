@@ -6,6 +6,8 @@ namespace IOBundle\Util;
 use CourseBundle\Entity\Course;
 use CourseBundle\Entity\Registration;
 use DateTime;
+use ImageBundle\Entity\CarImage;
+use ImageBundle\Entity\LectorImage;
 use SchoolBundle\Entity\Car;
 use SchoolBundle\Entity\Lector;
 use SchoolBundle\Entity\School;
@@ -75,7 +77,12 @@ class JSONImport extends BaseImport
             $lector->setName($lectorArray['name']);
             $lector->setSurname($lectorArray['surname']);
             $lector->setEmail($lectorArray['email']);
-            $lector->setDateMedical(DateTime::createFromFormat('Y-m-d', $lectorArray['dateMedical']));
+
+            $lectorProtocol = new LectorImage();
+            $lectorProtocol->setLector($lector);
+            $lectorProtocol->setProtocolDate(DateTime::createFromFormat('Y-m-d', $lectorArray['dateMedical']));
+            $lector->addCarImages($lectorProtocol);
+
             $lector->setPhone($lectorArray['phone']);
             $lector->setSchool($school);
 
@@ -92,7 +99,12 @@ class JSONImport extends BaseImport
             $car->setSpz($carArray['spz']);
             $car->setColor($carArray['color']);
             $car->setCondition($carArray['condition']);
-            $car->setDateSTK(DateTime::createFromFormat('Y-m-d', $carArray['dateSTK']));
+
+            $carProtocol = new CarImage();
+            $carProtocol->setCar($car);
+            $carProtocol->setProtocolDate(DateTime::createFromFormat('Y-m-d', $carArray['dateSTK']));
+            $car->addCarImages($carProtocol);
+
             $car->setCarType($carArray['carType']);
 
             $this->em->persist($car);

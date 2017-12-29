@@ -339,9 +339,9 @@ class Lector
 
     /**
      *
-     * @param Lector $lectorImages
+     * @param LectorImage $lectorImages
      */
-    public function addCarImages(Ride $lectorImages)
+    public function addCarImages(LectorImage $lectorImages)
     {
         $lectorImages->setLector($this);
         $this->lectorImages->add($lectorImages);
@@ -350,9 +350,9 @@ class Lector
 
     /**
      *
-     * @param Ride $lectorImages
+     * @param LectorImage $lectorImages
      */
-    public function removeCarImages(Ride $lectorImages)
+    public function removeCarImages(LectorImage $lectorImages)
     {
         $this->lectorImages->removeElement($lectorImages);
     }

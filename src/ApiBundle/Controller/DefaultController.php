@@ -7,6 +7,7 @@ use CourseBundle\Entity\Ride;
 use SchoolBundle\Entity\Car;
 use SchoolBundle\Entity\Lector;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use UserBundle\Entity\User;
@@ -98,5 +99,12 @@ class DefaultController extends Controller
         $headers = array('Content-Type' => 'application/json');
         $response = new Response(json_encode(array('result' => "OK")), 200, $headers);
         return $response;
+    }
+
+    public function documentationAction(){
+
+
+        return new BinaryFileResponse(__DIR__ . "/../Resources/doc/doc.pdf");
+
     }
 }

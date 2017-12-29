@@ -77,6 +77,8 @@ class LectorAdmin extends AbstractAdmin
             ->add('birthDate', null, array('required' => TRUE,'label' => 'Datum narození:'))
             ->add('dateMedical' ,null, array('format' => 'd.m.Y','label' => 'Osvědčení:'))
             ->add('school', null, array('label' => 'Škola:'))
+            ->add('lectorRides', 'sonata_type_collection', array('label' => 'Jízdy:'))
+            ->add('lectorLectures', 'sonata_type_collection', array('label' => 'Lekce:'))
             ->end();
     }
 

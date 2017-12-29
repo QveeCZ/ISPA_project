@@ -8,6 +8,8 @@ use CourseBundle\Entity\Registration;
 use DateTime;
 use Doctrine\ORM\EntityManager;
 use DOMDocument;
+use ImageBundle\Entity\CarImage;
+use ImageBundle\Entity\LectorImage;
 use SchoolBundle\Entity\Car;
 use SchoolBundle\Entity\Lector;
 use SchoolBundle\Entity\School;
@@ -80,7 +82,12 @@ class CSVImport extends BaseImport
             $car = new Car();
             $car->setColor($carXml[0]);
             $car->setSpz($carXml[1]);
-            $car->setDateSTK(DateTime::createFromFormat('Y-m-d', $carXml[2]));
+
+            $carProtocol = new CarImage();
+            $carProtocol->setCar($car);
+            $carProtocol->setProtocolDate(DateTime::createFromFormat('Y-m-d', $carXml[2]));
+            $car->addCarImages($carProtocol);
+
             $car->setCondition($carXml[3]);
             $car->setCarType($carXml[4]);
             $car->setSchool($school);
@@ -103,7 +110,12 @@ class CSVImport extends BaseImport
             $lector->setName($lectorXml[2]);
             $lector->setSurname($lectorXml[3]);
             $lector->setPhone($lectorXml[4]);
-            $lector->setDateMedical(DateTime::createFromFormat('Y-m-d', $lectorXml[5]));
+
+            $lectorProtocol = new LectorImage();
+            $lectorProtocol->setLector($lector);
+            $lectorProtocol->setProtocolDate(DateTime::createFromFormat('Y-m-d', $lectorXml[5]));
+            $lector->addCarImages($lectorProtocol);
+
             $lector->setSchool($school);
             $this->em->persist($lector);
         }

@@ -124,7 +124,54 @@
         <xs:sequence>
             <xs:element name="name" type="StandardString"/>
             <xs:element name="surname" type="StandardString"/>
+            <xs:element name="registration_lectures" minOccurs='0'>
+                <xs:complexType>
+                    <xs:complexContent>
+                        <xs:restriction base="xs:anyType">
+                            <xs:sequence>
+                                <xs:element name='registraton_lecture' type='RegistrationLectureType' minOccurs='0'
+                                            maxOccurs='unbounded'/>
+                            </xs:sequence>
+                        </xs:restriction>
+                    </xs:complexContent>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="registration_rides" minOccurs='0'>
+                <xs:complexType>
+                    <xs:complexContent>
+                        <xs:restriction base="xs:anyType">
+                            <xs:sequence>
+                                <xs:element name='registraton_ride' type='RegistraionRideType' minOccurs='0'
+                                            maxOccurs='unbounded'/>
+                            </xs:sequence>
+                        </xs:restriction>
+                    </xs:complexContent>
+                </xs:complexType>
+            </xs:element>
         </xs:sequence>
     </xs:complexType>
+    <xs:complexType name="RegistrationLectureType">
+        <xs:sequence>
+            <xs:element name="lector_email" type="EmailString"/>
+            <xs:element name="car_spz" type="SPZString"/>
+            <xs:element name="lecture_type" type="LectureType"/>
+            <xs:element name="lecture_length" type="xs:nonNegativeInteger"/>
+            <xs:element name="date_lecture" type="xs:date"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="RegistraionRideType">
+        <xs:sequence>
+            <xs:element name="lector_email" type="EmailString"/>
+            <xs:element name="car_spz" type="SPZString"/>
+            <xs:element name="date_ride" type="xs:date"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:simpleType name="LectureType" final="restriction" >
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="PPV" />
+            <xs:enumeration value="TZBJ" />
+            <xs:enumeration value="Zdravověda" />
+        </xs:restriction>
+    </xs:simpleType>
     <!--/CourseRegistrationType-->
 </xs:schema>

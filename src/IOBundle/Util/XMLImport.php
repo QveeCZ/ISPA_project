@@ -4,10 +4,16 @@ namespace IOBundle\Util;
 
 
 use CourseBundle\Entity\Course;
+use CourseBundle\Entity\Lecture;
 use CourseBundle\Entity\Registration;
+use CourseBundle\Entity\Ride;
+use CourseBundle\Form\Model\CourseRegistration;
 use DateTime;
+use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManager;
 use DOMDocument;
+use ImageBundle\Entity\CarImage;
+use ImageBundle\Entity\LectorImage;
 use SchoolBundle\Entity\Car;
 use SchoolBundle\Entity\Lector;
 use SchoolBundle\Entity\School;
@@ -69,7 +75,12 @@ class XMLImport extends BaseImport
             $car = new Car();
             $car->setColor($carXml->color);
             $car->setSpz($carXml->SPZ);
-            $car->setDateSTK(DateTime::createFromFormat('Y-m-d', $carXml->date_stk));
+
+            $carProtocol = new CarImage();
+            $carProtocol->setCar($car);
+            $carProtocol->setProtocolDate(DateTime::createFromFormat('Y-m-d', $carXml->date_stk));
+            $car->addCarImages($carProtocol);
+
             $car->setCarType($carXml->car_type);
             $car->setCondition($carXml->car_condition);
             $car->setSchool($school);
@@ -92,7 +103,12 @@ class XMLImport extends BaseImport
             $lector->setName($lectorXml->name);
             $lector->setSurname($lectorXml->surname);
             $lector->setPhone($lectorXml->phone);
-            $lector->setDateMedical(DateTime::createFromFormat('Y-m-d', $lectorXml->date_medical));
+
+            $lectorProtocol = new LectorImage();
+            $lectorProtocol->setLector($lector);
+            $lectorProtocol->setProtocolDate(DateTime::createFromFormat('Y-m-d', $lectorXml->date_medical));
+            $lector->addCarImages($lectorProtocol);
+
             $lector->setSchool($school);
             $this->em->persist($lector);
         }
@@ -134,11 +150,92 @@ class XMLImport extends BaseImport
             $registration->setName($registrationXml->name);
             $registration->setSurname($registrationXml->surname);
             $registration->setCourse($course);
+            $this->importRegistrationLectures($registrationXml->registraton_lecture, $registration);
+            $this->importRegistrationRides($registrationXml->registraton_ride, $registration);
             $this->em->persist($registration);
         }
 
         $this->em->flush();
 
+    }
+
+    /**
+     * @param \SimpleXMLElement[] $ridesListXML
+     * @param Registration $registration
+     */
+    private function importRegistrationRides($ridesListXML, $registration){
+
+        foreach ($ridesListXML as $rideXML) {
+            $ride = new Ride();
+
+            $lector = $this->em->getRepository("SchoolBundle:Lector")->findOneBy(array('email' => $rideXML->lector_email));
+            $car = $this->em->getRepository("SchoolBundle:Car")->findOneBy(array('spz' => $rideXML->car_spz));
+
+            $ridesFromDate = $this->em->getRepository("CourseBundle:Ride")->findBy(array('courseRegistration' => $registration->getId(), 'dateRide' => DateTime::createFromFormat('Y-m-d', $rideXML->date_ride)));
+
+            if(!$lector || !$car || count($ridesFromDate) > 1){
+                continue;
+            }
+
+            $ride->setCar($car);
+            $ride->setLector($lector);
+            $ride->setDateRide(DateTime::createFromFormat('Y-m-d', $rideXML->date_ride));
+
+            $this->em->persist($ride);
+        }
+
+        $this->em->flush();
+    }
+    /**
+     * @param \SimpleXMLElement[] $lectureListXML
+     * @param Registration $registration
+     */
+    private function importRegistrationLectures($lectureListXML, $registration){
+
+        foreach ($lectureListXML as $lectureXML) {
+            $lecture = new Lecture();
+
+            $lector = $this->em->getRepository("SchoolBundle:Lector")->findOneBy(array('email' => $lectureXML->lector_email));
+            /**
+             * @var Connection $connection
+             */
+            $connection = $this->em->getConnection();
+            $query = 'SELECT SUM(length) as sumLength FROM lectures WHERE lecture_type_id = :ltid AND course_registration_id = :crid';
+            $stmt = $connection->prepare($query);
+            $stmt->bindValue("ltid", $lectureXML->lecture_type);
+            $stmt->bindValue("crid", $registration->getId());
+            $stmt->execute();
+            $sumLength = $stmt->fetch()['sumLength'] + $lectureXML->lecture_length;
+            $valid = false;
+            switch($lectureXML->lecture_type){
+                case "PPV":
+                    $valid = ($sumLength > 30) ? false : true;
+                    break;
+                case "TZBJ":
+                    $valid = ($sumLength > 15) ? false : true;
+                    break;
+                case "Zdravověda":
+                    $valid = ($sumLength > 3) ? false : true;
+                    break;
+            }
+
+            if(!$lector || !$valid){
+                continue;
+            }
+
+            $lecture->setLector($lector);
+            $lecture->setDateLecture(DateTime::createFromFormat('Y-m-d', $lectureXML->date_lecture));
+            $lecture->setLength(intval($lectureXML->lecture_length));
+
+            $lectureType = $this->em->getRepository("CourseBundle:LectureType")->find($lectureXML->lecture_type);
+
+            $lecture->setLectureType($lectureType);
+            $lecture->setCourseRegistration($registration);
+
+            $this->em->persist($lecture);
+        }
+
+        $this->em->flush();
     }
 
 
