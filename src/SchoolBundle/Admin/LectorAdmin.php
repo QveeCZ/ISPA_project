@@ -180,7 +180,6 @@ class LectorAdmin extends AbstractAdmin
         $securityContext = $this->getConfigurationPool()->getContainer()->get('security.authorization_checker');
         $currentUser = $this->getConfigurationPool()->getContainer()->get('security.token_storage')->getToken()->getUser();
 
-        $this->manageFileUpload($car);
 
         if($securityContext->isGranted('ROLE_STAFF')){
             parent::preUpdate($car);
@@ -211,5 +210,7 @@ class LectorAdmin extends AbstractAdmin
     {
         return 'SchoolBundle:Admin:editLector.html.twig';
     }
+
+
 }
 
