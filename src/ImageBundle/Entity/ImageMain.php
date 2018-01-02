@@ -62,7 +62,7 @@ abstract class ImageMain
         // we use the original file name here but you should
         // sanitize it at least to avoid any security issues
 
-        $filename = uniqid() . "_" . $this->getFile()->getClientOriginalName();
+        $filename = uniqid() . "." . pathinfo($this->getFile()->getClientOriginalName(), PATHINFO_EXTENSION);
 
         $this->setImage($this->checkImage($filename));
 
@@ -77,6 +77,7 @@ abstract class ImageMain
         }
 
         // set the path property to the filename where you've saved the file
+        $this->name = str_replace("." . $this->getFile()->getClientOriginalExtension(), "", $this->getFile()->getClientOriginalName());
         $this->filename = $filename;
 
         // clean up the file property as you won't need it anymore
@@ -114,6 +115,14 @@ abstract class ImageMain
      * @ORM\Column(name="updated", type="datetime", nullable=false)
      */
     protected $updated;
+
+    /**
+     * @var String $name
+     *
+     *
+     * @ORM\Column(name="name", type="string", nullable=false)
+     */
+    protected $name;
 
     /**
      * @var String $filename
@@ -235,6 +244,24 @@ abstract class ImageMain
 
         return true;
     }
+
+    /**
+     * @return String
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param String $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+
 
 
 }

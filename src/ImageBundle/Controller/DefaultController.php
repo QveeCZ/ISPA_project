@@ -95,7 +95,7 @@ class DefaultController extends  Controller
 
     private function returnFile($fileName, $isImage, $src){
 
-        $file =    readfile(\ImageBundle\UPLOAD_DIR . $fileName);
+        $file = file_get_contents(\ImageBundle\UPLOAD_DIR . $fileName);
 
 
         if($isImage){

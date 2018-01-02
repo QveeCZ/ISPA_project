@@ -163,6 +163,13 @@ class Lector
      * @ORM\Column(name="date_birth", type="date", nullable=false)
      */
     protected $birthDate;
+    /**
+     * @var boolean $expired
+     *
+     *
+     * @ORM\Column(name="expired", type="boolean", nullable=false)
+     */
+    protected $expired = false;
 
     /**
      * @return int
@@ -371,6 +378,28 @@ class Lector
     public function setBirthDate($birthDate)
     {
         $this->birthDate = $birthDate;
+    }
+
+    public function isExpired(){
+
+        if($this->getLectorImages()->count() < 1){
+            $this->expired = true;
+            return true;
+        }
+
+        /**
+         * @var LectorImage $lastProtocol
+         */
+        $lastProtocol = $this->getLectorImages()->first();
+
+
+        if($lastProtocol->getProtocolDate()->diff(new \DateTime())->years > 2) {
+            $this->expired = true;
+            return true;
+        }
+
+        $this->expired = false;
+        return false;
     }
 
 

@@ -3,6 +3,7 @@
 namespace SchoolBundle\Admin;
 
 use Doctrine\ORM\EntityNotFoundException;
+use Doctrine\ORM\EntityRepository;
 use SchoolBundle\Entity\Lector;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 
@@ -126,6 +127,24 @@ class LectorAdmin extends AbstractAdmin
      */
     protected function configureDatagridFilters(DatagridMapper $filterMapper)
     {
+
+        /**
+         * @var EntityRepository $repository ;
+         */
+        $repository = $this->modelManager->getEntityManager($this->getClass())->getRepository($this->getClass());
+
+        $container = $this->getConfigurationPool()->getContainer();
+        $em = $container->get('doctrine.orm.entity_manager');
+        /**
+         * @var Lector[] $lectors
+         */
+        $lectors = $repository->findAll();
+        foreach ($lectors as $lector) {
+            $lector->isExpired();
+            $em->persist($lector);
+            $em->flush();
+        }
+
         /**
          * @var AuthorizationChecker $securityContext
          */
@@ -135,7 +154,8 @@ class LectorAdmin extends AbstractAdmin
             ->add('name', null, array('label' => 'Jméno:'))
             ->add('surname', null, array('label' => 'Příjmení:'))
             ->add('birthDate', null, array('required' => TRUE,'label' => 'Datum narození:'))
-            ->add('email', null, array('label' => 'Email:'));
+            ->add('email', null, array('label' => 'Email:'))
+            ->add('expired', 'doctrine_orm_boolean', array('label' => 'Propadlé oprávnění'));
 
         if ($securityContext->isGranted('ROLE_STAFF')) {
             $filterMapper

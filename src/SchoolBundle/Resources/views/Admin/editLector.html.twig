@@ -63,7 +63,7 @@ file that was distributed with this source code.
 
                     {% if object.id %}
                         <a
-                                href="{{ path('admin_image_lector_image_create') }}?gallery={{ object.id }}"
+                                href="{{ path('admin_image_lector_image_create') }}?lector={{ object.id }}"
                                 onclick="start_field_dialog_form_add_{{ object.id }}(event)"
                                 class="sonata-ba-action"
                                 title="Přidat obrázek"

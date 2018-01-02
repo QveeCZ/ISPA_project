@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use ImageBundle\Entity\CarImage;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 /**
  * SchoolBundle\Entity\Car
@@ -91,6 +92,13 @@ class Car
      * @ORM\OrderBy({"protocolDate" = "DESC"})
      */
     protected $carImages;
+    /**
+     * @var boolean $expired
+     *
+     *
+     * @ORM\Column(name="expired", type="boolean", nullable=false)
+     */
+    protected $expired = false;
 
     /**
      * @return int
@@ -236,6 +244,28 @@ class Car
     {
         $carRides->setCar($this);
         $this->carRides->add($carRides);
+    }
+
+    public function isExpired(){
+
+        if($this->getCarImages()->count() < 1){
+            $this->expired = true;
+            return true;
+        }
+
+        /**
+         * @var CarImage $lastProtocol
+         */
+        $lastProtocol = $this->getCarImages()->first();
+
+
+        if($lastProtocol->getProtocolDate()->diff(new DateTime())->years > 2) {
+            $this->expired = true;
+            return true;
+        }
+
+        $this->expired = false;
+        return false;
     }
 
 

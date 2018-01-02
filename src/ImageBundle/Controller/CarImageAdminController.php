@@ -24,7 +24,7 @@ class CarImageAdminController extends Controller
             $gallery = $this->getDoctrine()
                 ->getRepository('SchoolBundle:Car')
                 ->find($gallery_id);
-            $object->setGallery($gallery);
+            $object->setCar($gallery);
         }
 
         $this->admin->setSubject($object);

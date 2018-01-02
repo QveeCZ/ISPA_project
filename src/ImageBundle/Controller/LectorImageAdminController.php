@@ -24,7 +24,7 @@ class LectorImageAdminController extends Controller
             $gallery = $this->getDoctrine()
                 ->getRepository('SchoolBundle:Lector')
                 ->find($gallery_id);
-            $object->setGallery($gallery);
+            $object->setLector($gallery);
         }
 
         $this->admin->setSubject($object);

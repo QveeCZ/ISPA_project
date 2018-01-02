@@ -3,6 +3,7 @@
 namespace SchoolBundle\Admin;
 
 use Doctrine\ORM\EntityNotFoundException;
+use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 use SchoolBundle\Entity\Car;
@@ -34,12 +35,12 @@ class CarAdmin extends AbstractAdmin
 
         $query = parent::createQuery($context);
 
-        if($securityContext->isGranted('ROLE_STAFF')){
+        if ($securityContext->isGranted('ROLE_STAFF')) {
             return $query;
         }
 
         $query->andWhere(
-            $query->expr()->eq($query->getRootAlias().'.school', ':school')
+            $query->expr()->eq($query->getRootAlias() . '.school', ':school')
         );
         $query->setParameter('school', $currentUser->getSchool());
         return $query;
@@ -68,13 +69,13 @@ class CarAdmin extends AbstractAdmin
 
 
         $showMapper
-            ->with('General',array('label' => 'Informace o autě'))
-            ->add('spz', null,  array('label' => 'STK'))
-            ->add('dateSTK',null, array('format' => 'd.m.Y','label' => 'Datum STK'))
-            ->add('school',null, array('label' => 'Škola'))
-            ->add('color',null, array('label' => 'Barva'))
-            ->add('carType',null,array('label' => 'Typ auta'))
-            ->add('fuelConsumption',null,array('label' => 'Spotřeba'))
+            ->with('General', array('label' => 'Informace o autě'))
+            ->add('spz', null, array('label' => 'STK'))
+            ->add('dateSTK', null, array('format' => 'd.m.Y', 'label' => 'Datum STK'))
+            ->add('school', null, array('label' => 'Škola'))
+            ->add('color', null, array('label' => 'Barva'))
+            ->add('carType', null, array('label' => 'Typ auta'))
+            ->add('fuelConsumption', null, array('label' => 'Spotřeba'))
             ->add('carRides', 'sonata_type_collection', array('label' => 'Jízdy:'))
             ->end();
     }
@@ -105,28 +106,28 @@ class CarAdmin extends AbstractAdmin
         $securityContext = $this->getConfigurationPool()->getContainer()->get('security.authorization_checker');
 
         $formMapper
-            ->with('General',array('label' => 'Auto'))
-            ->add('spz', null, array('required' => TRUE,'label' => 'SPZ:'))
-            ->add('color', null, array('required' => TRUE,'label' => 'Barva:'))
-            ->add('carType', null, array('required' => TRUE,'label' => 'Typ auta:'))
-            ->add('condition', null, array('required' => TRUE,'label' => 'Stav:'))
-            ->add('fuelConsumption', null, array('required' => TRUE,'label' => 'Spotřeba:'))
+            ->with('General', array('label' => 'Auto'))
+            ->add('spz', null, array('required' => TRUE, 'label' => 'SPZ:'))
+            ->add('color', null, array('required' => TRUE, 'label' => 'Barva:'))
+            ->add('carType', null, array('required' => TRUE, 'label' => 'Typ auta:'))
+            ->add('condition', null, array('required' => TRUE, 'label' => 'Stav:'))
+            ->add('fuelConsumption', null, array('required' => TRUE, 'label' => 'Spotřeba:'))
             ->end();
 
         if ($securityContext->isGranted('ROLE_STAFF')) {
             $formMapper
                 ->with('General')
-                ->add('school', null, array('required' => TRUE,'label' => 'Škola'))
+                ->add('school', null, array('required' => TRUE, 'label' => 'Škola'))
                 ->end();
         }
 
 
         $formMapper
             ->with('General')
-            ->add('carRides', 'sonata_type_collection', array('label' => 'Jízdy:','required' => false,
+            ->add('carRides', 'sonata_type_collection', array('label' => 'Jízdy:', 'required' => false,
                 'by_reference' => false,
                 'btn_add' => false,
-                'disabled'  => true
+                'disabled' => true
             ), array(
                 'edit' => 'standard',
                 'sortable' => 'position',
@@ -139,18 +140,38 @@ class CarAdmin extends AbstractAdmin
      */
     protected function configureDatagridFilters(DatagridMapper $filterMapper)
     {
+
+        /**
+         * @var EntityRepository $repository ;
+         */
+        $repository = $this->modelManager->getEntityManager($this->getClass())->getRepository($this->getClass());
+
+        $container = $this->getConfigurationPool()->getContainer();
+        $em = $container->get('doctrine.orm.entity_manager');
+        /**
+         * @var Car[] $cars
+         */
+        $cars = $repository->findAll();
+        foreach ($cars as $car) {
+            $car->isExpired();
+            $em->persist($car);
+            $em->flush();
+        }
+
+
         /**
          * @var AuthorizationChecker $securityContext
          */
         $securityContext = $this->getConfigurationPool()->getContainer()->get('security.authorization_checker');
 
         $filterMapper
-            ->add('spz',null,array('label' => 'SPZ'));
+            ->add('spz', null, array('label' => 'SPZ'))
+            ->add('expired', 'doctrine_orm_boolean', array('label' => 'Propadlá STK'));
 
 
         if ($securityContext->isGranted('ROLE_STAFF')) {
             $filterMapper
-                ->add('school',null, array('label' => 'Škola'));
+                ->add('school', null, array('label' => 'Škola'));
         }
     }
 
@@ -161,19 +182,19 @@ class CarAdmin extends AbstractAdmin
     {
 
         $listMapper
-            ->add('spz',null,array('label' => 'SPZ'))
-            ->add('dateSTK',null,array('format' => 'd.m.Y','label' => 'Datum STK'))
-            ->add('school', null,array('label' => 'Škola'))
-            ->add('color',null, array('label' => 'Barva'))
-            ->add('carType',null,array('label' => 'Typ auta'))
-            ->add('fuelConsumption',null,array('label' => 'Spotřeba'))
-            ->add('totalridelength',null,array('label' => 'Najeto'))
+            ->add('spz', null, array('label' => 'SPZ'))
+            ->add('dateSTK', null, array('format' => 'd.m.Y', 'label' => 'Datum STK'))
+            ->add('school', null, array('label' => 'Škola'))
+            ->add('color', null, array('label' => 'Barva'))
+            ->add('carType', null, array('label' => 'Typ auta'))
+            ->add('fuelConsumption', null, array('label' => 'Spotřeba'))
+            ->add('totalridelength', null, array('label' => 'Najeto'))
             ->add('_action', null, array(
                 'actions' => array(
                     'show' => array(),
                     'edit' => array(),
                     'delete' => array()
-                ),'label' => 'Akce'
+                ), 'label' => 'Akce'
             ));
     }
 
@@ -192,12 +213,12 @@ class CarAdmin extends AbstractAdmin
         $currentUser = $this->getConfigurationPool()->getContainer()->get('security.token_storage')->getToken()->getUser();
 
 
-        if($securityContext->isGranted('ROLE_STAFF')){
+        if ($securityContext->isGranted('ROLE_STAFF')) {
             parent::preUpdate($car);
             return;
         }
 
-        if(!$currentUser->getSchool()){
+        if (!$currentUser->getSchool()) {
             throw new EntityNotFoundException("User " . $currentUser->getId() . " doesnt have ROLE_STAFF and is not associated with any school");
         }
 
@@ -221,5 +242,7 @@ class CarAdmin extends AbstractAdmin
     {
         return 'SchoolBundle:Admin:editCar.html.twig';
     }
+
+
 }
 
