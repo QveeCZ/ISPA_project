@@ -69,7 +69,7 @@ class LectureAdmin extends AbstractAdmin
          * @var Lecture $subject
          */
         $subject = $this->getSubject();
-        if (!$securityContext->isGranted('ROLE_STAFF') && $subject->getCourseRegistration()->getCourse()->getSchool()->getId() != $currentUser->getSchool()->getId()) {
+        if (!$securityContext->isGranted('ROLE_STAFF') &&  $subject && $subject->getCourseRegistration()->getCourse()->getSchool()->getId() != $currentUser->getSchool()->getId()) {
             throw new AccessDeniedException();
         }
 
@@ -99,7 +99,7 @@ class LectureAdmin extends AbstractAdmin
          * @var Lecture $subject
          */
         $subject = $this->getSubject();
-        if (!$securityContext->isGranted('ROLE_STAFF') && $subject->getCourseRegistration()->getCourse()->getSchool()->getId() != $currentUser->getSchool()->getId()) {
+        if (!$securityContext->isGranted('ROLE_STAFF') &&  $subject && $subject->getCourseRegistration()->getCourse()->getSchool()->getId() != $currentUser->getSchool()->getId()) {
             throw new AccessDeniedException();
         }
 

@@ -68,15 +68,15 @@ class LectorAdmin extends AbstractAdmin
         }
 
         $showMapper
-            ->with('General',array('label' => 'Informace o lektorovi'))
+            ->with('General', array('label' => 'Informace o lektorovi'))
             ->add('name', null, array('label' => 'Jméno:'))
             ->add('surname', null, array('label' => 'Příjmení:'))
             ->add('email', null, array('label' => 'Email:'))
             ->add('phone', null, array('label' => 'Telefon:'))
             ->add('hodinova_mzda', null, array('label' => 'Hodinová mzda:'))
             ->add('pocet_deti', null, array('label' => 'Počet dětí:'))
-            ->add('birthDate', null, array('required' => TRUE,'format' => 'd.m.Y','label' => 'Datum narození:'))
-            ->add('dateMedical' ,null, array('format' => 'd.m.Y','label' => 'Osvědčení:'))
+            ->add('birthDate', null, array('required' => TRUE, 'format' => 'd.m.Y', 'label' => 'Datum narození:'))
+            ->add('dateMedical', 'date', array('format' => 'd.m.Y', 'label' => 'Osvědčení:'))
             ->add('school', null, array('label' => 'Škola:'))
             ->add('lectorRides', 'sonata_type_collection', array('label' => 'Jízdy:'))
             ->add('lectorLectures', 'sonata_type_collection', array('label' => 'Lekce:'))
@@ -108,8 +108,8 @@ class LectorAdmin extends AbstractAdmin
             ->add('name', null, array('required' => TRUE, 'label' => 'Jméno:'))
             ->add('surname', null, array('required' => TRUE, 'label' => 'Příjmení:'))
             ->add('email', null, array('required' => TRUE, 'label' => 'Email:'))
-            ->add('hodinova_mzda', null, array('required' => TRUE,'label' => 'Hodinová mzda:'))
-            ->add('pocet_deti', null, array('required' => TRUE,'label' => 'Počet dětí:'))
+            ->add('hodinova_mzda', null, array('required' => TRUE, 'label' => 'Hodinová mzda:'))
+            ->add('pocet_deti', null, array('required' => TRUE, 'label' => 'Počet dětí:'))
             ->add('birthDate', 'sonata_type_date_picker', array('format' => 'dd.MM.yyyy', 'required' => TRUE, 'label' => 'Datum narození:'))
             ->add('phone', null, array('required' => TRUE, 'label' => 'Telefon:'))
             ->end();
@@ -154,7 +154,7 @@ class LectorAdmin extends AbstractAdmin
         $filterMapper
             ->add('name', null, array('label' => 'Jméno:'))
             ->add('surname', null, array('label' => 'Příjmení:'))
-            ->add('birthDate', null, array('required' => TRUE,'label' => 'Datum narození:'))
+            ->add('birthDate', null, array('required' => TRUE, 'label' => 'Datum narození:'))
             ->add('email', null, array('label' => 'Email:'))
             ->add('expired', 'doctrine_orm_boolean', array('label' => 'Propadlé oprávnění'));
 
@@ -170,24 +170,21 @@ class LectorAdmin extends AbstractAdmin
      */
     protected function configureListFields(ListMapper $listMapper)
     {
+        /**
+         * @var AuthorizationChecker $securityContext
+         */
+        $securityContext = $this->getConfigurationPool()->getContainer()->get('security.authorization_checker');
 
         $listMapper
             ->add('name', null, array('label' => 'Jméno'))
             ->add('surname', null, array('label' => 'Příjmení'))
             ->addIdentifier('email', null, array('label' => 'Email'))
-            ->add('dateMedical' ,null, array('format' => 'd.m.Y','label' => 'Osvědčení'))
+            ->add('dateMedical', 'date', array('format' => 'd.m.Y', 'label' => 'Osvědčení'))
             ->add('hodinova_mzda', null, array('label' => 'Mzda'))
             ->add('pocet_deti', null, array('label' => 'Počet dětí'))
-            ->add('birthDate', null, array('required' => TRUE,'label' => 'Datum narození:'))
-            ->add('school', null, array('label' => 'Škola'))
-            ->add('_action', null, array(
-                'actions' => array(
-                    'show' => array(),
-                    'edit' => array(),
-                    'delete' => array()
-                ),'label' => 'Akce'
-            ));
+            ->add('birthDate', null, array('format' => 'd.m.Y', 'label' => 'Datum narození:'));
     }
+
     /**
      * @param Lector $car
      * @throws EntityNotFoundException
@@ -202,12 +199,12 @@ class LectorAdmin extends AbstractAdmin
         $currentUser = $this->getConfigurationPool()->getContainer()->get('security.token_storage')->getToken()->getUser();
 
 
-        if($securityContext->isGranted('ROLE_STAFF')){
+        if ($securityContext->isGranted('ROLE_STAFF')) {
             parent::preUpdate($car);
             return;
         }
 
-        if(!$currentUser->getSchool()){
+        if (!$currentUser->getSchool()) {
             throw new EntityNotFoundException("User " . $currentUser->getId() . " doesnt have ROLE_STAFF and is not associated with any school");
         }
 

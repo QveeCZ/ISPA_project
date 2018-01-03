@@ -138,12 +138,25 @@ class CourseAdmin extends AbstractAdmin
      */
     protected function configureListFields(ListMapper $listMapper)
     {
+        /**
+         * @var AuthorizationChecker $securityContext
+         */
+        $securityContext = $this->getConfigurationPool()->getContainer()->get('security.authorization_checker');
 
         $listMapper
             ->add('id',null,array('label' => 'ID'))
             ->add('name',null,array('label' => 'Název kurzu'))
-            ->add('capacity',null,array('label' => 'Kapacita'))
-            ->add('school',null,array('label' => 'Škola'))
+            ->add('capacity',null,array('label' => 'Kapacita'));
+
+
+
+
+        if ($securityContext->isGranted('ROLE_STAFF')) {
+            $listMapper
+                ->add('school',null,array('label' => 'Škola'));
+        }
+
+        $listMapper
             ->add('_action', null, array(
                 'actions' => array(
                     'show' => array(),

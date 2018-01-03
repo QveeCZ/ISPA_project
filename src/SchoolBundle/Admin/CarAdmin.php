@@ -71,7 +71,7 @@ class CarAdmin extends AbstractAdmin
         $showMapper
             ->with('General', array('label' => 'Informace o autě'))
             ->add('spz', null, array('label' => 'STK'))
-            ->add('dateSTK', null, array('format' => 'd.m.Y', 'label' => 'Datum STK'))
+            ->add('dateSTK', 'date', array('format' => 'd.m.Y', 'label' => 'Datum STK'))
             ->add('school', null, array('label' => 'Škola'))
             ->add('color', null, array('label' => 'Barva'))
             ->add('carType', null, array('label' => 'Typ auta'))
@@ -179,15 +179,26 @@ class CarAdmin extends AbstractAdmin
      */
     protected function configureListFields(ListMapper $listMapper)
     {
+        /**
+         * @var AuthorizationChecker $securityContext
+         */
+        $securityContext = $this->getConfigurationPool()->getContainer()->get('security.authorization_checker');
 
         $listMapper
             ->add('spz', null, array('label' => 'SPZ'))
-            ->add('dateSTK', null, array('format' => 'd.m.Y', 'label' => 'Datum STK'))
-            ->add('school', null, array('label' => 'Škola'))
+            ->add('dateSTK', 'date', array('format' => 'd.m.Y', 'label' => 'Datum STK'))
             ->add('color', null, array('label' => 'Barva'))
             ->add('carType', null, array('label' => 'Typ auta'))
             ->add('fuelConsumption', null, array('label' => 'Spotřeba'))
-            ->add('totalridelength', null, array('label' => 'Najeto'))
+            ->add('totalridelength', null, array('label' => 'Najeto'));
+
+
+        if ($securityContext->isGranted('ROLE_STAFF')) {
+            $listMapper
+                ->add('school', null, array('label' => 'Škola'));
+        }
+
+        $listMapper
             ->add('_action', null, array(
                 'actions' => array(
                     'show' => array(),

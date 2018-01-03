@@ -71,7 +71,7 @@ class RideAdmin extends AbstractAdmin
          * @var Ride $subject
          */
         $subject = $this->getSubject();
-        if (!$securityContext->isGranted('ROLE_STAFF') && $subject->getCourseRegistration()->getCourse()->getSchool()->getId() != $currentUser->getSchool()->getId()) {
+        if (!$securityContext->isGranted('ROLE_STAFF') && $subject && $subject->getCourseRegistration()->getCourse()->getSchool()->getId() != $currentUser->getSchool()->getId()) {
             throw new AccessDeniedException();
         }
 
@@ -100,7 +100,7 @@ class RideAdmin extends AbstractAdmin
          * @var Ride $subject
          */
         $subject = $this->getSubject();
-        if (!$securityContext->isGranted('ROLE_STAFF') && $subject->getCourseRegistration()->getCourse()->getSchool()->getId() != $currentUser->getSchool()->getId()) {
+        if (!$securityContext->isGranted('ROLE_STAFF') &&  $subject && $subject->getCourseRegistration()->getCourse()->getSchool()->getId() != $currentUser->getSchool()->getId()) {
             throw new AccessDeniedException();
         }
 
@@ -121,7 +121,7 @@ class RideAdmin extends AbstractAdmin
             $formMapper
                 ->with('General')
                 ->add('lector', null, array('required' => true, 'label' => 'Lektor:',
-                    'class' => 'CourseBundle\Entity\Course',
+                    'class' => 'SchoolBundle\Entity\Lector',
                     'query_builder' => function ($repository) use ($currentUser) {
                         return $repository->createQueryBuilder('l')
                             ->where('l.school = ' . $currentUser->getSchool()->getId());
@@ -138,7 +138,7 @@ class RideAdmin extends AbstractAdmin
             $formMapper
                 ->with('General')
                 ->add('car', null, array('required' => true, 'label' => 'Auto:',
-                    'class' => 'CourseBundle\Entity\Course',
+                    'class' => 'SchoolBundle\Entity\Car',
                     'query_builder' => function ($repository) use ($currentUser) {
                         return $repository->createQueryBuilder('c')
                             ->where('c.school = ' . $currentUser->getSchool()->getId());

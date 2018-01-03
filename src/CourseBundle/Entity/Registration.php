@@ -283,9 +283,18 @@ class Registration
 
     public function __toString()
     {
+
+        if (!$this->getId()) {
+            return "";
+        }
+
         $sumLengthPPV = $sumLengthTZBJ = $sumLengthZdrv = 0;
 
-        foreach ($this->registrationLectures as $lecture){
+        foreach ($this->registrationLectures as $lecture) {
+
+            if(!$lecture->getLectureType()){
+                continue;
+            }
 
             switch ($lecture->getLectureType()->getName()) {
                 case "PPV":

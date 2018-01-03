@@ -118,7 +118,7 @@ class RegistrationAdmin extends AbstractAdmin
             ->add('course', null, array('required' => true, 'label' => 'Kurz:'))
             ->add('email', null, array('required' => true, 'label' => 'Email:'))
             ->add('birthDate', 'sonata_type_date_picker', array('format' => 'dd.MM.yyyy', 'required' => TRUE, 'label' => 'Datum narození:'))
-            ->add('registrationLectures', 'sonata_type_collection', array('label' => 'Lekce:', 'required' => false,
+            ->add('registrationLectures', 'sonata_type_collection', array('label' => 'Lekce:', 'required' => true,
                 'by_reference' => true,
                 'disabled' => false,
             ), array(
@@ -126,7 +126,7 @@ class RegistrationAdmin extends AbstractAdmin
                 'inline' => 'table',
                 'sortable' => 'position',
             ))
-            ->add('registrationRides', 'sonata_type_collection', array('label' => 'Jízdy:', 'required' => false,
+            ->add('registrationRides', 'sonata_type_collection', array('label' => 'Jízdy:', 'required' => true,
                 'by_reference' => false,
                 'disabled' => false
             ), array(
@@ -272,16 +272,21 @@ class RegistrationAdmin extends AbstractAdmin
         foreach ($object->getRegistrationRides()->toArray() as $ride) {
 
 
-            if(array_key_exists($ride->getDateRide()->getTimestamp(), $rides) && $rides[$ride->getDateRide()->getTimestamp()] > 1){
+
+            if (!$ride->getDateRide()) {
+                continue;
+            }
+
+            if (array_key_exists($ride->getDateRide()->getTimestamp(), $rides) && $rides[$ride->getDateRide()->getTimestamp()] > 1) {
                 $error = 'Pro dané datum nelze přidat další jízdu.';
                 $errorElement->with('enabled')->addViolation($error)->end();
                 $this->getRequest()->getSession()->getFlashBag()->add("menu_type_check", $error);
                 break;
             }
 
-            if(array_key_exists($ride->getDateRide()->getTimestamp(), $rides)){
+            if (array_key_exists($ride->getDateRide()->getTimestamp(), $rides)) {
                 $rides[$ride->getDateRide()->getTimestamp()] += 1;
-            }else{
+            } else {
                 $rides[$ride->getDateRide()->getTimestamp()] = 1;
             }
 
