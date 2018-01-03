@@ -12,7 +12,7 @@
             </trans-unit>
             <trans-unit id="school">
                 <source>school</source>
-                <target>Škola</target>
+                <target>Školy</target>
             </trans-unit>
             <trans-unit id="course_group">
                 <source>course_group</source>
@@ -20,7 +20,7 @@
             </trans-unit>
             <trans-unit id="school_group">
                 <source>school_group</source>
-                <target>Školy</target>
+                <target>Škola</target>
             </trans-unit>
         </body>
     </file>
