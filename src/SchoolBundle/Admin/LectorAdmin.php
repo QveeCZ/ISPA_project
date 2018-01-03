@@ -73,7 +73,6 @@ class LectorAdmin extends AbstractAdmin
             ->add('surname', null, array('label' => 'Příjmení:'))
             ->add('email', null, array('label' => 'Email:'))
             ->add('phone', null, array('label' => 'Telefon:'))
-            ->add('hodinova_mzda', null, array('label' => 'Hodinová mzda:'))
             ->add('pocet_deti', null, array('label' => 'Počet dětí:'))
             ->add('birthDate', null, array('required' => TRUE, 'format' => 'd.m.Y', 'label' => 'Datum narození:'))
             ->add('dateMedical', 'date', array('format' => 'd.m.Y', 'label' => 'Osvědčení:'))
@@ -81,6 +80,13 @@ class LectorAdmin extends AbstractAdmin
             ->add('lectorRides', 'sonata_type_collection', array('label' => 'Jízdy:'))
             ->add('lectorLectures', 'sonata_type_collection', array('label' => 'Lekce:'))
             ->end();
+
+
+        if ($securityContext->isGranted('ROLE_SALARY')) {
+            $showMapper
+                ->add('hodinova_mzda', null, array('required' => TRUE, 'label' => 'Hodinová mzda:'))
+                ->end();
+        }
     }
 
     /**
@@ -108,12 +114,17 @@ class LectorAdmin extends AbstractAdmin
             ->add('name', null, array('required' => TRUE, 'label' => 'Jméno:'))
             ->add('surname', null, array('required' => TRUE, 'label' => 'Příjmení:'))
             ->add('email', null, array('required' => TRUE, 'label' => 'Email:'))
-            ->add('hodinova_mzda', null, array('required' => TRUE, 'label' => 'Hodinová mzda:'))
             ->add('pocet_deti', null, array('required' => TRUE, 'label' => 'Počet dětí:'))
             ->add('birthDate', 'sonata_type_date_picker', array('format' => 'dd.MM.yyyy', 'required' => TRUE, 'label' => 'Datum narození:'))
             ->add('phone', null, array('required' => TRUE, 'label' => 'Telefon:'))
             ->end();
 
+
+        if ($securityContext->isGranted('ROLE_SALARY')) {
+            $formMapper
+                ->add('hodinova_mzda', null, array('required' => TRUE, 'label' => 'Hodinová mzda:'))
+                ->end();
+        }
 
         if ($securityContext->isGranted('ROLE_STAFF')) {
             $formMapper
@@ -180,9 +191,26 @@ class LectorAdmin extends AbstractAdmin
             ->add('surname', null, array('label' => 'Příjmení'))
             ->addIdentifier('email', null, array('label' => 'Email'))
             ->add('dateMedical', 'date', array('format' => 'd.m.Y', 'label' => 'Osvědčení'))
-            ->add('hodinova_mzda', null, array('label' => 'Mzda'))
             ->add('pocet_deti', null, array('label' => 'Počet dětí'))
             ->add('birthDate', null, array('format' => 'd.m.Y', 'label' => 'Datum narození:'));
+
+
+
+
+        if ($securityContext->isGranted('ROLE_SALARY')) {
+            $listMapper
+                ->add('hodinova_mzda', null, array('required' => TRUE, 'label' => 'Hodinová mzda:'));
+        }
+
+
+        $listMapper
+            ->add('_action', null, array(
+                'actions' => array(
+                    'show' => array(),
+                    'edit' => array(),
+                    'delete' => array(),
+                ),'label' => 'Akce'
+            ));
     }
 
     /**

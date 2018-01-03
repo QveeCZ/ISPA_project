@@ -120,7 +120,7 @@ class LectureAdmin extends AbstractAdmin
             $formMapper
                 ->with('General')
                 ->add('lector', null, array('required' => true, 'label' => 'Lektor:',
-                    'class' => 'CourseBundle\Entity\Course',
+                    'class' => 'SchoolBundle\Entity\Lector',
                     'query_builder' => function ($repository) use ($currentUser) {
                         return $repository->createQueryBuilder('l')
                             ->where('l.school = ' . $currentUser->getSchool()->getId());

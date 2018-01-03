@@ -35,7 +35,7 @@ security:
                 failure_path:   null
             logout:
                 path:           /admin/logout
-                target:         /admin/login
+                target:         /
             anonymous:          true
 
         # defaut login area for standard users
