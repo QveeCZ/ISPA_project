@@ -3,6 +3,7 @@
 namespace SchoolBundle\Entity;
 
 use CourseBundle\Entity\Course;
+use CourseBundle\Entity\Lecture;
 use CourseBundle\Entity\Ride;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -145,6 +146,13 @@ class Lector
      * @ORM\OneToMany(targetEntity="CourseBundle\Entity\Ride", mappedBy="lector", cascade={ "remove"}, orphanRemoval=true)
      */
     protected $lectorRides;
+
+    /**
+     * @var ArrayCollection $lectorLectures
+     *
+     * @ORM\OneToMany(targetEntity="CourseBundle\Entity\Lecture", mappedBy="lector", cascade={ "remove"}, orphanRemoval=true)
+     */
+    protected $lectorLectures;
 
 
     /**
@@ -303,6 +311,14 @@ class Lector
     /**
      * @param ArrayCollection $lectorRides
      */
+    public function addLectorRides($lectorRides)
+    {
+        $this->lectorRides->add($lectorRides);
+    }
+
+    /**
+     * @param ArrayCollection $lectorRides
+     */
     public function setLectorRides($lectorRides)
     {
         $this->lectorRides = $lectorRides;
@@ -348,7 +364,7 @@ class Lector
      *
      * @param LectorImage $lectorImages
      */
-    public function addCarImages(LectorImage $lectorImages)
+    public function addLectorImages(LectorImage $lectorImages)
     {
         $lectorImages->setLector($this);
         $this->lectorImages->add($lectorImages);
@@ -359,9 +375,37 @@ class Lector
      *
      * @param LectorImage $lectorImages
      */
-    public function removeCarImages(LectorImage $lectorImages)
+    public function removeLectorImages(LectorImage $lectorImages)
     {
         $this->lectorImages->removeElement($lectorImages);
+    }
+
+    /**
+     * @param ArrayCollection $lectorImages
+     */
+    public function setLectorLectures($lectorImages)
+    {
+        $this->lectorLectures = $lectorImages;
+    }
+
+    /**
+     *
+     * @param Lecture $lectorImages
+     */
+    public function addLectoLectures( $lectorImages)
+    {
+        $lectorImages->setLector($this);
+        $this->lectorLectures->add($lectorImages);
+    }
+
+
+    /**
+     *
+     * @param Lecture $lectorImages
+     */
+    public function removeLectorLectures($lectorImages)
+    {
+        $this->lectorLectures->removeElement($lectorImages);
     }
 
     /**
@@ -393,7 +437,7 @@ class Lector
         $lastProtocol = $this->getLectorImages()->first();
 
 
-        if($lastProtocol->getProtocolDate()->diff(new \DateTime())->years > 2) {
+        if($lastProtocol->getProtocolDate()->diff(new \DateTime())->y > 2) {
             $this->expired = true;
             return true;
         }

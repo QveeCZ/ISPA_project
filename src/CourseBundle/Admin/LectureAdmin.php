@@ -76,8 +76,8 @@ class LectureAdmin extends AbstractAdmin
 
         $showMapper
             ->with('General',array('label' => 'Informace o lekci'))
-            ->add('length',null,  array('label' => 'Délka lekce'))
-            ->add('dateRide',null,array('format' => 'd.m.Y','label' => 'Datum jízdy'))
+            ->add('length',null,  array('label' => 'Délka'))
+            ->add('dateRide',null,array('format' => 'd.m.Y','label' => 'Datum lekce'))
             ->add('lectureType',null,  array('label' => 'Typ lekce'))
             ->add('lector', null, array('label' => 'Lektor:'))
             ->end();
@@ -141,7 +141,9 @@ class LectureAdmin extends AbstractAdmin
 
         $filterMapper
             ->add('length',null,  array('label' => 'Délka lekce'))
-            ->add('lectureType',null,  array('label' => 'Typ lekce'));
+            ->add('lector',null,array('label' => 'Lektor'))
+            ->add('lectureType',null,  array('label' => 'Typ lekce'))
+            ->add('courseRegistration',null,array('label' => 'Informace o uchazeči'));
     }
 
     /**
@@ -152,9 +154,10 @@ class LectureAdmin extends AbstractAdmin
 
         $listMapper
             ->add('length',null,  array('label' => 'Délka lekce'))
-            ->add('dateRide',null,array('format' => 'd.m.Y','label' => 'Datum jízdy'))
+            ->add('dateRide',null,array('format' => 'd.m.Y','label' => 'Datum'))
             ->add('lectureType',null,  array('label' => 'Typ lekce'))
             ->add('lector', null, array('label' => 'Lektor:'))
+            ->add('courseRegistration', null, array('label' => 'Informace o uchazeči:'))
             ->add('_action', null, array(
                 'actions' => array(
                     'show' => array(),

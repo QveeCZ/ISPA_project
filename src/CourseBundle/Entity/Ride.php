@@ -1,4 +1,5 @@
 <?php
+
 namespace CourseBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -36,8 +37,8 @@ class Ride
 
     /**
      * @var Registration $courseRegistration
-     * @ORM\ManyToOne(targetEntity="CourseBundle\Entity\Registration", inversedBy="registrationLectures", cascade={"persist"})
-     * @ORM\JoinColumn(name="course_registration_id", referencedColumnName="id", nullable=false, unique=true)
+     * @ORM\ManyToOne(targetEntity="CourseBundle\Entity\Registration", inversedBy="registrationRides", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(name="course_registration_id", referencedColumnName="id", nullable=false)
      */
     protected $courseRegistration;
 
@@ -70,6 +71,14 @@ class Ride
      * @ORM\Column(name="length", type="integer", nullable=false)
      */
     protected $length;
+
+    /**
+     * @var float $consumption
+     *
+     *
+     * @ORM\Column(name="consumption", type="float", nullable=false)
+     */
+    protected $consumption;
 
 
     function __construct()
@@ -108,8 +117,6 @@ class Ride
     {
         $this->dateRide = $dateRide;
     }
-
-
 
 
     /**
@@ -192,16 +199,44 @@ class Ride
         $this->length = $length;
     }
 
+    /**
+     * @return float
+     */
+    public function getConsumption()
+    {
+        return $this->consumption;
+    }
+
+    /**
+     * @param float $consumption
+     */
+    public function setConsumption($consumption)
+    {
+        $this->consumption = $consumption;
+    }
+
+
     public function __toString()
     {
 
+        if (!$this->id) {
+            return "";
+        }
+
         $rideDate = "";
 
-        if($this->getDateRide()){
+        if ($this->getDateRide()) {
             $rideDate = $this->getDateRide()->format("d.m.Y");
         }
 
-        return 'Jízda ' . $rideDate . ", lektor " . $this->lector->getSurname() . ", délka " . $this->length . " km (" . $this->getCar()->getFuelConsumption() / 100 * $this->length . " l).";
+        if ($this->length != 0) {
+            $consumption = number_format((float)$this->consumption / $this->length * 100, 2, '.', '');
+        } else {
+            $consumption = 0;
+        }
+
+
+        return 'Jízda ' . $rideDate . ", lektor " . $this->lector->getSurname() . ", délka " . $this->length . " km (Průměrná spotřeba: " . $consumption . " l).";
     }
 
 

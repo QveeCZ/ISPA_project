@@ -283,13 +283,25 @@ class Registration
 
     public function __toString()
     {
-        $lectures = implode(', ', $this->getRegistrationLectures()->toArray());
-        if ($lectures) {
-            $lectures = ", Teorie: " . $lectures;
+        $sumLengthPPV = $sumLengthTZBJ = $sumLengthZdrv = 0;
+
+        foreach ($this->registrationLectures as $lecture){
+
+            switch ($lecture->getLectureType()->getName()) {
+                case "PPV":
+                    $sumLengthPPV = $lecture->getLength();
+                    break;
+                case "TZBJ":
+                    $sumLengthTZBJ = $lecture->getLength();
+                    break;
+                case "Zdravověda":
+                    $sumLengthZdrv = $lecture->getLength();
+                    break;
+            }
         }
         $rides = ", " . $this->getRegistrationRides()->count() . " jízd";
 
-        return ($this->id) ? $this->getSurname() . " " . $this->getName() . $lectures . $rides : "";
+        return ($this->id) ? $this->getSurname() . " " . $this->getName() . "Teorie: PPV: $sumLengthPPV h, TZBJ: $sumLengthTZBJ h, Zdravověda: $sumLengthZdrv h" . $rides : "";
     }
 
 

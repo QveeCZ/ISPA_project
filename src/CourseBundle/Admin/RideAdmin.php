@@ -44,7 +44,8 @@ class RideAdmin extends AbstractAdmin
             return $query;
         }
 
-        $query->leftJoin($query->getRootAlias() . '.courseRegistration.course', 'c');
+        $query->leftJoin($query->getRootAlias() . '.courseRegistration', 'cr');
+        $query->leftJoin('cr.course', 'c');
 
         $query->andWhere(
             $query->expr()->eq('c.school', ':school')
@@ -108,6 +109,7 @@ class RideAdmin extends AbstractAdmin
             ->add('dateRide', 'sonata_type_date_picker', array('format' => 'dd.MM.yyyy', 'required' => true, 'label' => 'Datum:'))
             ->add('courseRegistration', null, array('required' => true, 'label' => ' ', 'attr' => array('class' => "fa-force-hidden")))
             ->add('length',null, array('label' => 'Délka'))
+            ->add('consumption',null, array('label' => 'Litry benzínu'))
             ->end();
 
         if ($securityContext->isGranted('ROLE_STAFF')) {
@@ -152,12 +154,29 @@ class RideAdmin extends AbstractAdmin
     {
         /**
          * @var AuthorizationChecker $securityContext
+         * @var User $currentUser
          */
         $securityContext = $this->getConfigurationPool()->getContainer()->get('security.authorization_checker');
+        $currentUser = $this->getConfigurationPool()->getContainer()->get('security.token_storage')->getToken()->getUser();
 
         $filterMapper
             ->add('dateRide',null,array('label' => 'Datum jízdy'))
             ->add('courseRegistration',null,array('label' => 'Informace o uchazeči'));
+
+
+        if ($securityContext->isGranted('ROLE_STAFF')) {
+            $filterMapper
+                ->add('lector', null, array('label' => 'Lektor:'));
+        } else {
+            $filterMapper
+                ->add('lector', null, array('label' => 'Lektor:',
+                    'class' => 'CourseBundle\Entity\Course',
+                    'query_builder' => function ($repository) use ($currentUser) {
+                        return $repository->createQueryBuilder('l')
+                            ->where('l.school = ' . $currentUser->getSchool()->getId());
+                    }));
+        }
+
     }
 
     /**

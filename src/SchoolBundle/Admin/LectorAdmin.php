@@ -75,7 +75,7 @@ class LectorAdmin extends AbstractAdmin
             ->add('phone', null, array('label' => 'Telefon:'))
             ->add('hodinova_mzda', null, array('label' => 'Hodinová mzda:'))
             ->add('pocet_deti', null, array('label' => 'Počet dětí:'))
-            ->add('birthDate', null, array('required' => TRUE,'label' => 'Datum narození:'))
+            ->add('birthDate', null, array('required' => TRUE,'format' => 'd.m.Y','label' => 'Datum narození:'))
             ->add('dateMedical' ,null, array('format' => 'd.m.Y','label' => 'Osvědčení:'))
             ->add('school', null, array('label' => 'Škola:'))
             ->add('lectorRides', 'sonata_type_collection', array('label' => 'Jízdy:'))
@@ -89,7 +89,8 @@ class LectorAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper)
     {
         /**
-         * @var AuthorizationChecker $securityContext
+         * @var AuthorizationChecker $securityCo
+         * ntext
          * @var User $currentUser
          */
         $securityContext = $this->getConfigurationPool()->getContainer()->get('security.authorization_checker');

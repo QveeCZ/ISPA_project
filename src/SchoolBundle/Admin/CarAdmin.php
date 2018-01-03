@@ -111,7 +111,6 @@ class CarAdmin extends AbstractAdmin
             ->add('color', null, array('required' => TRUE, 'label' => 'Barva:'))
             ->add('carType', null, array('required' => TRUE, 'label' => 'Typ auta:'))
             ->add('condition', null, array('required' => TRUE, 'label' => 'Stav:'))
-            ->add('fuelConsumption', null, array('required' => TRUE, 'label' => 'Spotřeba:'))
             ->end();
 
         if ($securityContext->isGranted('ROLE_STAFF')) {

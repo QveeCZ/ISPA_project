@@ -163,6 +163,10 @@ class Lecture
     public function __toString()
     {
 
+        if(!$this->id){
+            return "";
+        }
+
         $lengthString = "hodina";
 
         if ($this->length > 1) {

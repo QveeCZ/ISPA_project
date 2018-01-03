@@ -65,7 +65,7 @@ class Car
      * @var integer $carType
      *
      *
-     * @ORM\Column(name="fuel_consumption", type="integer", nullable=false)
+     * @ORM\Column(name="fuel_consumption", type="float", nullable=false)
      */
     protected $fuelConsumption;
 
@@ -156,7 +156,7 @@ class Car
 
         $protocolArray = $this->getCarImages()->toArray();
 
-        if (empty($protocolArray)){
+        if (empty($protocolArray)) {
             return "";
         }
         /**
@@ -246,9 +246,10 @@ class Car
         $this->carRides->add($carRides);
     }
 
-    public function isExpired(){
+    public function isExpired()
+    {
 
-        if($this->getCarImages()->count() < 1){
+        if ($this->getCarImages()->count() < 1) {
             $this->expired = true;
             return true;
         }
@@ -259,7 +260,7 @@ class Car
         $lastProtocol = $this->getCarImages()->first();
 
 
-        if($lastProtocol->getProtocolDate()->diff(new DateTime())->years > 2) {
+        if ($lastProtocol->getProtocolDate()->diff(new \DateTime())->y > 2) {
             $this->expired = true;
             return true;
         }
@@ -315,23 +316,41 @@ class Car
     }
 
 
-    public function getTotalRideLength() {
+    public function getTotalRideLength()
+    {
         $i = 0;
         /**
          * @var Ride $ride
          */
         foreach ($this->getCarRides() as $ride) {
-            $i +=  $ride->getLength();
+            $i += $ride->getLength();
         }
         return $i;
     }
 
     /**
-     * @return int
+     * @return float
      */
     public function getFuelConsumption()
     {
-        return $this->fuelConsumption;
+        $totalConsumption = 0;
+
+
+        /**
+         * @var Ride $ride
+         */
+        foreach ($this->getCarRides() as $ride) {
+            $totalConsumption += $ride->getConsumption();
+        }
+
+
+        if ($this->getTotalRideLength() != 0) {
+            return number_format((float)$totalConsumption / $this->getTotalRideLength() * 100, 2, '.', '');
+        } else {
+            return 0;
+        }
+
+
     }
 
     /**
@@ -339,7 +358,6 @@ class Car
      */
     public function setFuelConsumption($fuelConsumption)
     {
-        $this->fuelConsumption = $fuelConsumption;
     }
 
 
